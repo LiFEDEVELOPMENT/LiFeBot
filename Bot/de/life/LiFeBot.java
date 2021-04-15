@@ -49,21 +49,15 @@ public class LiFeBot {
 	}
 
 	public LiFeBot() throws LoginException, IllegalArgumentException {
-		
-		System.setProperty("botToken", "NzA1MTQ2ODgxMzQ0NTM2NjM2.XqndNQ._sGN9yfWWKvVDNNnaGidJP9EI7o");
-		System.out.println(System.getProperties());
-
 		INSTANCE = this;
 
 		SQLite.connect();
 		SQLManager.onCreate();
 
-		builder = DefaultShardManagerBuilder.create(GatewayIntent.GUILD_BANS, GatewayIntent.GUILD_EMOJIS,
-				GatewayIntent.GUILD_WEBHOOKS, GatewayIntent.GUILD_INVITES, GatewayIntent.GUILD_VOICE_STATES,
-				GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_MESSAGE_TYPING,
-				GatewayIntent.DIRECT_MESSAGES, GatewayIntent.DIRECT_MESSAGE_REACTIONS,
-				GatewayIntent.DIRECT_MESSAGE_TYPING);
-		builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS);
+		builder = DefaultShardManagerBuilder.create(GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MESSAGES,
+				GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.DIRECT_MESSAGES,
+				GatewayIntent.DIRECT_MESSAGE_REACTIONS);
+		builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS);
 		builder.enableCache(CacheFlag.VOICE_STATE);
 		builder.setToken(GlobalVariables.botToken);
 
@@ -82,8 +76,6 @@ public class LiFeBot {
 		shardMan = builder.build();
 
 		shutdown();
-		runLoop();
-
 	}
 
 	public JDA getJDA() {
@@ -130,43 +122,6 @@ public class LiFeBot {
 			}
 		}).start();
 
-	}
-
-	public void runLoop() {
-
-		this.loop = new Thread(() -> {
-
-			long time = System.currentTimeMillis();
-
-			while (true) {
-				if (System.currentTimeMillis() >= time + 1000) {
-					time = System.currentTimeMillis();
-					onSecond();
-				}
-			}
-		});
-		this.loop.setName("loop");
-		this.loop.start();
-	}
-
-	String[] status = new String[] { "pornhub.com", "xhamster.de", "xnxx.com", "%members Muschis an", "Pornos" };
-	int next = 5;
-
-	public void onSecond() {
-		if (next <= 0) {
-			// Random rnd = new Random();
-			// int i = rnd.nextInt(status.length);
-
-			shardMan.getShards().forEach(jda -> {
-				// String text = status[i].replaceAll("%members", "" + jda.getUsers().size());
-
-				jda.getPresence().setActivity(Activity.playing("zu Hause #stayAtHome"));
-
-			});
-			next = 5;
-		} else {
-			next--;
-		}
 	}
 
 	public CommandManager getCmdMan() {
