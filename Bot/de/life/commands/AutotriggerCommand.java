@@ -59,24 +59,23 @@ public class AutotriggerCommand implements ServerCommand {
 			return;
 		}
 
-		String[] tempArray = Arrays.copyOfRange(args, 2, args.length);
-		String triggerString = "";
-		for (String s : tempArray) {
-			triggerString += " " + s;
+		String[] temp = String.join(" ", Arrays.copyOfRange(args, 2, args.length)).split(Pattern.quote(splitter));
+		if (temp.length < 2) {
+			EmbedMessageBuilder.sendMessage("Trigger hinzufügen", "Du musst einen Trigger angeben!", Color.RED, channel,
+					10);
+			return;
 		}
-		triggerString = triggerString.substring(1, triggerString.length());
+		String answer = String.join(" ", Arrays.copyOfRange(temp, 1, temp.length));
+		String trigger = answer.split(Pattern.quote(splitter))[0].toLowerCase();
 
-		String[] trigger = triggerString.split(Pattern.quote(splitter));
-		trigger[0] = trigger[0].toLowerCase();
-
-		if (trigger.length < 2) {
+		if (args.length < 2) {
 			EmbedMessageBuilder.sendMessage("Trigger hinzufügen", "Du musst einen Trigger und eine Antwort angeben!",
 					Color.RED, channel, 10);
 			return;
 		}
 
 		ResultSet set = SQLite.onQuery("SELECT * FROM autotriggers WHERE guildid = '" + m.getGuild().getIdLong()
-				+ "' AND trigger = '" + trigger[0] + "'");
+				+ "' AND trigger = '" + trigger + "'");
 
 		try {
 			if (set.next()) {
@@ -84,16 +83,16 @@ public class AutotriggerCommand implements ServerCommand {
 						channel, 10);
 				return;
 			} else {
-				EmbedMessageBuilder.sendMessage("Trigger hinzugefügt", trigger[0] + "\n" + trigger[1], Color.GRAY,
-						channel, 10);
+				EmbedMessageBuilder.sendMessage("Trigger hinzugefügt", trigger + "\n" + answer, Color.GRAY, channel,
+						10);
 			}
 		} catch (SQLException ex) {
 		}
 
 		SQLite.onUpdate("INSERT INTO autotriggers (guildid,trigger,text) VALUES ('" + m.getGuild().getIdLong() + "','"
-				+ trigger[0] + "','" + trigger[1] + "')");
-		LogMessanger.sendLog(m.getGuild().getIdLong(), "Autotrigger", m.getEffectiveName() + " hat den Trigger "
-				+ trigger[0] + " mit der Antwort " + trigger[1] + " hinzugefügt");
+				+ trigger + "','" + answer + "')");
+		LogMessanger.sendLog(m.getGuild().getIdLong(), "Autotrigger",
+				m.getEffectiveName() + " hat den Trigger " + trigger + " mit der Antwort " + answer + " hinzugefügt");
 	}
 
 	private void deleteTrigger(Member m, MessageChannel channel, Message message) {

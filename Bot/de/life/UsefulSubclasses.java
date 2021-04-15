@@ -29,7 +29,7 @@ public class UsefulSubclasses {
 		return pString;
 	}
 	
-	private static byte[] extractBytes(File ImageName) throws IOException {
+	public static byte[] extractBytes(File ImageName) throws IOException {
 		// open image
 		BufferedImage bufferedImage = ImageIO.read(ImageName);
 
