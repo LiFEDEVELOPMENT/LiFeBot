@@ -1,10 +1,6 @@
 package de.life;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Scanner;
 
 import javax.security.auth.login.LoginException;
 
@@ -20,7 +16,6 @@ import de.life.sql.SQLManager;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -32,9 +27,6 @@ public class LiFeBot {
 
 	public ShardManager shardMan;
 	private CommandManager cmdMan;
-	private Thread loop;
-	Calendar cal = Calendar.getInstance();
-	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY - HH:mm-ss");
 	public DefaultShardManagerBuilder builder;
 
 	public static void main(String[] args) {
@@ -50,6 +42,7 @@ public class LiFeBot {
 
 	public LiFeBot() throws LoginException, IllegalArgumentException {
 		INSTANCE = this;
+		this.cmdMan = new CommandManager();
 
 		SQLite.connect();
 		SQLManager.onCreate();
@@ -59,11 +52,9 @@ public class LiFeBot {
 				GatewayIntent.DIRECT_MESSAGE_REACTIONS);
 		builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS);
 		builder.enableCache(CacheFlag.VOICE_STATE);
+
 		builder.setToken(GlobalVariables.botToken);
-
 		builder.setStatus(OnlineStatus.ONLINE);
-
-		this.cmdMan = new CommandManager();
 
 		builder.addEventListeners(new CommandListener());
 		builder.addEventListeners(new VoiceListener());
@@ -87,45 +78,26 @@ public class LiFeBot {
 	}
 
 	public void shutdown() {
-
-		new Thread(() -> {
-
-			String line = "";
-			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-			try {
-				while ((line = reader.readLine()) != null) {
-
-					if (line.equalsIgnoreCase("exit") || line.equalsIgnoreCase("stop")
-							|| line.equalsIgnoreCase("shutdown")) {
-						if (shardMan != null) {
-
-							shardMan.setStatus(OnlineStatus.OFFLINE);
-							shardMan.shutdown();
-
-							SQLite.disconnect();
-
-							System.out.println("Bot offline.");
-						}
-
-						if (loop != null) {
-							loop.interrupt();
-						}
-
-						reader.close();
-					} else {
-						System.out.println("Use 'exit', 'stop' or 'shutdown' to shut down.");
+		Scanner sc = new Scanner(System.in);
+		try {
+			while (sc.hasNextLine()) {
+				String input = sc.nextLine();
+				if (input.equalsIgnoreCase("exit") || input.equalsIgnoreCase("stop")
+						|| input.equalsIgnoreCase("shutdown")) {
+					if (shardMan != null) {
+						shardMan.setStatus(OnlineStatus.OFFLINE);
+						shardMan.shutdown();
+						SQLite.disconnect();
+						System.out.println("Bot offline.");
 					}
-
+					sc.close();
 				}
-			} catch (IOException e) {
-				// e.printStackTrace();
 			}
-		}).start();
-
+		} catch (IllegalStateException e) {
+		}
 	}
 
 	public CommandManager getCmdMan() {
 		return cmdMan;
 	}
-
 }
