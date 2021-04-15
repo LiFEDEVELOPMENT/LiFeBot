@@ -53,24 +53,14 @@ public class AutotriggerCommand implements ServerCommand {
 					"Dir fehlt: Permission.ADMINISTRATOR", Color.RED, channel, 10);
 			return;
 		}
-		if (args.length <= 2) {
-			EmbedMessageBuilder.sendMessage("Trigger hinzufügen", "Du musst einen Trigger angeben!", Color.RED, channel,
-					10);
-			return;
-		}
 
 		String[] temp = String.join(" ", Arrays.copyOfRange(args, 2, args.length)).split(Pattern.quote(splitter));
-		if (temp.length < 2) {
-			EmbedMessageBuilder.sendMessage("Trigger hinzufügen", "Du musst einen Trigger angeben!", Color.RED, channel,
-					10);
-			return;
-		}
 		String answer = String.join(" ", Arrays.copyOfRange(temp, 1, temp.length));
 		String trigger = answer.split(Pattern.quote(splitter))[0].toLowerCase();
 
-		if (args.length < 2) {
-			EmbedMessageBuilder.sendMessage("Trigger hinzufügen", "Du musst einen Trigger und eine Antwort angeben!",
-					Color.RED, channel, 10);
+		if (temp.length < 2 || args.length <= 2) {
+			EmbedMessageBuilder.sendMessage("Trigger hinzufügen", "Du musst einen Trigger angeben!", Color.RED, channel,
+					10);
 			return;
 		}
 

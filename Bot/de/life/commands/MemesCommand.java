@@ -105,7 +105,6 @@ public class MemesCommand implements ServerCommand {
 
 	private void listMemes(Member m, MessageChannel channel, Message message) {
 		String result = "";
-		String foo;
 		Long guildid = m.getGuild().getIdLong();
 
 		ResultSet set = SQLite.onQuery("SELECT * FROM memes WHERE guildid = " + guildid);
@@ -122,7 +121,7 @@ public class MemesCommand implements ServerCommand {
 
 		int i = 0;
 		for (String meme : memes) {
-			if ((foo = result + meme + " **(" + memeIDs.get(i) + ")**\n\n").length() > 2048) {
+			if ((result + meme + " **(" + memeIDs.get(i) + ")**\n\n").length() > 2048) {
 				EmbedMessageBuilder.sendMessage(result, Color.GRAY, channel);
 				result = "";
 			}

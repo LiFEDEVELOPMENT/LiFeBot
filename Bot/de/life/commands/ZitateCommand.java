@@ -376,7 +376,6 @@ public class ZitateCommand implements ServerCommand {
 		ArrayList<String> zitate = new ArrayList<String>();
 		ArrayList<Integer> zitateIDs = new ArrayList<Integer>();
 		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
-		String foo;
 		String result = "";
 		Integer i = 1;
 
@@ -391,7 +390,7 @@ public class ZitateCommand implements ServerCommand {
 		}
 
 		for (int ii = 0; ii < zitate.size(); ii++) {
-			if ((foo = result + zitate.get(ii) + " **(" + zitateIDs.get(ii) + ")**\n\n").length() > 2048) {
+			if ((result + zitate.get(ii) + " **(" + zitateIDs.get(ii) + ")**\n\n").length() > 2048) {
 				embeds.add(new EmbedBuilder().setTitle("Zitate").setDescription(result).setFooter("Zitate - Page " + i)
 						.setColor(Color.YELLOW).build());
 				result = "";
@@ -411,7 +410,6 @@ public class ZitateCommand implements ServerCommand {
 		ArrayList<String> zitate = new ArrayList<String>();
 		ArrayList<Integer> zitateIDs = new ArrayList<Integer>();
 		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
-		String foo;
 		String result = "";
 		Integer i = 1;
 
@@ -426,7 +424,7 @@ public class ZitateCommand implements ServerCommand {
 		}
 
 		for (int ii = 0; ii < zitate.size(); ii++) {
-			if ((foo = result + zitate.get(ii) + " **(" + zitateIDs.get(ii) + ")**\n\n").length() > 2048) {
+			if ((result + zitate.get(ii) + " **(" + zitateIDs.get(ii) + ")**\n\n").length() > 2048) {
 				embeds.add(new EmbedBuilder().setTitle("Zitate").setDescription(result).setFooter("Zitate - Page " + i)
 						.setColor(Color.CYAN).build());
 				result = "";

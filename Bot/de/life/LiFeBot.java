@@ -49,6 +49,9 @@ public class LiFeBot {
 	}
 
 	public LiFeBot() throws LoginException, IllegalArgumentException {
+		
+		System.setProperty("botToken", "NzA1MTQ2ODgxMzQ0NTM2NjM2.XqndNQ._sGN9yfWWKvVDNNnaGidJP9EI7o");
+		System.out.println(System.getProperties());
 
 		INSTANCE = this;
 

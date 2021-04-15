@@ -29,7 +29,6 @@ public class CommandsCommand implements ServerCommand {
 		ArrayList<String> commands = new ArrayList<String>();
 		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
 		String result = "";
-		String foo;
 		Integer i = 1;
 
 		ResultSet set = SQLite.onQuery("SELECT * FROM commands");
@@ -42,7 +41,7 @@ public class CommandsCommand implements ServerCommand {
 		}
 
 		for (String s : commands) {
-			if ((foo = result + s + "\n\n").length() > 2048) {
+			if ((result + s + "\n\n").length() > 2048) {
 				embeds.add(new EmbedBuilder().setTitle("Commands").setDescription(result)
 						.setFooter("Commands - Page " + i).setColor(Color.CYAN).build());
 				result = "";
@@ -59,7 +58,6 @@ public class CommandsCommand implements ServerCommand {
 	public static Integer getCommandPages() {
 		ArrayList<String> commands = new ArrayList<String>();
 		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
-		String foo;
 		String result = "";
 		Integer i = 1;
 
@@ -73,7 +71,7 @@ public class CommandsCommand implements ServerCommand {
 		}
 
 		for (String s : commands) {
-			if ((foo = result + s + "\n\n").length() > 2048) {
+			if ((result + s + "\n\n").length() > 2048) {
 				embeds.add(new EmbedBuilder().setTitle("Commands").setDescription(result)
 						.setFooter("Commands - Page " + i).build());
 				result = "";
