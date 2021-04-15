@@ -77,7 +77,9 @@ public class CommandManager {
 		this.commands.put("stop", new StopCommand());
 		this.commands.put("zitat", new ZitateCommand());
 		this.commands.put("zitate", new ZitateCommand());
-
+		
+		this.commands.put("zt", new ZitateCommand());
+		
 	}
 
 	public boolean perform(String command, Member m, MessageChannel channel, Message message) {
