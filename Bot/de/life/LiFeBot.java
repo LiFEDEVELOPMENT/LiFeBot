@@ -64,7 +64,6 @@ public class LiFeBot {
 		builder.enableCache(CacheFlag.VOICE_STATE);
 		builder.setToken(GlobalVariables.botToken);
 
-		builder.setActivity(Activity.playing("lass mich bitte in Ruhe, ich bin nur für Dev Tests da :)"));
 		builder.setStatus(OnlineStatus.ONLINE);
 
 		this.cmdMan = new CommandManager();
