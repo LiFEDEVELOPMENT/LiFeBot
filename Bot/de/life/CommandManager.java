@@ -43,6 +43,7 @@ public class CommandManager {
 		this.commands.put("autotrigger", new AutotriggerCommand());
 		this.commands.put("autotriggers", new AutotriggerCommand());
 		this.commands.put("ban", new BanCommand());
+		this.commands.put("bicmac", new BanCommand());
 		this.commands.put("clear", new ClearCommand());
 		this.commands.put("c", new ClearCommand());
 		this.commands.put("coinflip", new CoinflipCommand());
