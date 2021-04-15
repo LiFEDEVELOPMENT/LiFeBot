@@ -40,13 +40,16 @@ public class FillCommandsTable {
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('Memes:\r\n" + "!meme - Zeigt ein zufälliges Meme\r\n"
 				+ "!meme add <Meme> - Fügt ein Meme hinzu\r\n" + "!meme delete <ID> - Löscht das Meme mit der ID\r\n"
 				+ "!meme list - Zeigt eine Liste aller Memes mit ihren IDs\r\n" + "Alias: !memes')");
+		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('Musik:\r\n"
+				+ "!play <YouTube-Link> - Spielt das angegebene Lied bzw. fügt es zur Queue hinzu\r\n"
+				+ "!play <Lied/Interpret> - Spielt das angegebene Lied bzw. fügt es zur Queue hinzu')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('Minigames:\r\n"
 				+ "!rps <@Spieler>: Spiele ''Schere, Stein, Papier'' gegen einen anderen Spieler.\r\n"
 				+ "!rps <Schere/Stein/Papier>: Spiele ''Schere, Stein, Papier'' gegen den Computer.\r\n"
 				+ "Alias: !rockpaperscissors')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('React:\r\n"
 				+ "!react <Nachrichten-ID> <Emote> - Reagiert auf die angegebenene Nachricht mit dem angegebenen Emote\r\n"
-				+ "!react <Nachrichten-ID> Abstimmung - Reagiert auf die angegebene Nachricht mit �? und 👎')");
+				+ "!react <Nachrichten-ID> Abstimmung - Reagiert auf die angegebene Nachricht mit �? und 👎')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('Polls:\r\n"
 				+ "!poll start <Frage\\AW1\\AW2\\[AW3]\\...\\\\[AW10]> - Startet eine Umfrage mit den angegebenen Werten.\r\n"
 				+ "!poll close <Poll-ID> - Stoppt die angegebene Umfrage')");
