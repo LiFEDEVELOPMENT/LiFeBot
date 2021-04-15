@@ -48,3 +48,7 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Bot Token
+Bot/de/life/GlobalVariables.java
+
+
