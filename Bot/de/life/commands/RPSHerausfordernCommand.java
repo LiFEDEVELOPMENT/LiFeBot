@@ -11,8 +11,6 @@ import net.dv8tion.jda.api.entities.User;
 
 public class RPSHerausfordernCommand implements ServerCommand {
 
-	public static RPSHerausfordernCommand INSTANCE;
-
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
 		if (message.getMentionedUsers().size() == 0) {
@@ -29,7 +27,7 @@ public class RPSHerausfordernCommand implements ServerCommand {
 			return;
 		}
 
-		if (RPSManager.INSTANCE.hasGame(m.getUser(), secondPlayer)) {
+		if (RPSManager.getInstance().hasGame(m.getUser(), secondPlayer)) {
 			channel.sendMessage(
 					"Einer dieser Spieler hat bereits ein Schere, Stein, Papier -Spiel. Bitte warte, bis dieses beendet ist.")
 					.queue();

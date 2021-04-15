@@ -136,7 +136,6 @@ public class PlayerManager {
 		if (INSTANCE == null) {
 			INSTANCE = new PlayerManager();
 		}
-
 		return INSTANCE;
 	}
 }

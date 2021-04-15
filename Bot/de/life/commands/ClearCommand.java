@@ -21,7 +21,6 @@ public class ClearCommand implements ServerCommand {
 		DeleteMessages dm = new DeleteMessages();
 
 		String[] args = message.getContentDisplay().split(" ");
-		message.delete().queue();
 
 		if (args.length < 2) {
 			EmbedMessageBuilder.sendMessage("Clear", "Bitte gib die Anzahl an Nachrichten an", Color.RED, channel, 10);
@@ -61,10 +60,10 @@ public class ClearCommand implements ServerCommand {
 			}
 
 			if (message.getMentionedMembers().size() == 0) {
-				dm.delete(channel, amount);
+				dm.delete(channel, amount + 1);
 			} else {
 				for (Member member : message.getMentionedMembers()) {
-					dm.delete(channel, amount, member);
+					dm.delete(channel, amount + 1, member);
 				}
 			}
 

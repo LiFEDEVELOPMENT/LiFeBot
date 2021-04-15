@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import javax.security.auth.login.LoginException;
 
-import de.life.classes.RPSManager;
 import de.life.listener.AutotriggerListener;
 import de.life.listener.CommandListener;
 import de.life.listener.PrivateMessageReactionListener;
@@ -33,7 +32,6 @@ public class LiFeBot {
 
 		try {
 			new LiFeBot();
-			new RPSManager();
 		} catch (LoginException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}

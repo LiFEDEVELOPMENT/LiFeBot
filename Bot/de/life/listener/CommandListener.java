@@ -18,8 +18,6 @@ public class CommandListener extends ListenerAdapter {
         
         if (args.length <= 0)
             return;
-        if (!LiFeBot.INSTANCE.getCmdMan().perform(args[0], event.getMember(), channel, event.getMessage()))
-            channel.sendMessage("Unknown Command! Try '!commands'").queue();
-
+        LiFeBot.INSTANCE.getCmdMan().perform(args[0], event.getMember(), channel, event.getMessage());
     }
 }

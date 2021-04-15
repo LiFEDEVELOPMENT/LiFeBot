@@ -16,13 +16,13 @@ public class PrivateMessageReactionListener extends ListenerAdapter {
 
 		switch (event.getReactionEmote().getName()) {
 		case "✌":
-			RPSManager.INSTANCE.enterChoice(event.getUser(), "Scissors");
+			RPSManager.getInstance().enterChoice(event.getUser(), "Scissors");
 			break;
 		case "✊":
-			RPSManager.INSTANCE.enterChoice(event.getUser(), "Rock");
+			RPSManager.getInstance().enterChoice(event.getUser(), "Rock");
 			break;
-		case "�?":
-			RPSManager.INSTANCE.enterChoice(event.getUser(), "Paper");
+		case "�?":
+			RPSManager.getInstance().enterChoice(event.getUser(), "Paper");
 			break;
 		}
 	}

@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.entities.User;
 
 public class RPSManager {
 
-	public static RPSManager INSTANCE;
+	private static RPSManager INSTANCE;
 
 	HashMap<Integer, RPSLogic> gamesMap = new HashMap<Integer, RPSLogic>();
 	HashMap<User, Integer> playerMap = new HashMap<User, Integer>();
@@ -39,11 +39,11 @@ public class RPSManager {
 
 		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "✌").queue();
 		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "✊").queue();
-		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "�?").queue();
+		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "�?").queue();
 
 		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "✌").queue();
 		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "✊").queue();
-		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "�?").queue();
+		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "�?").queue();
 	}
 
 	public void enterChoice(User pPlayer, String pChoice) {
@@ -108,5 +108,14 @@ public class RPSManager {
 		playerMap.remove(gamesMap.get(gameID).getFirstPlayer());
 		playerMap.remove(gamesMap.get(gameID).getSecondPlayer());
 		gamesMap.remove(gameID);
+		if(gamesMap.isEmpty())
+			INSTANCE = null;
+	}
+
+	public static RPSManager getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new RPSManager();
+		}
+		return INSTANCE;
 	}
 }

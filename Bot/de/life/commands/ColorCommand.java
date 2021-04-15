@@ -16,6 +16,7 @@ public class ColorCommand implements ServerCommand {
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
 		message.delete().queue();
+		String[] args = message.getContentDisplay().split(" ");
 
 		GuildChannel gchannel = channel.getJDA().getGuildChannelById(channel.getId());
 
@@ -28,20 +29,28 @@ public class ColorCommand implements ServerCommand {
 		if (!m.getGuild().getSelfMember().hasPermission(gchannel, Permission.MESSAGE_EMBED_LINKS)) {
 			EmbedMessageBuilder.sendMessage("Color", "Dazu hat der Bot leider nicht die Berechtigung",
 					"Ihm fehlt: Permission.MESSAGE_EMBED_LINKS", Color.RED, channel, 10);
-
 			return;
 		}
 
-		try {
-			EmbedBuilder colorBuilder = new EmbedBuilder();
-			colorBuilder.setColor(Color.decode(message.getContentDisplay().substring(7, 14)));
-			colorBuilder.setDescription("Diese Box hat die Farbe " + message.getContentDisplay().substring(7, 14));
-			colorBuilder.setFooter("Angefragt von " + m.getUser().getAsTag());
-			channel.sendMessage(colorBuilder.build()).queue();
-		} catch (NumberFormatException | IndexOutOfBoundsException e) {
+		if (args.length < 2) {
 			EmbedMessageBuilder.sendMessage("Color", "Bitte gib eine Farbe im Format #RRGGBB an", Color.RED, channel,
 					10);
-			e.printStackTrace();
+			return;
 		}
+
+		Color color = null;
+
+		try {
+			color = Color.decode(args[1]);
+		} catch (NumberFormatException e) {
+			EmbedMessageBuilder.sendMessage("Color", "Bitte gib eine Farbe im Format #RRGGBB an", Color.RED, channel,
+					10);
+			return;
+		}
+
+		EmbedBuilder colorBuilder = new EmbedBuilder();
+		colorBuilder.setColor(color);
+		colorBuilder.setThumbnail("https://singlecolorimage.com/get/" + args[1].substring(1) + "/400x400");
+		channel.sendMessage(colorBuilder.build()).queue();
 	}
 }

@@ -251,7 +251,7 @@ public class ReactionListener extends ListenerAdapter {
 						.get(0).equals(event.getUser()))
 					return;
 
-				RPSManager.INSTANCE.startGame(
+				RPSManager.getInstance().startGame(
 						event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 								.get(1),
 						event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
