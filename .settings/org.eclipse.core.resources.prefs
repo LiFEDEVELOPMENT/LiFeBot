@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//Bot/de/life/classes/RPSManager.java=UTF-8
+encoding//Bot/de/life/commands/CommandsCommand.java=UTF-8
+encoding//Bot/de/life/commands/PollCommand.java=UTF-8
+encoding//Bot/de/life/commands/PrivateChannelCommand.java=UTF-8
+encoding//Bot/de/life/commands/RPSHerausfordernCommand.java=UTF-8
+encoding//Bot/de/life/commands/ReactCommand.java=UTF-8
+encoding//Bot/de/life/commands/ZitateCommand.java=UTF-8
+encoding//Bot/de/life/listener/PrivateMessageReactionListener.java=UTF-8
+encoding//Bot/de/life/listener/ReactionListener.java=UTF-8
+encoding//Bot/de/life/listener/VoiceListener.java=UTF-8
+encoding//Bot/de/life/sql/FillCommandsTable.java=UTF-8
