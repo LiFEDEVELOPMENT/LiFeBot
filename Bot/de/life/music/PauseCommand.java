@@ -9,7 +9,6 @@ public class PauseCommand implements ServerCommand {
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
-
 		if (m.getVoiceState().getChannel() != m.getGuild().getSelfMember().getVoiceState().getChannel()
 				|| !m.getGuild().getSelfMember().getVoiceState().inVoiceChannel())
 			return;

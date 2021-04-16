@@ -24,6 +24,7 @@ public class StopCommand implements ServerCommand {
 		}
 		
 		PlayerManager.getInstance().getMusicManager(m.getGuild()).player.stopTrack();
+		PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.clear();
 
 		m.getGuild().getAudioManager().closeAudioConnection();
 	}

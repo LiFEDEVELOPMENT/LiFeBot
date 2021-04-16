@@ -14,8 +14,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,15 +23,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class TrackScheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
-	private final BlockingQueue<AudioTrack> queue;
-	private boolean loop = false;
+	private final Queue queue;
 
 	/**
 	 * @param player The audio player this scheduler uses
 	 */
 	public TrackScheduler(AudioPlayer player) {
 		this.player = player;
-		this.queue = new LinkedBlockingQueue<>();
+		this.queue = new Queue();
 	}
 
 	/**
@@ -42,7 +40,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	 */
 	public boolean queue(AudioTrack track) {
 		if (!player.startTrack(track, true)) {
-			queue.offer(track);
+			queue.add(track);
 			return false;
 		}
 		return true;
@@ -56,7 +54,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		// In case queue was empty, we are
 		// giving null to startTrack, which is a valid argument and will simply stop the
 		// player.
-		player.startTrack(queue.poll(), false);
+		player.startTrack(queue.next(), false);
 	}
 
 	@Override
@@ -94,9 +92,6 @@ public class TrackScheduler extends AudioEventAdapter {
 					TimeUnit.SECONDS);
 		} catch (SQLException ex) {
 		}
-
-		if (loop)
-			queue(track);
 	}
 
 	@Override
@@ -107,12 +102,28 @@ public class TrackScheduler extends AudioEventAdapter {
 			nextTrack();
 		}
 	}
-	
+
 	public boolean isLooped() {
-		return loop;
+		return this.queue.isLooped();
 	}
-	
-	public void setLooped(boolean state) {
-		loop = state;
+
+	public void setLooped(boolean looped) {
+		this.queue.setLooped(looped);
+	}
+
+	public void shuffle() {
+		this.queue.shuffle();
+	}
+
+	public ArrayList<AudioTrack> getQueue() {
+		return this.queue.getQueue();
+	}
+
+	public void clear() {
+		this.queue.clear();
+	}
+
+	public void jump(int amount) {
+		this.queue.jump(amount);
 	}
 }

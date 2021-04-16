@@ -13,7 +13,11 @@ public class PlayCommand implements ServerCommand {
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
-		String[] args = message.getContentDisplay().split(" ");
+		addQueue(m, channel, message.getContentDisplay());
+	}
+
+	public static void addQueue(Member m, MessageChannel channel, String message) {
+		String[] args = message.split(" ");
 
 		if (!joinChannel(m)) {
 			return;
@@ -33,7 +37,7 @@ public class PlayCommand implements ServerCommand {
 		MusicUtil.updateChannel(m, channel);
 	}
 
-	private boolean joinChannel(Member m) {
+	private static boolean joinChannel(Member m) {
 
 		if (!m.getVoiceState().inVoiceChannel()) {
 			return false;
@@ -48,7 +52,7 @@ public class PlayCommand implements ServerCommand {
 		return true;
 	}
 
-	private boolean isUrl(String url) {
+	private static boolean isUrl(String url) {
 		try {
 			new URI(url);
 			return true;

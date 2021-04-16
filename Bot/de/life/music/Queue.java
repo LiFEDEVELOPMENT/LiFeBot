@@ -14,22 +14,45 @@ public class Queue {
 		this.queue = new ArrayList<AudioTrack>();
 	}
 
+	public void add(AudioTrack track) {
+		this.queue.add(track);
+	}
+
 	public AudioTrack next() {
 		if (this.queue.size() == 0)
 			return null;
-		return queue.remove(0);
+		AudioTrack retTrack = queue.remove(0);
+		if (looped)
+			this.queue.add(retTrack);
+		return retTrack;
 	}
 
 	public void shuffle() {
-		Collections.shuffle(queue);
+		Collections.shuffle(this.queue);
 	}
 
-	public boolean getLooped() {
-		return looped;
+	public boolean isLooped() {
+		return this.looped;
 	}
 
 	public void setLooped(boolean looped) {
 		this.looped = looped;
+	}
+
+	public ArrayList<AudioTrack> getQueue() {
+		return this.queue;
+	}
+
+	public void clear() {
+		this.queue = null;
+	}
+
+	public void jump(int amount) {
+		for (int i = 0; i < amount; i++) {
+			if (queue.isEmpty())
+				return;
+			this.queue.remove(0);
+		}
 	}
 
 }
