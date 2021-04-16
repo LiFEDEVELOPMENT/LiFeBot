@@ -13,9 +13,9 @@ public class RPSManager {
 	HashMap<Integer, RPSLogic> gamesMap = new HashMap<Integer, RPSLogic>();
 	HashMap<User, Integer> playerMap = new HashMap<User, Integer>();
 
-	public RPSManager() {
-		INSTANCE = this;
-	}
+//	PUBLIC RPSMANAGER() {
+//		INSTANCE = THIS;
+//	}
 
 	public void startGame(User firstPlayer, User secondPlayer, MessageChannel channel) {
 		if (hasGame(firstPlayer, secondPlayer)) {
@@ -108,6 +108,9 @@ public class RPSManager {
 		playerMap.remove(gamesMap.get(gameID).getFirstPlayer());
 		playerMap.remove(gamesMap.get(gameID).getSecondPlayer());
 		gamesMap.remove(gameID);
+
+		if (gamesMap.isEmpty())
+			INSTANCE = null;
 	}
 
 	public static synchronized RPSManager getInstance() {

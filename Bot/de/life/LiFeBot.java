@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import javax.security.auth.login.LoginException;
 
-import de.life.classes.RPSManager;
 import de.life.listener.AutotriggerListener;
 import de.life.listener.CommandListener;
 import de.life.listener.PrivateMessageReactionListener;
@@ -19,7 +18,6 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
-import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class LiFeBot {
@@ -34,7 +32,6 @@ public class LiFeBot {
 
 		try {
 			new LiFeBot();
-			new RPSManager();
 		} catch (LoginException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
@@ -50,10 +47,11 @@ public class LiFeBot {
 
 		builder = DefaultShardManagerBuilder.create(GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MESSAGES,
 				GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.DIRECT_MESSAGE_REACTIONS,
-				GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_BANS,
-				GatewayIntent.GUILD_EMOJIS, GatewayIntent.GUILD_WEBHOOKS, GatewayIntent.GUILD_INVITES,
-				GatewayIntent.GUILD_MESSAGE_TYPING);
-		builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS);
+				GatewayIntent.DIRECT_MESSAGES);
+		builder.disableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_BANS, GatewayIntent.GUILD_EMOJIS,
+				GatewayIntent.GUILD_WEBHOOKS, GatewayIntent.GUILD_INVITES, GatewayIntent.GUILD_MESSAGE_TYPING,
+				GatewayIntent.DIRECT_MESSAGE_TYPING);
+		builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS, CacheFlag.EMOTE);
 		builder.enableCache(CacheFlag.VOICE_STATE);
 
 		builder.setToken(GlobalVariables.botToken);
