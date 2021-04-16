@@ -24,6 +24,7 @@ public class RPSManager {
 					.complete().delete().queueAfter(5, TimeUnit.SECONDS);
 			return;
 		}
+
 		playerMap.put(firstPlayer, gamesMap.size());
 		playerMap.put(secondPlayer, gamesMap.size());
 		gamesMap.put(gamesMap.size(), new RPSLogic());
@@ -39,11 +40,11 @@ public class RPSManager {
 
 		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "✌").queue();
 		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "✊").queue();
-		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "�?").queue();
+		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "🖐").queue();
 
 		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "✌").queue();
 		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "✊").queue();
-		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "�?").queue();
+		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "🖐").queue();
 	}
 
 	public void enterChoice(User pPlayer, String pChoice) {
@@ -97,9 +98,8 @@ public class RPSManager {
 	}
 
 	public boolean hasGame(User firstPlayer, User secondPlayer) {
-		if (playerMap.containsKey(firstPlayer) || playerMap.containsKey(secondPlayer)) {
+		if (playerMap.containsKey(firstPlayer) || playerMap.containsKey(secondPlayer))
 			return true;
-		}
 		return false;
 	}
 
@@ -108,14 +108,11 @@ public class RPSManager {
 		playerMap.remove(gamesMap.get(gameID).getFirstPlayer());
 		playerMap.remove(gamesMap.get(gameID).getSecondPlayer());
 		gamesMap.remove(gameID);
-		if(gamesMap.isEmpty())
-			INSTANCE = null;
 	}
 
-	public static RPSManager getInstance() {
-		if (INSTANCE == null) {
+	public static synchronized RPSManager getInstance() {
+		if (INSTANCE == null)
 			INSTANCE = new RPSManager();
-		}
 		return INSTANCE;
 	}
 }

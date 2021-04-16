@@ -34,7 +34,6 @@ public class AnnounceCommand implements ServerCommand {
 		announceMessage = announceMessage.substring(1);
 
 		if (args.length < 2) {
-
 			EmbedMessageBuilder.sendMessage("Announce", "Bitte gib eine Nachricht an!", Color.RED, channel, 5);
 
 			return;

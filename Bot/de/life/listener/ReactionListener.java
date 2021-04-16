@@ -3,15 +3,18 @@ package de.life.listener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import de.life.GlobalVariables;
 import de.life.classes.RPSManager;
 import de.life.commands.CommandsCommand;
 import de.life.commands.ZitateCommand;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -204,7 +207,7 @@ public class ReactionListener extends ListenerAdapter {
 		}
 
 		if (event.getChannel().retrieveMessageById(event.getMessageId()).complete().getContentDisplay()
-				.startsWith("!rps")) {
+				.startsWith(GlobalVariables.prefix + "rps")) {
 			event.getReaction().removeReaction(event.getUser()).queue();
 			boolean win = false;
 			switch (event.getReactionEmote().getName()) {
@@ -217,7 +220,7 @@ public class ReactionListener extends ListenerAdapter {
 				if (new Random().nextInt(3) == 0)
 					win = true;
 				break;
-			case "�?":
+			case "🖐":
 				if (new Random().nextInt(3) == 0)
 					win = true;
 				break;
@@ -238,7 +241,7 @@ public class ReactionListener extends ListenerAdapter {
 		if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 				.size() > 0) {
 			switch (event.getReactionEmote().getName()) {
-			case "�?�":
+			case "❌":
 				if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 						.get(0).equals(event.getUser())
 						|| event.getChannel().retrieveMessageById(event.getMessageId()).complete().getMentionedUsers()
@@ -250,13 +253,10 @@ public class ReactionListener extends ListenerAdapter {
 				if (!event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 						.get(0).equals(event.getUser()))
 					return;
+				List<User> playerList = event.getChannel().retrieveMessageById(event.getMessageId()).complete()
+						.getMentionedUsers();
 
-				RPSManager.getInstance().startGame(
-						event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
-								.get(1),
-						event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
-								.get(0),
-						event.getChannel());
+				RPSManager.getInstance().startGame(playerList.get(1), playerList.get(0), event.getChannel());
 				event.getChannel().deleteMessageById(event.getMessageIdLong()).queue();
 			}
 		}

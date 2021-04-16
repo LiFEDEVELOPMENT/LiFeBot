@@ -16,9 +16,12 @@ public class RPSHerausfordernCommand implements ServerCommand {
 		if (message.getMentionedUsers().size() == 0) {
 			message.addReaction("✌").queue();
 			message.addReaction("✊").queue();
-			message.addReaction("�?").queue();
+			message.addReaction("🖐").queue();
 			return;
 		}
+
+		if (RPSManager.getInstance() == null)
+			new RPSManager();
 
 		User secondPlayer = message.getMentionedUsers().get(0);
 
@@ -33,11 +36,13 @@ public class RPSHerausfordernCommand implements ServerCommand {
 					.queue();
 			return;
 		}
-		Long messageID = channel.sendMessage("RPS-Herausforderung: " + secondPlayer.getAsMention() + ", du wurdest von " + m.getAsMention()
+		Long messageID = channel.sendMessage("RPS-Herausforderung: " + secondPlayer.getAsMention() + ", du wurdest von "
+				+ m.getAsMention()
 				+ " zu einem Spiel Schere, Stein, Papier herausgefordet. Reagiere mit :white_check_mark: für ein Spiel oder mit :x: zum Ablehnen der Herausforderung.")
 				.complete().getIdLong();
+
 		channel.deleteMessageById(messageID).queueAfter(1, TimeUnit.MINUTES);
 		channel.addReactionById(messageID, "✅").queue();
-		channel.addReactionById(messageID, "�?�").queue();
+		channel.addReactionById(messageID, "❌").queue();
 	}
 }
