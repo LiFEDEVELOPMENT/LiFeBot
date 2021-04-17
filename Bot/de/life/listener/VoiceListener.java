@@ -55,11 +55,9 @@ public class VoiceListener extends ListenerAdapter {
 			if (set.next()) {
 				createPrivateChannel(joined, m);
 
-				LogMessanger.sendLog(m.getGuild().getIdLong(), "⌛�?| " + m.getEffectiveName() + ":",
+				LogMessanger.sendLog(m.getGuild().getIdLong(), "U+231BU+1F50A| " + m.getEffectiveName() + ":",
 						m.getAsMention() + " ist dem Channel beigetreten!", Color.CYAN);
-
 				return;
-
 			}
 		} catch (SQLException e) {
 		}
@@ -90,7 +88,6 @@ public class VoiceListener extends ListenerAdapter {
 					LogMessanger.sendLog(m.getGuild().getIdLong(), channel.getName() + ":",
 							m.getAsMention() + " hat den Kanal verlassen!", Color.CYAN);
 				}
-
 			}
 		} catch (SQLException e) {
 		}
@@ -127,8 +124,7 @@ public class VoiceListener extends ListenerAdapter {
 
 				createPrivateChannel(joined, m);
 
-				LogMessanger.sendLog(m.getGuild().getIdLong(),
-						left.getName() + " ➡ ⌛�?| " + m.getEffectiveName() + ":",
+				LogMessanger.sendLog(m.getGuild().getIdLong(), left.getName() + " ➡ ⌛�?| " + m.getEffectiveName() + ":",
 						m.getAsMention() + " hat den Channel gewechselt!", Color.CYAN);
 
 			}
@@ -164,7 +160,6 @@ public class VoiceListener extends ListenerAdapter {
 
 		SQLite.onUpdate("INSERT INTO channel (guildid,channelid,type) VALUES ('" + m.getGuild().getIdLong() + "','"
 				+ vc.getIdLong() + "','temporary')");
-
 	}
 
 }

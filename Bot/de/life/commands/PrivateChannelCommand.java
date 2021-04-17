@@ -84,7 +84,6 @@ public class PrivateChannelCommand implements ServerCommand {
 
 			return;
 		}
-
 		VoiceListener.INSTANCE.onJoin(hub, m);
 	}
 

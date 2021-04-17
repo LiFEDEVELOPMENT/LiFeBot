@@ -23,14 +23,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class TrackScheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
-	private final Queue queue;
+	private final Queue queue = new Queue();
 
 	/**
 	 * @param player The audio player this scheduler uses
 	 */
 	public TrackScheduler(AudioPlayer player) {
 		this.player = player;
-		this.queue = new Queue();
 	}
 
 	/**

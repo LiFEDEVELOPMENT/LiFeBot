@@ -14,7 +14,7 @@ public class PrivateMessageReactionListener extends ListenerAdapter {
 				.startsWith("RPS:"))
 			return;
 		
-		switch (event.getReactionEmote().getName()) {
+		switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
 		case "U+270C":
 			RPSManager.getInstance().enterChoice(event.getUser(), "Scissors");
 			break;

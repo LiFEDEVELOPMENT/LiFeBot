@@ -38,8 +38,8 @@ public class ReactionListener extends ListenerAdapter {
 			if (footer.startsWith("Commands") || footer.startsWith("Memes") || footer.startsWith("Zitate")) {
 				event.getChannel().retrieveMessageById(messageID).complete().clearReactions().queue();
 
-				switch (event.getReactionEmote().getName()) {
-				case "⏮":
+				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
+				case "U+23EE":
 					pageID = 1;
 					if (footer.startsWith("Commands"))
 						newEmbed = CommandsCommand.getCommandEmbed(pageID);
@@ -48,7 +48,7 @@ public class ReactionListener extends ListenerAdapter {
 					if (footer.startsWith("Zitate"))
 						newEmbed = ZitateCommand.getZitatEmbed(pageID, guildID);
 					break;
-				case "◀":
+				case "U+25C0":
 					pageID--;
 					if (pageID < 1)
 						pageID = 1;
@@ -68,7 +68,7 @@ public class ReactionListener extends ListenerAdapter {
 						newEmbed = ZitateCommand.getZitatEmbed(pageID, guildID);
 					}
 					break;
-				case "▶":
+				case "U+25B6":
 					pageID++;
 					if (pageID < 1)
 						pageID = 1;
@@ -88,7 +88,7 @@ public class ReactionListener extends ListenerAdapter {
 						newEmbed = ZitateCommand.getZitatEmbed(pageID, guildID);
 					}
 					break;
-				case "⏭":
+				case "U+23ED":
 					if (footer.startsWith("Commands")) {
 						pageID = CommandsCommand.getCommandPages();
 						newEmbed = CommandsCommand.getCommandEmbed(pageID);
@@ -111,19 +111,19 @@ public class ReactionListener extends ListenerAdapter {
 				if (footer.startsWith("Commands")) {
 					if (pageID < CommandsCommand.getCommandPages()) {
 						event.getChannel().addReactionById(messageID, "U+25B6").queue();
-						event.getChannel().addReactionById(messageID, "U+23EF").queue();
+						event.getChannel().addReactionById(messageID, "U+23ED").queue();
 					}
 				}
 				if (footer.startsWith("Memes")) {
 					if (pageID < MemesCommand.getMemePages(guildID)) {
 						event.getChannel().addReactionById(messageID, "U+25B6").queue();
-						event.getChannel().addReactionById(messageID, "U+23EF").queue();
+						event.getChannel().addReactionById(messageID, "U+23ED").queue();
 					}
 				}
 				if (footer.startsWith("Zitate")) {
 					if (pageID < ZitateCommand.getZitatePages(guildID)) {
 						event.getChannel().addReactionById(messageID, "U+25B6").queue();
-						event.getChannel().addReactionById(messageID, "U+23EF").queue();
+						event.getChannel().addReactionById(messageID, "U+23ED").queue();
 					}
 				}
 			}
@@ -140,7 +140,7 @@ public class ReactionListener extends ListenerAdapter {
 				} catch (SQLException e) {
 				}
 
-				switch (event.getReactionEmote().getName()) {
+				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
 				case "U+0031":
 					answer = 1;
 					break;
@@ -228,7 +228,7 @@ public class ReactionListener extends ListenerAdapter {
 		{
 			event.getReaction().removeReaction(event.getUser()).queue();
 			boolean win = false;
-			switch (event.getReactionEmote().getName()) {
+			switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
 			case "U+270C":
 				if (new Random().nextInt(3) == 0)
 					win = true;
@@ -258,7 +258,7 @@ public class ReactionListener extends ListenerAdapter {
 
 		if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 				.size() > 0) {
-			switch (event.getReactionEmote().getName()) {
+			switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
 			case "U+274C":
 				if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 						.get(0).equals(event.getUser())

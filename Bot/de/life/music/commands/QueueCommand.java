@@ -27,7 +27,7 @@ public class QueueCommand implements ServerCommand {
 
 		switch (args[1]) {
 		case "add":
-			add(m, channel, message);
+			add(m, channel, message.getContentDisplay());
 			break;
 		case "clear":
 			clearQueue(m, channel);
@@ -44,22 +44,35 @@ public class QueueCommand implements ServerCommand {
 		case "shuffle":
 			shuffleQueue(m, channel);
 			break;
+		default:
+			add(m, channel, "add " + message.getContentDisplay());
+			break;
 		}
 	}
 
 	private void displayQueue(Member m, MessageChannel channel) {
 		int i = 1;
 		EmbedBuilder builder = new EmbedBuilder().setTitle("Es folgt:").setColor(Color.ORANGE);
+
+		if (PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.getQueue() == null) {
+			builder.setDescription("Nichts - Die Queue ist leer");
+			channel.sendMessage(builder.build()).queue();
+			return;
+		}
+
 		for (AudioTrack track : PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.getQueue()) {
-			if (builder.length() + (i + ") " + track.getInfo().author + " - " + track.getInfo().title + " ("
-					+ track.getDuration() + ")\n").length() > 2000) {
+			String appString = i + ") " + track.getInfo().author + " - " + track.getInfo().title + "\n(**"
+					+ (track.getInfo().isStream ? ":red_circle: STREAM"
+							: (track.getDuration() / 3600000 > 0 ? "h " : "") + track.getDuration() / 60000 + "m "
+									+ track.getDuration() / 1000 % 60 + "s")
+					+ "**)\n\n";
+			if (builder.length() + appString.length() > 2000) {
 				builder.setFooter("+ "
 						+ (PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.getQueue().size() - 1)
 						+ " weitere Titel");
 				break;
 			}
-			builder.appendDescription(i + ") " + track.getInfo().author + " - " + track.getInfo().title + " ("
-					+ track.getDuration() / 1000 + ")\n");
+			builder.appendDescription(appString);
 			i++;
 		}
 
@@ -68,9 +81,9 @@ public class QueueCommand implements ServerCommand {
 		channel.sendMessage(builder.build()).queue();
 	}
 
-	private void add(Member m, MessageChannel channel, Message message) {
-		PlayCommand.addQueue(m, channel, String.join(" ", Arrays.copyOfRange(message.getContentDisplay().split(" "), 1,
-				message.getContentDisplay().split(" ").length)));
+	private void add(Member m, MessageChannel channel, String message) {
+		PlayCommand.addQueue(m, channel,
+				String.join(" ", Arrays.copyOfRange(message.split(" "), 1, message.split(" ").length)));
 	}
 
 	private void clearQueue(Member m, MessageChannel channel) {
