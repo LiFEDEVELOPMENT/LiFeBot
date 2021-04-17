@@ -1,4 +1,4 @@
-package de.life.music;
+package de.life.music.commands;
 
 import de.life.interfaces.ServerCommand;
 import net.dv8tion.jda.api.entities.Member;

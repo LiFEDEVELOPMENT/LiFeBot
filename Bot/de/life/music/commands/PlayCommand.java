@@ -1,10 +1,12 @@
-package de.life.music;
+package de.life.music.commands;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import de.life.interfaces.ServerCommand;
+import de.life.music.MusicUtil;
+import de.life.music.PlayerManager;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;

@@ -55,7 +55,7 @@ public class ReactionListener extends ListenerAdapter {
 					break;
 				case "▶":
 
-					if (pageID == 1 || pageID == (CommandsCommand.getCommandPages() - 1))
+					if (pageID == 1 || pageID == CommandsCommand.getCommandPages())
 						event.getReaction().removeReaction().queue();
 
 					messageID = event.getChannel()

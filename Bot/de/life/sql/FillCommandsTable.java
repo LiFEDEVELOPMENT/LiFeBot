@@ -13,7 +13,8 @@ public class FillCommandsTable {
 				+ "Alias: !triggers / !autotrigger / !autotriggers')");
 		SQLite.onUpdate(
 				"INSERT INTO commands (command) VALUES ('Ban:\r\n" + "!ban <@User> - Bannt den User vom Server\r\n"
-						+ "!ban <@User> <Reason> - Bannt den User vom Server mit der angegebenen Reason')");
+						+ "!ban <@User> <Reason> - Bannt den User vom Server mit der angegebenen Reason\r\n"
+						+ "Alias: !bicmac <@User>')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('Clear\r\n"
 				+ "!clear <Anzahl> [@User] - Löscht x Nachrichten im aktuellen Channel. Wird ein User angegeben, werden x Nachrichten von diesem User gelöscht\r\n"
 				+ "Alias: !c')");
@@ -42,14 +43,26 @@ public class FillCommandsTable {
 				+ "!meme list - Zeigt eine Liste aller Memes mit ihren IDs\r\n" + "Alias: !memes')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('Musik:\r\n"
 				+ "!play <YouTube-Link> - Spielt das angegebene Lied bzw. fügt es zur Queue hinzu\r\n"
-				+ "!play <Lied/Interpret> - Spielt das angegebene Lied bzw. fügt es zur Queue hinzu')");
+				+ "!play <Youtube-Playlistlink> - Spielt die angegebene Playlist bzw. fügt sie zur Queue hinzu\r\n"
+				+ "!play <Lied/Interpret> - Spielt das angegebene Lied bzw. fügt es zur Queue hinzu\r\n\n"
+				+ "!loop - Aktiviert/Deaktiviert den Loop\r\n" + "!pause - Pausiert die Wiedergabe\r\n"
+				+ "!resume - Startet die Wiedergabe erneut\r\n" + "!queue - Zeigt die Queue\r\n\n"
+				+ "!queue add <YouTube-Link> - Spielt das angegebene Lied bzw. fügt es zur Queue hinzu\r\n"
+				+ "!queue add <Youtube-Playlistlink> - Spielt die angegebene Playlist bzw. fügt sie zur Queue hinzu\r\n"
+				+ "!queue add <Lied/Interpret> - Spielt das angegebene Lied bzw. fügt es zur Queue hinzu\r\n"
+				+ "!queue clear - Leert die Queue\r\n" + "Alias: !queue empty\r\n"
+				+ "!queue jump <Anzahl> - Springt x Lieder in der Queue nach vorne\r\n"
+				+ "!queue shuffle - Shuffled die Queue\r\n" + "Alias: !q\r\n\n"
+				+ "!skip - Springt zum nächsten Lied in der Queue\r\n"
+				+ "!stop - Stoppt den Bot"
+				+ "')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('Minigames:\r\n"
 				+ "!rps <@Spieler>: Spiele ''Schere, Stein, Papier'' gegen einen anderen Spieler.\r\n"
 				+ "!rps <Schere/Stein/Papier>: Spiele ''Schere, Stein, Papier'' gegen den Computer.\r\n"
 				+ "Alias: !rockpaperscissors')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('React:\r\n"
 				+ "!react <Nachrichten-ID> <Emote> - Reagiert auf die angegebenene Nachricht mit dem angegebenen Emote\r\n"
-				+ "!react <Nachrichten-ID> Abstimmung - Reagiert auf die angegebene Nachricht mit �? und 👎')");
+				+ "!react <Nachrichten-ID> Abstimmung - Reagiert auf die angegebene Nachricht mit 👍 und 👎')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('Polls:\r\n"
 				+ "!poll start <Frage\\AW1\\AW2\\[AW3]\\...\\\\[AW10]> - Startet eine Umfrage mit den angegebenen Werten.\r\n"
 				+ "!poll close <Poll-ID> - Stoppt die angegebene Umfrage')");
@@ -68,5 +81,4 @@ public class FillCommandsTable {
 				+ "!zitat channels delete <Channel-ID> - Löscht den Zitatechannel mit der ID\r\n"
 				+ "!zitat channels list - Zeigt eine List aller Zitate Channels\r\n" + "Alias: !zitate')");
 	}
-
 }

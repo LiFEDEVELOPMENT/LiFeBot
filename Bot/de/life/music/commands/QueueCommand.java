@@ -1,4 +1,4 @@
-package de.life.music;
+package de.life.music.commands;
 
 import java.awt.Color;
 import java.util.Arrays;
@@ -7,6 +7,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import de.life.classes.EmbedMessageBuilder;
 import de.life.interfaces.ServerCommand;
+import de.life.music.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
