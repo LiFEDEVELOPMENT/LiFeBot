@@ -22,8 +22,8 @@ public class CommandsCommand implements ServerCommand {
 		Long messageID = channel.sendMessage(getCommandEmbed(1)).complete().getIdLong();
 
 		if (getCommandPages() > 1) {
-			channel.addReactionById(messageID, "▶").queue();
-			channel.addReactionById(messageID, "⏭").queue();
+			channel.addReactionById(messageID, "U+25B6").queue();
+			channel.addReactionById(messageID, "U+23ED").queue();
 		}
 	}
 

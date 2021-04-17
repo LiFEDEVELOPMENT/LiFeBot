@@ -23,8 +23,8 @@ public class ReactCommand implements ServerCommand {
 		}
 
 		if (args[2].equalsIgnoreCase("abstimmung")) {
-			channel.retrieveMessageById(args[1]).complete().addReaction("✅").queue();
-			channel.retrieveMessageById(args[1]).complete().addReaction("�?�").queue();
+			channel.retrieveMessageById(args[1]).complete().addReaction("U+2705").queue();
+			channel.retrieveMessageById(args[1]).complete().addReaction("U+274C").queue();
 			message.delete().queue();
 
 			return;

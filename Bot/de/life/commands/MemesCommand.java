@@ -109,8 +109,8 @@ public class MemesCommand implements ServerCommand {
 		Long messageID = channel.sendMessage(getMemeEmbed(1, m.getGuild().getIdLong())).complete().getIdLong();
 
 		if (getMemePages(m.getGuild().getIdLong()) > 1) {
-			channel.addReactionById(messageID, "▶").queue();
-			channel.addReactionById(messageID, "⏭").queue();
+			channel.addReactionById(messageID, "U+25B6").queue();
+			channel.addReactionById(messageID, "U+23ED").queue();
 		}
 	}
 

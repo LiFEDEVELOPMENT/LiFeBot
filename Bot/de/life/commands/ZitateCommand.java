@@ -135,8 +135,8 @@ public class ZitateCommand implements ServerCommand {
 		Long messageID = channel.sendMessage(getZitatEmbed(1, m.getGuild().getIdLong())).complete().getIdLong();
 
 		if (getZitatePages(m.getGuild().getIdLong()) > 1) {
-			channel.addReactionById(messageID, "▶").queue();
-			channel.addReactionById(messageID, "⏭").queue();
+			channel.addReactionById(messageID, "U+25B6").queue();
+			channel.addReactionById(messageID, "U+23ED").queue();
 		}
 	}
 

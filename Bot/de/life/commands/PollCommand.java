@@ -18,7 +18,7 @@ public class PollCommand implements ServerCommand {
 
 	private final String[] emoteNames = { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:",
 			":eight:", ":nine:", ":keycap_ten:" };
-	private final String[] unicodeNames = { "1�?⃣", "2�?⃣", "3�?⃣", "4�?⃣", "5�?⃣", "6�?⃣", "7�?⃣", "8�?⃣", "9�?⃣", "🔟" };
+	private final String[] unicodeNames = { "U+0031", "U+0032", "U+0033", "U+0034", "U+0035", "U+0036", "U+0037", "U+0038", "U+0039", "U+1F51F" };
 	private final String splitter = "\\";
 
 	@Override

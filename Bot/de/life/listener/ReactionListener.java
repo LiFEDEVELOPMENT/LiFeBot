@@ -105,25 +105,25 @@ public class ReactionListener extends ListenerAdapter {
 				}
 				event.getChannel().editMessageById(messageID, newEmbed).queue();
 				if (pageID > 1) {
-					event.getChannel().addReactionById(messageID, "⏮").queue();
-					event.getChannel().addReactionById(messageID, "◀").queue();
+					event.getChannel().addReactionById(messageID, "U+23EE").queue();
+					event.getChannel().addReactionById(messageID, "U+25C0").queue();
 				}
 				if (footer.startsWith("Commands")) {
 					if (pageID < CommandsCommand.getCommandPages()) {
-						event.getChannel().addReactionById(messageID, "▶").queue();
-						event.getChannel().addReactionById(messageID, "⏭").queue();
+						event.getChannel().addReactionById(messageID, "U+25B6").queue();
+						event.getChannel().addReactionById(messageID, "U+23EF").queue();
 					}
 				}
 				if (footer.startsWith("Memes")) {
 					if (pageID < MemesCommand.getMemePages(guildID)) {
-						event.getChannel().addReactionById(messageID, "▶").queue();
-						event.getChannel().addReactionById(messageID, "⏭").queue();
+						event.getChannel().addReactionById(messageID, "U+25B6").queue();
+						event.getChannel().addReactionById(messageID, "U+23EF").queue();
 					}
 				}
 				if (footer.startsWith("Zitate")) {
 					if (pageID < ZitateCommand.getZitatePages(guildID)) {
-						event.getChannel().addReactionById(messageID, "▶").queue();
-						event.getChannel().addReactionById(messageID, "⏭").queue();
+						event.getChannel().addReactionById(messageID, "U+25B6").queue();
+						event.getChannel().addReactionById(messageID, "U+23EF").queue();
 					}
 				}
 			}
@@ -141,34 +141,34 @@ public class ReactionListener extends ListenerAdapter {
 				}
 
 				switch (event.getReactionEmote().getName()) {
-				case "1�?⃣":
+				case "U+0031":
 					answer = 1;
 					break;
-				case "2�?⃣":
+				case "U+0032":
 					answer = 2;
 					break;
-				case "3�?⃣":
+				case "U+0033":
 					answer = 3;
 					break;
-				case "4�?⃣":
+				case "U+0034":
 					answer = 4;
 					break;
-				case "5�?⃣":
+				case "U+0035":
 					answer = 5;
 					break;
-				case "6�?⃣":
+				case "U+0036":
 					answer = 6;
 					break;
-				case "7�?⃣":
+				case "U+0037":
 					answer = 7;
 					break;
-				case "8�?⃣":
+				case "U+0038":
 					answer = 8;
 					break;
-				case "9�?⃣":
+				case "U+0039":
 					answer = 9;
 					break;
-				case "🔟":
+				case "U+1F51F":
 					answer = 10;
 					break;
 				default:
@@ -229,16 +229,16 @@ public class ReactionListener extends ListenerAdapter {
 			event.getReaction().removeReaction(event.getUser()).queue();
 			boolean win = false;
 			switch (event.getReactionEmote().getName()) {
-			case "✌":
+			case "U+270C":
 				if (new Random().nextInt(3) == 0)
 					win = true;
 
 				break;
-			case "✊":
+			case "U+270A":
 				if (new Random().nextInt(3) == 0)
 					win = true;
 				break;
-			case "🖐":
+			case "U+1F590":
 				if (new Random().nextInt(3) == 0)
 					win = true;
 				break;
@@ -259,7 +259,7 @@ public class ReactionListener extends ListenerAdapter {
 		if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 				.size() > 0) {
 			switch (event.getReactionEmote().getName()) {
-			case "❌":
+			case "U+274C":
 				if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 						.get(0).equals(event.getUser())
 						|| event.getChannel().retrieveMessageById(event.getMessageId()).complete().getMentionedUsers()
@@ -267,7 +267,7 @@ public class ReactionListener extends ListenerAdapter {
 					event.getChannel().deleteMessageById(event.getMessageIdLong()).queue();
 				}
 				break;
-			case "✅":
+			case "U+2705":
 				if (!event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 						.get(0).equals(event.getUser()))
 					return;

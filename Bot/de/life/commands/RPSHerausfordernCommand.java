@@ -14,9 +14,9 @@ public class RPSHerausfordernCommand implements ServerCommand {
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
 		if (message.getMentionedUsers().size() == 0) {
-			message.addReaction("✌").queue();
-			message.addReaction("✊").queue();
-			message.addReaction("🖐").queue();
+			message.addReaction("U+270C").queue();
+			message.addReaction("U+270A").queue();
+			message.addReaction("U+1F590").queue();
 			return;
 		}
 
@@ -42,7 +42,7 @@ public class RPSHerausfordernCommand implements ServerCommand {
 				.complete().getIdLong();
 
 		channel.deleteMessageById(messageID).queueAfter(1, TimeUnit.MINUTES);
-		channel.addReactionById(messageID, "✅").queue();
-		channel.addReactionById(messageID, "❌").queue();
+		channel.addReactionById(messageID, "U+2705").queue();
+		channel.addReactionById(messageID, "U+274C").queue();
 	}
 }

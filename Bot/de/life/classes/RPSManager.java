@@ -13,10 +13,6 @@ public class RPSManager {
 	HashMap<Integer, RPSLogic> gamesMap = new HashMap<Integer, RPSLogic>();
 	HashMap<User, Integer> playerMap = new HashMap<User, Integer>();
 
-//	PUBLIC RPSMANAGER() {
-//		INSTANCE = THIS;
-//	}
-
 	public void startGame(User firstPlayer, User secondPlayer, MessageChannel channel) {
 		if (hasGame(firstPlayer, secondPlayer)) {
 			channel.sendMessage(
@@ -38,13 +34,13 @@ public class RPSManager {
 				"RPS: Bitte wähle deine Option im Schere, Stein, Papier -Spiel gegen " + firstPlayer.getName() + ".")
 				.complete().getIdLong();
 
-		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "✌").queue();
-		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "✊").queue();
-		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "🖐").queue();
+		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "U+270C").queue();
+		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "U+270A").queue();
+		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "U+1F590").queue();
 
-		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "✌").queue();
-		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "✊").queue();
-		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "🖐").queue();
+		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "U+270C").queue();
+		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "U+270A").queue();
+		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "U+1F590").queue();
 	}
 
 	public void enterChoice(User pPlayer, String pChoice) {
