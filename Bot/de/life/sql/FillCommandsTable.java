@@ -22,15 +22,15 @@ public class FillCommandsTable {
 				+ "!coinflip - Wirft eine Münze für dich\r\n" + "Alias: !cf / !flip')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Color:**\r\n"
 				+ "!color <#RRGGBB> - Gibt eine Box mit der angegebenen Farbe zurück')");
-		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Commands:**\r\n" + "!commands - Zeigt diese Liste\r\n"
-				+ "Alias: !help')");
+		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Commands:**\r\n"
+				+ "!commands - Zeigt diese Liste\r\n" + "Alias: !help')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Hub-Channels:**\r\n"
 				+ "!hub add <Channel-ID> - Fügt den angegebenen Channel als Hub-Channel hinzu\r\n"
 				+ "!hub delete <Channel-ID> - Löscht den Hub-Channel mit der angegebenen ID\r\n"
 				+ "!hub list - Zeigt eine Liste aller Hubchannels\r\n" + "Alias: !hubs')");
-		SQLite.onUpdate(
-				"INSERT INTO commands (command) VALUES ('**Kick:**\r\n" + "!kick <@User> - Kickt den User vom Server\r\n"
-						+ "!kick <@User> <Reason> - Kickt den User mit der angegebenen Reason vom Server')");
+		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Kick:**\r\n"
+				+ "!kick <@User> - Kickt den User vom Server\r\n"
+				+ "!kick <@User> <Reason> - Kickt den User mit der angegebenen Reason vom Server')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Log-Channels:**\r\n"
 				+ "!log add <Channel-ID> - Fügt den angegebenen Channel als Log-Channel hinzu\r\n"
 				+ "!log delete <Channel-ID> - Löscht den Log-Channel mit der angegebenen ID\r\n"
@@ -38,8 +38,9 @@ public class FillCommandsTable {
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Memberinfo:**\r\n"
 				+ "!memberinfo <@User> - Zeigt zusätzliche Infos zu dem angegebenen User\r\n"
 				+ "Alias: !userinfo <@User>')");
-		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Memes:**\r\n" + "!meme - Zeigt ein zufälliges Meme\r\n"
-				+ "!meme add <Meme> - Fügt ein Meme hinzu\r\n" + "!meme delete <ID> - Löscht das Meme mit der ID\r\n"
+		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Memes:**\r\n"
+				+ "!meme - Zeigt ein zufälliges Meme\r\n" + "!meme add <Meme> - Fügt ein Meme hinzu\r\n"
+				+ "!meme delete <ID> - Löscht das Meme mit der ID\r\n"
 				+ "!meme list - Zeigt eine Liste aller Memes mit ihren IDs\r\n" + "Alias: !memes')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Musik:**\r\n"
 				+ "!play <YouTube-Link> - Spielt das angegebene Lied bzw. fügt es zur Queue hinzu\r\n"
@@ -47,15 +48,14 @@ public class FillCommandsTable {
 				+ "!play <Lied/Interpret> - Spielt das angegebene Lied bzw. fügt es zur Queue hinzu\r\n\n"
 				+ "!loop - Aktiviert/Deaktiviert den Loop\r\n" + "!pause - Pausiert die Wiedergabe\r\n"
 				+ "!resume - Startet die Wiedergabe erneut\r\n" + "!queue - Zeigt die Queue\r\n\n"
+				+ "!queue - Zeigt die Queue"
 				+ "!queue add <YouTube-Link> - Spielt das angegebene Lied bzw. fügt es zur Queue hinzu\r\n"
 				+ "!queue add <Youtube-Playlistlink> - Spielt die angegebene Playlist bzw. fügt sie zur Queue hinzu\r\n"
 				+ "!queue add <Lied/Interpret> - Spielt das angegebene Lied bzw. fügt es zur Queue hinzu\r\n"
 				+ "!queue clear - Leert die Queue\r\n" + "Alias: !queue empty\r\n"
 				+ "!queue jump <Anzahl> - Springt x Lieder in der Queue nach vorne\r\n"
-				+ "!queue shuffle - Shuffled die Queue\r\n" + "Alias: !q\r\n\n"
-				+ "!skip - Springt zum nächsten Lied in der Queue\r\n"
-				+ "!stop - Stoppt den Bot"
-				+ "')");
+				+ "!queue list - Zeigt die Queue\r\n" + "!queue shuffle - Shuffled die Queue\r\n" + "Alias: !q\r\n\n"
+				+ "!skip - Springt zum nächsten Lied in der Queue\r\n" + "!stop - Stoppt den Bot" + "')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Minigames:**\r\n"
 				+ "!rps <@Spieler>: Spiele ''Schere, Stein, Papier'' gegen einen anderen Spieler.\r\n"
 				+ "!rps <Schere/Stein/Papier>: Spiele ''Schere, Stein, Papier'' gegen den Computer.\r\n"

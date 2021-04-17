@@ -21,7 +21,7 @@ public class QueueCommand implements ServerCommand {
 		String[] args = message.getContentDisplay().split(" ");
 
 		if (args.length == 1) {
-			displayQueue(m, channel, message);
+			displayQueue(m, channel);
 			return;
 		}
 
@@ -38,13 +38,16 @@ public class QueueCommand implements ServerCommand {
 		case "jump":
 			jumpQueue(m, channel, message);
 			break;
+		case "list":
+			displayQueue(m, channel);
+			break;
 		case "shuffle":
 			shuffleQueue(m, channel);
 			break;
 		}
 	}
 
-	private void displayQueue(Member m, MessageChannel channel, Message message) {
+	private void displayQueue(Member m, MessageChannel channel) {
 		int i = 1;
 		EmbedBuilder builder = new EmbedBuilder().setTitle("Es folgt:").setColor(Color.ORANGE);
 		for (AudioTrack track : PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.getQueue()) {
