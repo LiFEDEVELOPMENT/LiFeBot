@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//Bot/de/life/classes/RPSManager.java=UTF-8
 encoding//Bot/de/life/commands/CommandsCommand.java=UTF-8
+encoding//Bot/de/life/commands/MemesCommand.java=UTF-8
 encoding//Bot/de/life/commands/PollCommand.java=UTF-8
 encoding//Bot/de/life/commands/PrivateChannelCommand.java=UTF-8
 encoding//Bot/de/life/commands/RPSHerausfordernCommand.java=UTF-8

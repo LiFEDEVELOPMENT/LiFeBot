@@ -134,8 +134,10 @@ public class ZitateCommand implements ServerCommand {
 	private void listZitate(Member m, MessageChannel channel, Message message) {
 		Long messageID = channel.sendMessage(getZitatEmbed(1, m.getGuild().getIdLong())).complete().getIdLong();
 
-		if (getZitatePages(m.getGuild().getIdLong()) > 1)
+		if (getZitatePages(m.getGuild().getIdLong()) > 1) {
 			channel.addReactionById(messageID, "▶").queue();
+			channel.addReactionById(messageID, "⏭").queue();
+		}
 	}
 
 	private void randomZitat(Member m, MessageChannel channel, Message message) {

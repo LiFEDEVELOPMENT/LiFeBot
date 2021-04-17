@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import de.life.GlobalVariables;
 import de.life.classes.RPSManager;
 import de.life.commands.CommandsCommand;
+import de.life.commands.MemesCommand;
 import de.life.commands.ZitateCommand;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -26,90 +27,105 @@ public class ReactionListener extends ListenerAdapter {
 			return;
 
 		if (event.getChannel().retrieveMessageById(event.getMessageId()).complete().getEmbeds().size() > 0) {
-			event.getReaction().removeReaction(event.getUser()).queue();
-
 			MessageEmbed embed = event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getEmbeds()
 					.get(0);
 			String footer = embed.getFooter().getText();
+			Long messageID = event.getMessageIdLong();
+			MessageEmbed newEmbed = null;
+			Integer pageID = Integer.parseInt(footer.split(" Page ")[1]);
+			Long guildID = event.getGuild().getIdLong();
 
-			if (footer.startsWith("Commands")) {
-				Integer pageID = Integer.parseInt(footer.split(" Page ")[1]);
-				if (pageID == CommandsCommand.getCommandPages())
-					pageID = (CommandsCommand.getCommandPages() - 1);
-
-				switch (event.getReactionEmote().getName()) {
-				case "◀":
-					if (pageID <= 1)
-						pageID = 2;
-					if (pageID == 2)
-						event.getReaction().removeReaction().queue();
-
-					Long messageID = event.getChannel()
-							.editMessageById(event.getMessageId(), CommandsCommand.getCommandEmbed(pageID - 1))
-							.complete().getIdLong();
-
-					if (pageID - 1 > 1)
-						event.getChannel().addReactionById(messageID, "◀").queue();
-					event.getChannel().addReactionById(messageID, "▶").queue();
-
-					break;
-				case "▶":
-
-					if (pageID == 1 || pageID == CommandsCommand.getCommandPages())
-						event.getReaction().removeReaction().queue();
-
-					messageID = event.getChannel()
-							.editMessageById(event.getMessageId(), CommandsCommand.getCommandEmbed(pageID + 1))
-							.complete().getIdLong();
-
-					event.getChannel().addReactionById(messageID, "◀").queue();
-					if (pageID + 1 < CommandsCommand.getCommandPages())
-						event.getChannel().addReactionById(messageID, "▶").queue();
-
-					break;
-				}
-				return;
-			}
-
-			if (footer.startsWith("Zitate")) {
-				Integer pageID = Integer.parseInt(footer.split(" Page ")[1]);
-				if (pageID == ZitateCommand.getZitatePages(event.getGuild().getIdLong()))
-					pageID = (ZitateCommand.getZitatePages(event.getGuild().getIdLong()) - 1);
+			if (footer.startsWith("Commands") || footer.startsWith("Memes") || footer.startsWith("Zitate")) {
+				event.getChannel().retrieveMessageById(messageID).complete().clearReactions().queue();
 
 				switch (event.getReactionEmote().getName()) {
+				case "⏮":
+					pageID = 1;
+					if (footer.startsWith("Commands"))
+						newEmbed = CommandsCommand.getCommandEmbed(pageID);
+					if (footer.startsWith("Memes"))
+						newEmbed = MemesCommand.getMemeEmbed(pageID, guildID);
+					if (footer.startsWith("Zitate"))
+						newEmbed = ZitateCommand.getZitatEmbed(pageID, guildID);
+					break;
 				case "◀":
-					if (pageID <= 1)
-						pageID = 2;
-					if (pageID == 2)
-						event.getReaction().removeReaction().queue();
-
-					Long messageID = event.getChannel()
-							.editMessageById(event.getMessageId(),
-									ZitateCommand.getZitatEmbed(pageID - 1, event.getGuild().getIdLong()))
-							.complete().getIdLong();
-
-					if (pageID - 1 > 1)
-						event.getChannel().addReactionById(messageID, "◀").queue();
-					event.getChannel().addReactionById(messageID, "▶").queue();
-
+					pageID--;
+					if (pageID < 1)
+						pageID = 1;
+					if (footer.startsWith("Commands")) {
+						if (pageID > CommandsCommand.getCommandPages())
+							pageID = CommandsCommand.getCommandPages();
+						newEmbed = CommandsCommand.getCommandEmbed(pageID);
+					}
+					if (footer.startsWith("Memes")) {
+						if (pageID > MemesCommand.getMemePages(guildID))
+							pageID = MemesCommand.getMemePages(guildID);
+						newEmbed = MemesCommand.getMemeEmbed(pageID, guildID);
+					}
+					if (footer.startsWith("Zitate")) {
+						if (pageID > ZitateCommand.getZitatePages(guildID))
+							pageID = ZitateCommand.getZitatePages(guildID);
+						newEmbed = ZitateCommand.getZitatEmbed(pageID, guildID);
+					}
 					break;
 				case "▶":
-
-					if (pageID == 1 || pageID == (ZitateCommand.getZitatePages(event.getGuild().getIdLong()) - 1))
-						event.getReaction().removeReaction().queue();
-
-					messageID = event.getChannel()
-							.editMessageById(event.getMessageId(),
-									ZitateCommand.getZitatEmbed(pageID + 1, event.getGuild().getIdLong()))
-							.complete().getIdLong();
-
-					event.getChannel().addReactionById(messageID, "◀").queue();
-					if (pageID + 1 < ZitateCommand.getZitatePages(event.getGuild().getIdLong()))
-						event.getChannel().addReactionById(messageID, "▶").queue();
-
+					pageID++;
+					if (pageID < 1)
+						pageID = 1;
+					if (footer.startsWith("Commands")) {
+						if (pageID > CommandsCommand.getCommandPages())
+							pageID = CommandsCommand.getCommandPages();
+						newEmbed = CommandsCommand.getCommandEmbed(pageID);
+					}
+					if (footer.startsWith("Memes")) {
+						if (pageID > MemesCommand.getMemePages(guildID))
+							pageID = MemesCommand.getMemePages(guildID);
+						newEmbed = MemesCommand.getMemeEmbed(pageID, guildID);
+					}
+					if (footer.startsWith("Zitate")) {
+						if (pageID > ZitateCommand.getZitatePages(guildID))
+							pageID = ZitateCommand.getZitatePages(guildID);
+						newEmbed = ZitateCommand.getZitatEmbed(pageID, guildID);
+					}
+					break;
+				case "⏭":
+					if (footer.startsWith("Commands")) {
+						pageID = CommandsCommand.getCommandPages();
+						newEmbed = CommandsCommand.getCommandEmbed(pageID);
+					}
+					if (footer.startsWith("Memes")) {
+						pageID = MemesCommand.getMemePages(guildID);
+						newEmbed = MemesCommand.getMemeEmbed(pageID, guildID);
+					}
+					if (footer.startsWith("Zitate")) {
+						pageID = ZitateCommand.getZitatePages(guildID);
+						newEmbed = ZitateCommand.getZitatEmbed(pageID, guildID);
+					}
 					break;
 				}
-				return;
+				event.getChannel().editMessageById(messageID, newEmbed).queue();
+				if (pageID > 1) {
+					event.getChannel().addReactionById(messageID, "⏮").queue();
+					event.getChannel().addReactionById(messageID, "◀").queue();
+				}
+				if (footer.startsWith("Commands")) {
+					if (pageID < CommandsCommand.getCommandPages()) {
+						event.getChannel().addReactionById(messageID, "▶").queue();
+						event.getChannel().addReactionById(messageID, "⏭").queue();
+					}
+				}
+				if (footer.startsWith("Memes")) {
+					if (pageID < MemesCommand.getMemePages(guildID)) {
+						event.getChannel().addReactionById(messageID, "▶").queue();
+						event.getChannel().addReactionById(messageID, "⏭").queue();
+					}
+				}
+				if (footer.startsWith("Zitate")) {
+					if (pageID < ZitateCommand.getZitatePages(guildID)) {
+						event.getChannel().addReactionById(messageID, "▶").queue();
+						event.getChannel().addReactionById(messageID, "⏭").queue();
+					}
+				}
 			}
 
 			if (footer.startsWith("PollID")) {
@@ -207,7 +223,9 @@ public class ReactionListener extends ListenerAdapter {
 		}
 
 		if (event.getChannel().retrieveMessageById(event.getMessageId()).complete().getContentDisplay()
-				.startsWith(GlobalVariables.prefix + "rps")) {
+				.startsWith(GlobalVariables.prefix + "rps"))
+
+		{
 			event.getReaction().removeReaction(event.getUser()).queue();
 			boolean win = false;
 			switch (event.getReactionEmote().getName()) {

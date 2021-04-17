@@ -12,9 +12,11 @@ import de.life.classes.EmbedMessageBuilder;
 import de.life.classes.LogMessanger;
 import de.life.interfaces.ServerCommand;
 import de.life.sql.SQLite;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class MemesCommand implements ServerCommand {
 
@@ -63,9 +65,9 @@ public class MemesCommand implements ServerCommand {
 
 		SQLite.onUpdate(
 				"INSERT INTO memes (guildid,meme) VALUES ('" + m.getGuild().getIdLong() + "','" + memeString + "')");
-		EmbedMessageBuilder.sendMessage("Meme hinzugefügt", memeString, Color.GRAY, channel, 10);
+		EmbedMessageBuilder.sendMessage("Meme hinzugefÃ¼gt", memeString, Color.GRAY, channel, 10);
 		LogMessanger.sendLog(m.getGuild().getIdLong(), "Meme",
-				m.getEffectiveName() + " hat ein Meme hinzugefügt: " + memeString);
+				m.getEffectiveName() + " hat ein Meme hinzugefÃ¼gt: " + memeString);
 	}
 
 	private void deleteMeme(Member m, MessageChannel channel, Message message) {
@@ -79,7 +81,7 @@ public class MemesCommand implements ServerCommand {
 		try {
 			id = Integer.parseInt(args[2]);
 		} catch (NumberFormatException e) {
-			EmbedMessageBuilder.sendMessage("Meme löschen", "Bitte gib eine gültige Meme-ID an.", Color.GRAY, channel,
+			EmbedMessageBuilder.sendMessage("Meme lÃ¶schen", "Bitte gib eine gÃ¼ltige Meme-ID an.", Color.GRAY, channel,
 					10);
 			return;
 		}
@@ -89,50 +91,27 @@ public class MemesCommand implements ServerCommand {
 
 		try {
 			if (!set.next()) {
-				EmbedMessageBuilder.sendMessage("Meme löschen", "Bitte gib eine gültige Meme-ID an.", Color.GRAY,
+				EmbedMessageBuilder.sendMessage("Meme lÃ¶schen", "Bitte gib eine gÃ¼ltige Meme-ID an.", Color.GRAY,
 						channel, 10);
 				return;
 			} else {
-				EmbedMessageBuilder.sendMessage("Meme gelöscht", set.getString("meme"), Color.GRAY, channel, 10);
+				EmbedMessageBuilder.sendMessage("Meme gelÃ¶scht", set.getString("meme"), Color.GRAY, channel, 10);
 			}
 		} catch (SQLException ex) {
 		}
 
 		SQLite.onUpdate("DELETE FROM memes WHERE id = '" + id + "' AND guildid = '" + m.getGuild().getIdLong() + "'");
 		LogMessanger.sendLog(m.getGuild().getIdLong(), "Hub",
-				m.getEffectiveName() + " hat das Hub mit folgender ID gelöscht: " + id);
+				m.getEffectiveName() + " hat das Hub mit folgender ID gelÃ¶scht: " + id);
 	}
 
 	private void listMemes(Member m, MessageChannel channel, Message message) {
-		String result = "";
-		Long guildid = m.getGuild().getIdLong();
+		Long messageID = channel.sendMessage(getMemeEmbed(1, m.getGuild().getIdLong())).complete().getIdLong();
 
-		ResultSet set = SQLite.onQuery("SELECT * FROM memes WHERE guildid = " + guildid);
-		ArrayList<String> memes = new ArrayList<String>();
-		ArrayList<Integer> memeIDs = new ArrayList<Integer>();
-
-		try {
-			while (set.next()) {
-				memes.add(set.getString("meme"));
-				memeIDs.add(set.getInt("id"));
-			}
-		} catch (SQLException ex) {
+		if (getMemePages(m.getGuild().getIdLong()) > 1) {
+			channel.addReactionById(messageID, "â–¶").queue();
+			channel.addReactionById(messageID, "â­").queue();
 		}
-
-		int i = 0;
-		for (String meme : memes) {
-			if ((result + meme + " **(" + memeIDs.get(i) + ")**\n\n").length() > 2048) {
-				EmbedMessageBuilder.sendMessage(result, Color.GRAY, channel);
-				result = "";
-			}
-			result = result + meme + " **(" + memeIDs.get(i) + ")**\n\n";
-			i++;
-		}
-
-		if (result == "")
-			result = "Auf diesem Server gibt es noch keine Memes. Füge eins mit !meme add <Meme> hinzu!";
-
-		EmbedMessageBuilder.sendMessage(result, Color.GRAY, channel);
 	}
 
 	private void randomMeme(Member m, MessageChannel channel, Message message) {
@@ -152,9 +131,75 @@ public class MemesCommand implements ServerCommand {
 		result = memes.get(new Random().nextInt(memes.size()));
 
 		if (result == "")
-			result = "Auf diesem Server gibt es noch keine Memes. Füge eins mit !addmeme <Meme> hinzu!";
+			result = "Auf diesem Server gibt es noch keine Memes. FÃ¼ge eins mit !addmeme <Meme> hinzu!";
 
 		EmbedMessageBuilder.sendMessage(result, Color.GRAY, channel);
+	}
+
+	public static MessageEmbed getMemeEmbed(int id, Long guildid) {
+		ArrayList<String> memes = new ArrayList<String>();
+		ArrayList<Integer> memeIDs = new ArrayList<Integer>();
+		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
+		String result = "";
+		Integer i = 1;
+
+		ResultSet set = SQLite.onQuery("SELECT * FROM memes WHERE guildid = '" + guildid + "'");
+
+		try {
+			while (set.next()) {
+				memes.add(set.getString("meme"));
+				memeIDs.add(set.getInt("id"));
+			}
+		} catch (SQLException e) {
+		}
+
+		for (int ii = 0; ii < memes.size(); ii++) {
+			if ((result + memes.get(ii) + " **(" + memeIDs.get(ii) + ")**\n\n").length() > 2048) {
+				embeds.add(new EmbedBuilder().setTitle("Memes").setDescription(result).setFooter("Memes - Page " + i)
+						.setColor(Color.YELLOW).build());
+				result = "";
+				i++;
+			}
+			result = result + memes.get(ii) + " **(" + memeIDs.get(ii) + ")**\n\n";
+		}
+		if (result == "")
+			result = "Auf diesem Server gibt es noch keine Memes. FÃ¼ge eins mit !meme add <Meme> hinzu!";
+		embeds.add(new EmbedBuilder().setTitle("Memes").setDescription(result).setFooter("Memes - Page " + i)
+				.setColor(Color.YELLOW).build());
+
+		return embeds.get(id - 1);
+	}
+
+	public static Integer getMemePages(Long guildid) {
+		ArrayList<String> memes = new ArrayList<String>();
+		ArrayList<Integer> memeIDs = new ArrayList<Integer>();
+		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
+		String result = "";
+		Integer i = 1;
+
+		ResultSet set = SQLite.onQuery("SELECT * FROM memes WHERE guildid = '" + guildid + "'");
+
+		try {
+			while (set.next()) {
+				memes.add(set.getString("meme"));
+				memeIDs.add(set.getInt("id"));
+			}
+		} catch (SQLException e) {
+		}
+
+		for (int ii = 0; ii < memes.size(); ii++) {
+			if ((result + memes.get(ii) + " **(" + memeIDs.get(ii) + ")**\n\n").length() > 2048) {
+				embeds.add(new EmbedBuilder().setTitle("Memes").setDescription(result).setFooter("Memes - Page " + i)
+						.setColor(Color.CYAN).build());
+				result = "";
+				i++;
+			}
+			result = result + memes.get(ii) + " **(" + memeIDs.get(ii) + ")**\n\n";
+		}
+		embeds.add(new EmbedBuilder().setTitle("Memes").setDescription(result).setFooter("Memes - Page " + i)
+				.setColor(Color.CYAN).build());
+
+		return embeds.size();
 	}
 
 }
