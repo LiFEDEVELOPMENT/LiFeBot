@@ -48,13 +48,11 @@ public class SQLite {
 	}
 
 	public static void onUpdate(String sql) {
-
 		try {
 			stmt.execute(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static ResultSet onQuery(String sql) {

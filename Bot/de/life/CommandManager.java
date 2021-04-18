@@ -19,6 +19,7 @@ import de.life.commands.PollCommand;
 import de.life.commands.PrivateChannelCommand;
 import de.life.commands.RPSHerausfordernCommand;
 import de.life.commands.ReactCommand;
+import de.life.commands.SQLCommand;
 import de.life.commands.ZitateCommand;
 import de.life.interfaces.ServerCommand;
 import de.life.music.commands.LoopCommand;
@@ -82,6 +83,7 @@ public class CommandManager {
 		this.commands.put("rps", new RPSHerausfordernCommand());
 		this.commands.put("shuffle", new ShuffleCommand());
 		this.commands.put("skip", new SkipCommand());
+		this.commands.put("sql", new SQLCommand());
 		this.commands.put("stop", new StopCommand());
 		this.commands.put("zitat", new ZitateCommand());
 		this.commands.put("zitate", new ZitateCommand());
