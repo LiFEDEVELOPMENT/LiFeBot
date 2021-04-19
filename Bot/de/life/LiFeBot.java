@@ -29,13 +29,11 @@ public class LiFeBot {
 	public DefaultShardManagerBuilder builder;
 
 	public static void main(String[] args) {
-
 		try {
 			new LiFeBot();
 		} catch (LoginException | IllegalArgumentException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public LiFeBot() throws LoginException, IllegalArgumentException {

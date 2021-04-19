@@ -8,7 +8,7 @@ public class QueueManager {
 
 	private static QueueManager INSTANCE;
 	private HashMap<Long, Queue> queueMap;
-	
+
 	public QueueManager() {
 		queueMap = new HashMap<Long, Queue>();
 	}
@@ -20,7 +20,8 @@ public class QueueManager {
 	}
 
 	public Queue getQueue(Guild guild) {
-		return this.queueMap.putIfAbsent(guild.getIdLong(), new Queue());
+		this.queueMap.putIfAbsent(guild.getIdLong(), new Queue());
+		return this.queueMap.get(guild.getIdLong());
 	}
 
 }

@@ -31,7 +31,7 @@ public class PlayerManager {
 		AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
 	}
 
-	public GuildMusicManager getMusicManager(Guild guild) {
+	public GuildMusicManager getMusicManager(final Guild guild) {
 		return this.musicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
 			final GuildMusicManager guildMusicManager = new GuildMusicManager(this.audioPlayerManager, guild);
 
