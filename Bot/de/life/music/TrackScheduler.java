@@ -39,7 +39,8 @@ public class TrackScheduler extends AudioEventAdapter {
 	 */
 	public boolean queue(AudioTrack track) {
 		if (!player.startTrack(track, true)) {
-			queue.add(track);
+			QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
+					.add(track);
 			return false;
 		}
 		return true;
@@ -53,7 +54,8 @@ public class TrackScheduler extends AudioEventAdapter {
 		// In case queue was empty, we are
 		// giving null to startTrack, which is a valid argument and will simply stop the
 		// player.
-		player.startTrack(queue.next(), false);
+		player.startTrack(QueueManager.getInstance()
+				.getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode())).next(), false);
 	}
 
 	@Override
@@ -107,22 +109,27 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 
 	public void setLooped(boolean looped) {
-		this.queue.setLooped(looped);
+		QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
+				.setLooped(looped);
 	}
 
 	public void shuffle() {
-		this.queue.shuffle();
+		QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
+				.shuffle();
 	}
 
 	public ArrayList<AudioTrack> getQueue() {
-		return this.queue.getQueue();
+		return QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
+				.getQueue();
 	}
 
 	public void clear() {
-		this.queue.clear();
+		QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
+				.clear();
 	}
 
 	public void jump(int amount) {
-		this.queue.jump(amount);
+		QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
+				.jump(amount);
 	}
 }

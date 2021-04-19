@@ -3,6 +3,7 @@ package de.life.commands;
 import java.awt.Color;
 import java.io.IOException;
 
+import de.life.GlobalVariables;
 import de.life.classes.EmbedMessageBuilder;
 import de.life.interfaces.ServerCommand;
 import net.dv8tion.jda.api.entities.Icon;
@@ -16,7 +17,7 @@ public class IconUpdateCommand implements ServerCommand {
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
 
-		if (m.getUser().getIdLong() == 196339668046839808l || m.getUser().getIdLong() == 199463422553751552l) {
+		if (m.getUser().getIdLong() == GlobalVariables.userIDFelix || m.getUser().getIdLong() == GlobalVariables.userIDLinus) {
 
 			if (message.getAttachments().isEmpty())
 				return;

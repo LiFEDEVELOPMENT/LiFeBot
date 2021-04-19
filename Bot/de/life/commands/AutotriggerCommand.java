@@ -56,7 +56,7 @@ public class AutotriggerCommand implements ServerCommand {
 
 		String[] temp = String.join(" ", Arrays.copyOfRange(args, 2, args.length)).split(Pattern.quote(splitter));
 		String answer = String.join(" ", Arrays.copyOfRange(temp, 1, temp.length));
-		String trigger = answer.split(Pattern.quote(splitter))[0].toLowerCase();
+		String trigger = temp[0];
 
 		if (temp.length < 2 || args.length <= 2) {
 			EmbedMessageBuilder.sendMessage("Trigger hinzufügen", "Du musst einen Trigger angeben!", Color.RED, channel,
@@ -79,6 +79,8 @@ public class AutotriggerCommand implements ServerCommand {
 		} catch (SQLException ex) {
 		}
 
+		System.out.println("INSERT INTO autotriggers (guildid,trigger,text) VALUES ('" + m.getGuild().getIdLong() + "','"
+				+ trigger + "','" + answer + "')");
 		SQLite.onUpdate("INSERT INTO autotriggers (guildid,trigger,text) VALUES ('" + m.getGuild().getIdLong() + "','"
 				+ trigger + "','" + answer + "')");
 		LogMessanger.sendLog(m.getGuild().getIdLong(), "Autotrigger",
