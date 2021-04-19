@@ -1,6 +1,6 @@
 package de.life;
 
 public class GlobalVariables {	
-	public static String botToken = "NzA1MTQ2ODgxMzQ0NTM2NjM2.XqndNQ._sGN9yfWWKvVDNNnaGidJP9EI7o";
-	public static String prefix = "^";
+	public static String botToken = "ODEwOTkzODE5NjM3MjUyMTA3.YCru2g.i-2d9hCQN8OWMagNZkUb8SqOZtA";
+	public static String prefix = "+";
 }
