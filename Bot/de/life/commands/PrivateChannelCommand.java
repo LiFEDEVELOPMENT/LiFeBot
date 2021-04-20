@@ -62,10 +62,10 @@ public class PrivateChannelCommand implements ServerCommand {
 
 				hub = m.getGuild().getVoiceChannelById(set.getLong("channelid"));
 			} else {
-				new EmbedMessageBuilder();
 				EmbedMessageBuilder.sendMessage(
 						"Es gibt keinen Hub-Channel auf diesem Server. Bitte einen Serveradministrator, einen mit !hub add <Channel-ID> zu erstellen.",
 						Color.CYAN, message.getChannel(), 10);
+				return;
 			}
 		} catch (SQLException e) {
 
@@ -84,6 +84,7 @@ public class PrivateChannelCommand implements ServerCommand {
 
 			return;
 		}
+		
 		VoiceListener.INSTANCE.onJoin(hub, m);
 	}
 

@@ -53,7 +53,8 @@ public class QueueCommand implements ServerCommand {
 
 	private void displayQueue(Member m, MessageChannel channel) {
 		int i = 1;
-		EmbedBuilder builder = new EmbedBuilder().setTitle("Es folgt:").setColor(Color.ORANGE);
+		EmbedBuilder builder = new EmbedBuilder().setTitle("Es folgt:")
+				.setColor(Color.ORANGE);
 
 		if (QueueManager.getInstance().getQueue(m.getGuild()).getQueue() == null) {
 			builder.setDescription("Nichts - Die Queue ist leer");
@@ -68,8 +69,7 @@ public class QueueCommand implements ServerCommand {
 									+ track.getDuration() / 1000 % 60 + "s")
 					+ "**)\n\n";
 			if (builder.length() + appString.length() > 2000) {
-				builder.setFooter("+ "
-						+ (QueueManager.getInstance().getQueue(m.getGuild()).getQueue().size() - 1)
+				builder.setFooter("+ " + (QueueManager.getInstance().getQueue(m.getGuild()).getQueue().size() - 1)
 						+ " weitere Titel");
 				break;
 			}

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.EnumSet;
 
 import de.life.classes.LogMessanger;
+import de.life.music.PlayerManager;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Category;
@@ -27,27 +28,20 @@ public class VoiceListener extends ListenerAdapter {
 
 	@Override
 	public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
-
 		onJoin(event.getChannelJoined(), event.getEntity());
-
 	}
 
 	@Override
 	public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
-
 		onLeave(event.getChannelLeft(), event.getEntity());
-
 	}
 
 	@Override
 	public void onGuildVoiceMove(GuildVoiceMoveEvent event) {
-
 		onMove(event.getChannelJoined(), event.getChannelLeft(), event.getEntity());
-
 	}
 
 	public void onJoin(VoiceChannel joined, Member m) {
-
 		ResultSet set = SQLite
 				.onQuery("SELECT * FROM channel WHERE channelid = '" + joined.getIdLong() + "' AND type = 'hub'");
 
@@ -94,6 +88,12 @@ public class VoiceListener extends ListenerAdapter {
 		LogMessanger.sendLog(m.getGuild().getIdLong(), channel.getName() + ":",
 				m.getAsMention() + " hat den Kanal verlassen!", Color.CYAN);
 
+		if(channel.getMembers().size() == 1 && channel.getMembers().get(0).equals(m.getGuild().getSelfMember())) {
+			PlayerManager.getInstance().getMusicManager(m.getGuild()).player.stopTrack();
+			PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.clear();
+
+			m.getGuild().getAudioManager().closeAudioConnection();
+		}
 	}
 
 	public void onMove(VoiceChannel joined, VoiceChannel left, Member m) {
@@ -132,11 +132,17 @@ public class VoiceListener extends ListenerAdapter {
 		}
 		LogMessanger.sendLog(m.getGuild().getIdLong(), joined.getName() + ":",
 				m.getAsMention() + " ist dem Channel beigetreten!", Color.CYAN);
+		
+		if(left.getMembers().size() == 1 && left.getMembers().get(0).equals(m.getGuild().getSelfMember())) {
+			PlayerManager.getInstance().getMusicManager(m.getGuild()).player.stopTrack();
+			PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.clear();
+
+			m.getGuild().getAudioManager().closeAudioConnection();
+		}
 
 	}
 
 	public void createPrivateChannel(VoiceChannel channel, Member m) {
-
 		Role everyone = m.getGuild().getRoles().get((m.getGuild().getRoles().size()) - 1);
 
 		Category cat = channel.getParent();
@@ -161,5 +167,4 @@ public class VoiceListener extends ListenerAdapter {
 		SQLite.onUpdate("INSERT INTO channel (guildid,channelid,type) VALUES ('" + m.getGuild().getIdLong() + "','"
 				+ vc.getIdLong() + "','temporary')");
 	}
-
 }

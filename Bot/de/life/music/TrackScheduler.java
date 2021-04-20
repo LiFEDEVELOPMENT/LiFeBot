@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 
+import de.life.classes.EmbedMessageBuilder;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -38,6 +39,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	 * @param track The track to play or add to queue.
 	 */
 	public boolean queue(AudioTrack track) {
+		QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()));
 		if (!player.startTrack(track, true)) {
 			QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
 					.add(track);
@@ -54,8 +56,14 @@ public class TrackScheduler extends AudioEventAdapter {
 		// In case queue was empty, we are
 		// giving null to startTrack, which is a valid argument and will simply stop the
 		// player.
-		player.startTrack(QueueManager.getInstance()
-				.getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode())).next(), false);
+		if (!player.startTrack(QueueManager.getInstance()
+				.getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode())).next(), false)) {
+			PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()).getAudioManager()
+					.closeAudioConnection();
+			EmbedMessageBuilder.sendMessage("Musik", "Die Queue ist leer\nStarte mit !play einen neuen Song!",
+					Color.ORANGE,
+					MusicUtil.getMusicChannel(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode())));
+		}
 	}
 
 	@Override
@@ -124,9 +132,10 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 
 	public void clear() {
-		if(QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode())) != null)
-		QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
-				.clear();
+		if (QueueManager.getInstance()
+				.getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode())) != null)
+			QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
+					.clear();
 	}
 
 	public void jump(int amount) {

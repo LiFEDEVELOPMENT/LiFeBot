@@ -32,12 +32,12 @@ public class ReactionListener extends ListenerAdapter {
 			String footer = embed.getFooter().getText();
 			Long messageID = event.getMessageIdLong();
 			MessageEmbed newEmbed = null;
-			Integer pageID = Integer.parseInt(footer.split(" Page ")[1]);
 			Long guildID = event.getGuild().getIdLong();
 
 			if (footer.startsWith("Commands") || footer.startsWith("Memes") || footer.startsWith("Zitate")) {
 				event.getChannel().retrieveMessageById(messageID).complete().clearReactions().queue();
-
+				Integer pageID = Integer.parseInt(footer.split(" Page ")[1]);
+				
 				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
 				case "U+23EE":
 					pageID = 1;
@@ -139,33 +139,35 @@ public class ReactionListener extends ListenerAdapter {
 					answerCount = set.next() ? set.getInt("answercount") : -1;
 				} catch (SQLException e) {
 				}
+				
+				event.getReaction().removeReaction(event.getUser()).queue();
 
-				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
-				case "U+0031":
+				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {				
+				case "U+31U+FE0FU+20E3":
 					answer = 1;
 					break;
-				case "U+0032":
+				case "U+32U+FE0FU+20E3":
 					answer = 2;
 					break;
-				case "U+0033":
+				case "U+33U+FE0FU+20E3":
 					answer = 3;
 					break;
-				case "U+0034":
+				case "U+34U+FE0FU+20E3":
 					answer = 4;
 					break;
-				case "U+0035":
+				case "U+35U+FE0FU+20E3":
 					answer = 5;
 					break;
-				case "U+0036":
+				case "U+36U+FE0FU+20E3":
 					answer = 6;
 					break;
-				case "U+0037":
+				case "U+37U+FE0FU+20E3":
 					answer = 7;
 					break;
-				case "U+0038":
+				case "U+38U+FE0FU+20E3":
 					answer = 8;
 					break;
-				case "U+0039":
+				case "U+39U+FE0FU+20E3":
 					answer = 9;
 					break;
 				case "U+1F51F":
