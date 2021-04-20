@@ -1,9 +1,11 @@
 package de.life;
 
+import java.awt.Color;
 import java.util.Scanner;
 
 import javax.security.auth.login.LoginException;
 
+import de.life.classes.LogMessanger;
 import de.life.listener.AutotriggerListener;
 import de.life.listener.CommandListener;
 import de.life.listener.PrivateMessageReactionListener;
@@ -15,6 +17,7 @@ import de.life.sql.SQLManager;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -49,7 +52,7 @@ public class LiFeBot {
 		builder.disableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_BANS, GatewayIntent.GUILD_EMOJIS,
 				GatewayIntent.GUILD_WEBHOOKS, GatewayIntent.GUILD_INVITES, GatewayIntent.GUILD_PRESENCES,
 				GatewayIntent.GUILD_MESSAGE_TYPING, GatewayIntent.DIRECT_MESSAGE_TYPING);
-		builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS, CacheFlag.EMOTE);
+		builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS, CacheFlag.EMOTE, CacheFlag.ONLINE_STATUS);
 		builder.enableCache(CacheFlag.VOICE_STATE);
 
 		builder.setToken(GlobalVariables.botToken);
@@ -83,6 +86,11 @@ public class LiFeBot {
 				String input = sc.nextLine();
 				if (input.equalsIgnoreCase("exit") || input.equalsIgnoreCase("stop")
 						|| input.equalsIgnoreCase("shutdown")) {
+
+					for (Guild g : getJDA().getGuilds()) {
+						LogMessanger.sendLog(g.getIdLong(), "Bot Status", "OFFLINE!", Color.RED);
+					}
+
 					if (shardMan != null) {
 						shardMan.setStatus(OnlineStatus.OFFLINE);
 						shardMan.shutdown();

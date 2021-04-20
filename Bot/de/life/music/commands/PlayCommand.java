@@ -25,10 +25,6 @@ public class PlayCommand implements ServerCommand {
 			return;
 		}
 
-		if (args.length < 2) {
-			return;
-		}
-
 		args = Arrays.copyOfRange(args, 1, args.length);
 		String link = String.join(" ", args);
 
@@ -51,6 +47,7 @@ public class PlayCommand implements ServerCommand {
 		}
 
 		m.getGuild().getAudioManager().openAudioConnection(m.getVoiceState().getChannel());
+		m.getGuild().deafen(m.getGuild().getSelfMember(), true).queue();
 		return true;
 	}
 

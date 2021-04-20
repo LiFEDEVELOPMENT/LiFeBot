@@ -88,7 +88,7 @@ public class TrackScheduler extends AudioEventAdapter {
 			if (guild.getTextChannelById(channelid) == null)
 				return;
 
-			MessageChannel channel = (MessageChannel) guild.getTextChannelById(channelid);
+			MessageChannel channel = guild.getTextChannelById(channelid);
 			channel.sendMessage(builder.build()).complete().delete().queueAfter(trackInfo.length / 1000,
 					TimeUnit.SECONDS);
 		} catch (SQLException ex) {

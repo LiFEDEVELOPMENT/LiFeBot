@@ -12,10 +12,11 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class LogMessanger {
 
+	final static JDA jda = LiFeBot.INSTANCE.getJDA();
+
 	public static void sendLog(Long guildid, String description) {
 		ResultSet set = SQLite.onQuery("SELECT * FROM channel WHERE guildid = '" + guildid + "' AND type = 'log'");
 		ArrayList<Long> loglist = new ArrayList<Long>();
-		JDA jda = LiFeBot.INSTANCE.getJDA();
 
 		try {
 			while (set.next()) {
@@ -34,7 +35,6 @@ public class LogMessanger {
 	public static void sendLog(Long guildid, String title, String description) {
 		ResultSet set = SQLite.onQuery("SELECT * FROM channel WHERE guildid = '" + guildid + "' AND type = 'log'");
 		ArrayList<Long> loglist = new ArrayList<Long>();
-		JDA jda = LiFeBot.INSTANCE.getJDA();
 
 		try {
 			while (set.next()) {
@@ -53,7 +53,6 @@ public class LogMessanger {
 	public static void sendLog(Long guildid, String description, Color color) {
 		ResultSet set = SQLite.onQuery("SELECT * FROM channel WHERE guildid = '" + guildid + "' AND type = 'log'");
 		ArrayList<Long> loglist = new ArrayList<Long>();
-		JDA jda = LiFeBot.INSTANCE.getJDA();
 
 		try {
 			while (set.next()) {
@@ -72,7 +71,6 @@ public class LogMessanger {
 	public static void sendLog(Long guildid, String title, String description, Color color) {
 		ResultSet set = SQLite.onQuery("SELECT * FROM channel WHERE guildid = '" + guildid + "' AND type = 'log'");
 		ArrayList<Long> loglist = new ArrayList<Long>();
-		JDA jda = LiFeBot.INSTANCE.getJDA();
 
 		try {
 			while (set.next()) {

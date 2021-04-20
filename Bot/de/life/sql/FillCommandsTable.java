@@ -57,7 +57,8 @@ public class FillCommandsTable {
 				+ "!queue clear - Leert die Queue\r\n" + "Alias: !queue empty\r\n"
 				+ "!queue jump <Anzahl> - Springt x Lieder in der Queue nach vorne\r\n"
 				+ "!queue list - Zeigt die Queue\r\n" + "!queue shuffle - Shuffled die Queue\r\n" + "Alias: !q\r\n\n"
-				+ "!skip - Springt zum nächsten Lied in der Queue\r\n" + "!stop - Stoppt den Bot" + "')");
+				+ "!skip - Springt zum nächsten Lied in der Queue\r\n" + "!stop - Stoppt den Bot\r\n" + "Alias: !leave"
+				+ "')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Minigames:**\r\n"
 				+ "!rps <@Spieler>: Spiele ''Schere, Stein, Papier'' gegen einen anderen Spieler.\r\n"
 				+ "!rps <Schere/Stein/Papier>: Spiele ''Schere, Stein, Papier'' gegen den Computer.\r\n"

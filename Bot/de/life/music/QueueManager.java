@@ -20,8 +20,7 @@ public class QueueManager {
 	}
 
 	public Queue getQueue(Guild guild) {
-		this.queueMap.putIfAbsent(guild.getIdLong(), new Queue());
-		return this.queueMap.get(guild.getIdLong());
+		return this.queueMap.putIfAbsent(guild.getIdLong(), new Queue());
 	}
 
 }

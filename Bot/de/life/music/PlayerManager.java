@@ -41,38 +41,6 @@ public class PlayerManager {
 		});
 	}
 
-	public void pause(MessageChannel channel, Member m) {
-		if (getMusicManager(m.getGuild()).player.isPaused())
-			return;
-
-		EmbedMessageBuilder.sendMessage("Music", "Pausiert", Color.ORANGE, channel);
-		getMusicManager(m.getGuild()).player.setPaused(true);
-	}
-
-	public void resume(MessageChannel channel, Member m) {
-		if (!getMusicManager(m.getGuild()).player.isPaused())
-			return;
-
-		EmbedMessageBuilder.sendMessage("Music", "Fortgesetzt", Color.ORANGE, channel);
-		getMusicManager(m.getGuild()).player.setPaused(false);
-	}
-
-	public void loop(MessageChannel channel, Member m) {
-		if (getMusicManager(m.getGuild()).scheduler.isLooped())
-			return;
-
-		EmbedMessageBuilder.sendMessage("Music", "Dauerschleife aktiviert", Color.ORANGE, channel);
-		getMusicManager(m.getGuild()).scheduler.setLooped(true);
-	}
-
-	public void unloop(MessageChannel channel, Member m) {
-		if (!getMusicManager(m.getGuild()).scheduler.isLooped())
-			return;
-
-		EmbedMessageBuilder.sendMessage("Music", "Dauerschleife deaktiviert", Color.ORANGE, channel);
-		getMusicManager(m.getGuild()).scheduler.setLooped(false);
-	}
-
 	public void loadAndPlay(MessageChannel channel, String trackUrl, Member m) {
 		final GuildMusicManager musicManager = this.getMusicManager(m.getGuild());
 
@@ -82,14 +50,14 @@ public class PlayerManager {
 				if (!musicManager.scheduler.queue(track)) {
 					EmbedMessageBuilder.sendMessage(
 							"Ein Track wurde der Queue hinzugefügt:\n[" + track.getInfo().author + " - "
-									+ track.getInfo().title + "](" + track.getInfo().uri + ")",
+									+ track.getInfo().title + "](" + track.getInfo().uri + ")\n" + "["
+									+ m.getAsMention() + "]",
 							Color.decode("#8c14fc"), MusicUtil.getMusicChannel(m.getGuild()));
 				}
 			}
 
 			@Override
 			public void playlistLoaded(AudioPlaylist playlist) {
-
 				if (trackUrl.startsWith("ytsearch:")) {
 					if (!musicManager.scheduler.queue(playlist.getTracks().get(0))) {
 						EmbedMessageBuilder.sendMessage("Ein Track wurde der Queue hinzugefügt:\n["
@@ -137,5 +105,37 @@ public class PlayerManager {
 			INSTANCE = new PlayerManager();
 		}
 		return INSTANCE;
+	}
+
+	public void pause(MessageChannel channel, Member m) {
+		if (getMusicManager(m.getGuild()).player.isPaused())
+			return;
+
+		EmbedMessageBuilder.sendMessage("Music", "Pausiert", Color.ORANGE, channel);
+		getMusicManager(m.getGuild()).player.setPaused(true);
+	}
+
+	public void resume(MessageChannel channel, Member m) {
+		if (!getMusicManager(m.getGuild()).player.isPaused())
+			return;
+
+		EmbedMessageBuilder.sendMessage("Music", "Fortgesetzt", Color.ORANGE, channel);
+		getMusicManager(m.getGuild()).player.setPaused(false);
+	}
+
+	public void loop(MessageChannel channel, Member m) {
+		if (getMusicManager(m.getGuild()).scheduler.isLooped())
+			return;
+
+		EmbedMessageBuilder.sendMessage("Music", "Dauerschleife aktiviert", Color.ORANGE, channel);
+		getMusicManager(m.getGuild()).scheduler.setLooped(true);
+	}
+
+	public void unloop(MessageChannel channel, Member m) {
+		if (!getMusicManager(m.getGuild()).scheduler.isLooped())
+			return;
+
+		EmbedMessageBuilder.sendMessage("Music", "Dauerschleife deaktiviert", Color.ORANGE, channel);
+		getMusicManager(m.getGuild()).scheduler.setLooped(false);
 	}
 }

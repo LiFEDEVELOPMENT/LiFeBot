@@ -13,6 +13,10 @@ public class Queue {
 	public Queue() {
 		this.queue = new ArrayList<AudioTrack>();
 	}
+	
+	public ArrayList<AudioTrack> getQueue() {
+		return this.queue;
+	}
 
 	public void add(AudioTrack track) {
 		this.queue.add(track);
@@ -21,10 +25,10 @@ public class Queue {
 	public AudioTrack next() {
 		if (this.queue.size() == 0)
 			return null;
-		AudioTrack retTrack = queue.remove(0);
-		if (looped)
-			this.queue.add(retTrack);
-		return retTrack;
+		AudioTrack track = this.queue.remove(0);
+		if(looped)
+			this.queue.add(track);
+		return track;		
 	}
 
 	public void shuffle() {
@@ -38,18 +42,14 @@ public class Queue {
 	public void setLooped(boolean looped) {
 		this.looped = looped;
 	}
-
-	public ArrayList<AudioTrack> getQueue() {
-		return this.queue;
-	}
-
+	
 	public void clear() {
-		this.queue = null;
+		this.queue = new ArrayList<AudioTrack>();
 	}
 
 	public void jump(int amount) {
 		for (int i = 0; i < amount; i++) {
-			if (queue.isEmpty())
+			if (this.queue.isEmpty())
 				return;
 			this.queue.remove(0);
 		}

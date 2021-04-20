@@ -8,6 +8,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import de.life.classes.EmbedMessageBuilder;
 import de.life.interfaces.ServerCommand;
 import de.life.music.PlayerManager;
+import de.life.music.QueueManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -54,13 +55,13 @@ public class QueueCommand implements ServerCommand {
 		int i = 1;
 		EmbedBuilder builder = new EmbedBuilder().setTitle("Es folgt:").setColor(Color.ORANGE);
 
-		if (PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.getQueue() == null) {
+		if (QueueManager.getInstance().getQueue(m.getGuild()).getQueue() == null) {
 			builder.setDescription("Nichts - Die Queue ist leer");
 			channel.sendMessage(builder.build()).queue();
 			return;
 		}
 
-		for (AudioTrack track : PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.getQueue()) {
+		for (AudioTrack track : QueueManager.getInstance().getQueue(m.getGuild()).getQueue()) {
 			String appString = i + ") " + track.getInfo().author + " - " + track.getInfo().title + "\n(**"
 					+ (track.getInfo().isStream ? ":red_circle: STREAM"
 							: (track.getDuration() / 3600000 > 0 ? "h " : "") + track.getDuration() / 60000 + "m "
@@ -68,7 +69,7 @@ public class QueueCommand implements ServerCommand {
 					+ "**)\n\n";
 			if (builder.length() + appString.length() > 2000) {
 				builder.setFooter("+ "
-						+ (PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.getQueue().size() - 1)
+						+ (QueueManager.getInstance().getQueue(m.getGuild()).getQueue().size() - 1)
 						+ " weitere Titel");
 				break;
 			}

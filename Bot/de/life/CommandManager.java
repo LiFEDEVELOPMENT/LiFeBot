@@ -60,6 +60,7 @@ public class CommandManager {
 		this.commands.put("hubs", new HubsCommand());
 		this.commands.put("icon", new IconUpdateCommand());
 		this.commands.put("kick", new KickCommand());
+		this.commands.put("leave", new StopCommand());
 		this.commands.put("log", new LogsCommand());
 		this.commands.put("logs", new LogsCommand());
 		this.commands.put("loop", new LoopCommand());
