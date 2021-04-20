@@ -124,6 +124,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 
 	public void clear() {
+		if(QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode())) != null)
 		QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
 				.clear();
 	}

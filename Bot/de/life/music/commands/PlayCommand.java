@@ -1,9 +1,11 @@
 package de.life.music.commands;
 
+import java.awt.Color;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
+import de.life.classes.EmbedMessageBuilder;
 import de.life.interfaces.ServerCommand;
 import de.life.music.MusicUtil;
 import de.life.music.PlayerManager;
@@ -15,6 +17,7 @@ public class PlayCommand implements ServerCommand {
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
+		message.delete().queue();
 		addQueue(m, channel, message.getContentDisplay());
 	}
 
@@ -22,6 +25,13 @@ public class PlayCommand implements ServerCommand {
 		String[] args = message.split(" ");
 
 		if (!joinChannel(m)) {
+			return;
+		}
+
+		if (args.length <= 2) {
+			EmbedMessageBuilder.sendMessage("Musik",
+					"Zu dieser Suche habe ich leider nichts gefunden - Gib mir bitte noch ein Wort :)", Color.RED,
+					MusicUtil.getMusicChannel(m.getGuild()), 10);
 			return;
 		}
 
@@ -47,7 +57,6 @@ public class PlayCommand implements ServerCommand {
 		}
 
 		m.getGuild().getAudioManager().openAudioConnection(m.getVoiceState().getChannel());
-		m.getGuild().deafen(m.getGuild().getSelfMember(), true).queue();
 		return true;
 	}
 

@@ -20,7 +20,7 @@ public class StopCommand implements ServerCommand {
 
 		if (m.getGuild().getSelfMember().getVoiceState().getChannel() != m.getVoiceState().getChannel()) {
 			EmbedMessageBuilder.sendMessage("Musik", "Du musst im gleichen Voice Channel sein wie der Bot", Color.RED,
-					channel, 10);
+					channel, 10); 
 			return;
 		}
 		
