@@ -28,15 +28,15 @@ public class PlayCommand implements ServerCommand {
 			return;
 		}
 
-		if (args.length <= 2) {
+		args = Arrays.copyOfRange(args, 1, args.length);
+		String link = String.join(" ", args);
+		
+		if (!isUrl(link) && args.length <= 2) {
 			EmbedMessageBuilder.sendMessage("Musik",
 					"Zu dieser Suche habe ich leider nichts gefunden - Gib mir bitte noch ein Wort :)", Color.RED,
 					MusicUtil.getMusicChannel(m.getGuild()), 10);
 			return;
 		}
-
-		args = Arrays.copyOfRange(args, 1, args.length);
-		String link = String.join(" ", args);
 
 		if (!isUrl(link)) {
 			link = "ytsearch:" + link;
