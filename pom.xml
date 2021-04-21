@@ -47,5 +47,10 @@
 			<artifactId>sqlite-jdbc</artifactId>
 			<version>3.34.0</version>
 		</dependency>
+		<dependency>
+		  <groupId>se.michaelthelin.spotify</groupId>
+		  <artifactId>spotify-web-api-java</artifactId>
+		  <version>6.5.4</version>
+		</dependency>
 	</dependencies>
 </project>
