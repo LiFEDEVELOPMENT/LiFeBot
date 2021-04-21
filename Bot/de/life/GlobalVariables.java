@@ -9,4 +9,7 @@ public class GlobalVariables {
 	
 	public static final Long userIDLinus = 196339668046839808l;
 	public static final Long userIDFelix = 799644992615481354l;
+	
+	public static final String spotifyClientID = "b2ef7dccf3f940b0ae1e9ff9b62e1202";
+	public static final String spotifyClientSecret = "f445b142f3c24aa4b3ac2e87751e35b4";
 }

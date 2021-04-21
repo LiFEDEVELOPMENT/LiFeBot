@@ -90,6 +90,8 @@ public class PlayerManager {
 
 			@Override
 			public void noMatches() {
+				if(trackUrl.startsWith("sytsearch"))
+					return;
 				EmbedMessageBuilder.sendMessage("Musik",
 						"Zu dieser Suche habe ich leider nichts gefunden - Gib mir bitte noch ein Wort :)", Color.RED,
 						MusicUtil.getMusicChannel(m.getGuild()), 10);

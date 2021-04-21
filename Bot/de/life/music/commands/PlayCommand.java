@@ -10,13 +10,14 @@ import org.apache.hc.core5.http.ParseException;
 
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
-import com.wrapper.spotify.model_objects.IPlaylistItem;
+import com.wrapper.spotify.model_objects.credentials.ClientCredentials;
 import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
 import com.wrapper.spotify.model_objects.specification.PlaylistTrack;
 import com.wrapper.spotify.model_objects.specification.Track;
-import com.wrapper.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
-import com.wrapper.spotify.requests.data.tracks.GetTrackRequest;
+import com.wrapper.spotify.model_objects.specification.TrackSimplified;
+import com.wrapper.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 
+import de.life.GlobalVariables;
 import de.life.classes.EmbedMessageBuilder;
 import de.life.interfaces.ServerCommand;
 import de.life.music.MusicUtil;
@@ -27,6 +28,10 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class PlayCommand implements ServerCommand {
 
+	private static final SpotifyApi spotifyApi = new SpotifyApi.Builder().setClientId(GlobalVariables.spotifyClientID)
+			.setClientSecret(GlobalVariables.spotifyClientSecret).build();
+	private static final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials().build();
+
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
 		message.delete().queue();
@@ -34,6 +39,7 @@ public class PlayCommand implements ServerCommand {
 	}
 
 	public static void addQueue(Member m, MessageChannel channel, String message) {
+		clientCredentials_Sync();
 		String[] args = message.split(" ");
 
 		if (!joinChannel(m)) {
@@ -50,20 +56,30 @@ public class PlayCommand implements ServerCommand {
 			return;
 		}
 
-		if (link.startsWith("https://open.spotify.com/track/")) {
-			String[] temp = args[0].split("track");
-			String[] temp2 = temp[1].split("si");
-			String id = temp2[0].substring(1, temp2[0].length() - 1);
-
-			link = trackInfo(id);
-		}
-
-		if (link.startsWith("https://open.spotify.com/playlist/")) {
-			String[] temp = args[0].split("playlist");
-			String[] temp2 = temp[1].split("si");
-			String id = temp2[0].substring(1, temp2[0].length() - 1);
-
-			playlistInfo(id, m, channel);
+		if (link.startsWith("https://open.spotify.com")) {
+			switch (link.charAt(25)) {
+			case 't':
+				String[] tTemp = args[0].split("track");
+				String[] tTemp2 = tTemp[1].split("si");
+				String tID = tTemp2[0].substring(1, tTemp2[0].length() - 1);
+				link = trackInfo(tID);
+				
+				break;
+			case 'p':
+				String[] pTemp = args[0].split("playlist");
+				String[] pTemp2 = pTemp[1].split("si");
+				String pID = pTemp2[0].substring(1, pTemp2[0].length() - 1);
+				playlistInfo(pID, m, channel);
+				
+				break;
+			case 'a':
+				String[] aTemp = args[0].split("album");
+				String[] aTemp2 = aTemp[1].split("si");
+				String aID = aTemp2[0].substring(1, aTemp2[0].length() - 1);
+				albumInfo(aID, m, channel);
+				
+				break;
+			}
 		}
 
 		if (!isUrl(link)) {
@@ -74,8 +90,75 @@ public class PlayCommand implements ServerCommand {
 		MusicUtil.updateChannel(m, channel);
 	}
 
-	private static boolean joinChannel(Member m) {
+	private static String trackInfo(String id) {
+		String songName = "";
+		String artistNames = "";
 
+		try {
+			Track track = spotifyApi.getTrack(id).build().execute();
+
+			songName = track.getName();
+			ArtistSimplified[] artists = track.getArtists();
+			for (ArtistSimplified artist : artists) {
+				artistNames.concat(artist.getName() + " ");
+			}
+
+		} catch (IOException | SpotifyWebApiException | ParseException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+
+		return songName + " " + artistNames;
+	}
+
+	private static void playlistInfo(String id, Member m, MessageChannel channel) {
+		String songName = "";
+		String artistNames = "";
+
+		try {
+			for (PlaylistTrack track : spotifyApi.getPlaylistsItems(id).build().execute().getItems()) {
+				Track song = spotifyApi.getTrack(track.getTrack().getId()).build().execute();
+
+				songName = song.getName();
+				ArtistSimplified[] artists = song.getArtists();
+				for (ArtistSimplified artist : artists) {
+					artistNames.concat(artist.getName() + " ");
+				}
+
+				PlayerManager.getInstance().loadAndPlay(channel, "sytsearch: " + songName + " " + artistNames, m);
+			}
+
+			MusicUtil.updateChannel(m, channel);
+			EmbedMessageBuilder.sendMessage("Musik", "Playlist hinzugefügt", Color.ORANGE, channel);
+		} catch (IOException | SpotifyWebApiException | ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void albumInfo(String id, Member m, MessageChannel channel) {
+		String songName = "";
+		String artistNames = "";
+
+		try {
+			for (TrackSimplified track : spotifyApi.getAlbumsTracks(id).build().execute().getItems()) {
+				Track song = spotifyApi.getTrack(track.getId()).build().execute();
+
+				songName = song.getName();
+				ArtistSimplified[] artists = song.getArtists();
+				for (ArtistSimplified artist : artists) {
+					artistNames.concat(artist.getName() + " ");
+				}
+
+				PlayerManager.getInstance().loadAndPlay(channel, "sytsearch: " + songName + " " + artistNames, m);
+			}
+
+			MusicUtil.updateChannel(m, channel);
+			EmbedMessageBuilder.sendMessage("Musik", "Album hinzugefügt", Color.ORANGE, channel);
+		} catch (IOException | SpotifyWebApiException | ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static boolean joinChannel(Member m) {
 		if (!m.getVoiceState().inVoiceChannel()) {
 			return false;
 		}
@@ -88,7 +171,7 @@ public class PlayCommand implements ServerCommand {
 		m.getGuild().getAudioManager().openAudioConnection(m.getVoiceState().getChannel());
 		return true;
 	}
-
+	
 	private static boolean isUrl(String url) {
 		try {
 			new URI(url);
@@ -98,62 +181,12 @@ public class PlayCommand implements ServerCommand {
 		}
 	}
 
-	static SpotifyApi spotifyApi = new SpotifyApi.Builder().setAccessToken(
-			"BQBvjtU4RJBg9eLZD3aMB1YrooxQJZWxFrJQh3IWbizd0J7AQpagYHxo7ZAME_i23DFMM4sZo1_VRWvZJhmTRnoLxd5DVcOMRpmUnLVv5RvT5Kh7xuftireSdPmpurAjRZoRkirkVjoWWSZXl_QPu3RfU3F_C6Y")
-			.build();
-
-	private static String trackInfo(String id) {
-
-		String link = "";
-		GetTrackRequest getTrackRequest = spotifyApi.getTrack(id).build();
-		String songName = "";
-		String artistNames = "";
-
+	private static void clientCredentials_Sync() {
 		try {
-
-			Track track = getTrackRequest.execute();
-
-			songName = track.getName();
-			ArtistSimplified[] artists = track.getArtists();
-			for (ArtistSimplified artist : artists) {
-				artistNames.concat(artist.getName() + " ");
-			}
-
+			final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
+			spotifyApi.setAccessToken(clientCredentials.getAccessToken());
 		} catch (IOException | SpotifyWebApiException | ParseException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
-
-		link = songName + " " + artistNames;
-
-		return link;
 	}
-
-	private static void playlistInfo(String id, Member m, MessageChannel channel) {
-		String songName = "";
-		String artistNames = "";
-
-		GetPlaylistsItemsRequest getPlaylistsItemsRequest = spotifyApi.getPlaylistsItems(id).build();
-
-		try {
-			PlaylistTrack[] tracks = getPlaylistsItemsRequest.execute().getItems();
-
-			for (PlaylistTrack track : tracks) {
-				GetTrackRequest getTrackRequest = spotifyApi.getTrack(track.getTrack().getId()).build();
-				
-				Track currTrack = getTrackRequest.execute();
-				songName = currTrack.getName();
-				ArtistSimplified[] artists = currTrack.getArtists();
-				for (ArtistSimplified artist : artists) {
-					artistNames.concat(artist.getName() + " ");
-				} 
-				
-				PlayerManager.getInstance().loadAndPlay(channel, "sytsearch: " + songName + " " + artistNames, m);
-				MusicUtil.updateChannel(m, channel);
-			}
-			EmbedMessageBuilder.sendMessage("Musik", "Es wurden " + tracks.length + " Songs aus " PLIST + " zur Queue hinzugefügt!", Color.ORANGE, channel);
-		} catch (IOException | SpotifyWebApiException | ParseException e) {
-			e.printStackTrace();
-		}
-	}
-
 }
