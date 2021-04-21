@@ -17,6 +17,7 @@ import de.life.sql.SQLManager;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -65,6 +66,7 @@ public class LiFeBot {
 		builder.addEventListeners(new PrivateMessageReactionListener());
 		builder.addEventListeners(new ReadyListener());
 		builder.addEventListeners(new ZitatListener());
+		builder.setActivity(Activity.playing("invite.lifebot.life | !commands"));
 
 		shardMan = builder.build();
 

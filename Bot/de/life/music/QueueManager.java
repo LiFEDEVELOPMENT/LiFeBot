@@ -5,7 +5,6 @@ import java.util.HashMap;
 import net.dv8tion.jda.api.entities.Guild;
 
 public class QueueManager {
-
 	private static QueueManager INSTANCE;
 	private HashMap<Long, Queue> queueMap;
 
@@ -22,5 +21,4 @@ public class QueueManager {
 	public Queue getQueue(Guild guild) {
 		return this.queueMap.putIfAbsent(guild.getIdLong(), new Queue());
 	}
-
 }
