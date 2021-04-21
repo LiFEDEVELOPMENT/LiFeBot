@@ -1,9 +1,20 @@
 package de.life.music.commands;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+
+import org.apache.hc.core5.http.ParseException;
+
+import com.wrapper.spotify.SpotifyApi;
+import com.wrapper.spotify.exceptions.SpotifyWebApiException;
+import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
+import com.wrapper.spotify.model_objects.specification.PlaylistTrack;
+import com.wrapper.spotify.model_objects.specification.Track;
+import com.wrapper.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
+import com.wrapper.spotify.requests.data.tracks.GetTrackRequest;
 
 import de.life.classes.EmbedMessageBuilder;
 import de.life.interfaces.ServerCommand;
@@ -15,6 +26,8 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class PlayCommand implements ServerCommand {
 
+	
+	
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
 		message.delete().queue();
@@ -37,10 +50,29 @@ public class PlayCommand implements ServerCommand {
 					MusicUtil.getMusicChannel(m.getGuild()), 10);
 			return;
 		}
-
+		
+		if(link.startsWith("https://open.spotify.com/track/")) {
+			String[] temp = args[0].split("track");
+			String[] temp2 = temp[1].split("si");
+			String id = temp2[0].substring(1, temp2[0].length()-1);
+			
+			link = trackInfo(id);
+		}
+		
+		if(link.startsWith("https://open.spotify.com/playlist/")) {
+			String[] temp = args[0].split("playlist");
+			String[] temp2 = temp[1].split("si");
+			String id = temp2[0].substring(1, temp2[0].length()-1);
+			
+			playlistInfo(id, m, channel);
+		}
+		
 		if (!isUrl(link)) {
 			link = "ytsearch:" + link;
 		}
+		
+		
+		
 		PlayerManager.getInstance().loadAndPlay(channel, link, m);
 		MusicUtil.updateChannel(m, channel);
 	}
@@ -68,5 +100,65 @@ public class PlayCommand implements ServerCommand {
 			return false;
 		}
 	}
+	
 
+	static SpotifyApi spotifyApi = new SpotifyApi.Builder()
+			.setAccessToken("BQBvjtU4RJBg9eLZD3aMB1YrooxQJZWxFrJQh3IWbizd0J7AQpagYHxo7ZAME_i23DFMM4sZo1_VRWvZJhmTRnoLxd5DVcOMRpmUnLVv5RvT5Kh7xuftireSdPmpurAjRZoRkirkVjoWWSZXl_QPu3RfU3F_C6Y")
+			.build();
+	
+	
+	private static String trackInfo(String id) {
+		
+		String link = "";
+		GetTrackRequest getTrackRequest = spotifyApi.getTrack(id).build();
+		String songName = "";
+		String artistNames = "";
+		 
+		try {
+			
+			Track track = getTrackRequest.execute();
+			
+			
+			songName = track.getName();
+			ArtistSimplified[] artists = track.getArtists();
+			for(ArtistSimplified artist : artists) {
+				artistNames.concat(artist.getName() + " ");
+				System.out.println(songName + " " + artistNames);
+			}
+
+		} catch (IOException | SpotifyWebApiException | ParseException e) {
+		      System.out.println("Error: " + e.getMessage());
+	    }
+		
+		
+		link = songName + " " + artistNames;
+				
+		return link;
+	}
+	
+	private static void playlistInfo(String id, Member m, MessageChannel channel) {
+		
+		System.out.println(id);
+		
+		GetPlaylistsItemsRequest getPlaylistsItemsRequest = spotifyApi.getPlaylistsItems(id).build();
+		
+		try {
+
+			PlaylistTrack[] tracks = getPlaylistsItemsRequest.execute().getItems();
+			
+			for(PlaylistTrack track : tracks) {
+				
+				String link = trackInfo(track.getTrack().getId());
+				
+				PlayerManager.getInstance().loadAndPlay(channel, link, m);
+				MusicUtil.updateChannel(m, channel);
+				
+			}
+		
+		} catch (IOException | SpotifyWebApiException | ParseException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 }
