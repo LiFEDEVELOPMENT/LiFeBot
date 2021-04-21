@@ -16,10 +16,7 @@ public class ClearCommand implements ServerCommand {
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
-
 		GuildChannel gchannel = channel.getJDA().getGuildChannelById(channel.getId());
-		DeleteMessages dm = new DeleteMessages();
-
 		String[] args = message.getContentDisplay().split(" ");
 
 		if (args.length < 2) {
@@ -60,10 +57,10 @@ public class ClearCommand implements ServerCommand {
 			}
 
 			if (message.getMentionedMembers().size() == 0) {
-				dm.delete(channel, amount + 1);
+				DeleteMessages.delete(channel, amount + 1);
 			} else {
 				for (Member member : message.getMentionedMembers()) {
-					dm.delete(channel, amount + 1, member);
+					DeleteMessages.delete(channel, amount + 1, member);
 				}
 			}
 

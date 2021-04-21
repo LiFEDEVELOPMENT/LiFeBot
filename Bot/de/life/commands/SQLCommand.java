@@ -19,5 +19,4 @@ public class SQLCommand implements ServerCommand {
 		String[] args = message.getContentDisplay().split(" ");
 		SQLite.onUpdate(String.join(" ", Arrays.copyOfRange(args, 1, args.length)));
 	}
-
 }

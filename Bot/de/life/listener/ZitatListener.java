@@ -15,11 +15,9 @@ public class ZitatListener extends ListenerAdapter {
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 
-		if (event.getJDA().getSelfUser().equals(event.getAuthor()))
-			return;
-		if (event.getMessage().getContentDisplay().startsWith(GlobalVariables.prefix))
-			return;
-		if(event.getAuthor().isBot())
+		if (event.getJDA().getSelfUser().equals(event.getAuthor())
+				|| event.getMessage().getContentDisplay().startsWith(GlobalVariables.prefix)
+				|| event.getAuthor().isBot())
 			return;
 
 		ResultSet set = SQLite.onQuery(
@@ -27,7 +25,6 @@ public class ZitatListener extends ListenerAdapter {
 
 		try {
 			if (set.next()) {
-
 				String zitat = event.getMessage().getContentDisplay();
 
 				zitat = zitat.replaceAll("'", "''");
@@ -40,7 +37,5 @@ public class ZitatListener extends ListenerAdapter {
 			}
 		} catch (SQLException e) {
 		}
-
 	}
-
 }

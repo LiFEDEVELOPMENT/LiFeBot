@@ -17,7 +17,7 @@ public class ColorCommand implements ServerCommand {
 	public void performCommand(Member m, MessageChannel channel, Message message) {
 		message.delete().queue();
 		String[] args = message.getContentDisplay().split(" ");
-
+		Color color = null;
 		GuildChannel gchannel = channel.getJDA().getGuildChannelById(channel.getId());
 
 		if (!m.hasPermission(gchannel, Permission.MESSAGE_EMBED_LINKS)) {
@@ -37,8 +37,6 @@ public class ColorCommand implements ServerCommand {
 					10);
 			return;
 		}
-
-		Color color = null;
 
 		try {
 			color = Color.decode(args[1]);

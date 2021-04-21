@@ -36,7 +36,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class CommandManager {
 
-	public ConcurrentHashMap<String, ServerCommand> commands;
+	private final ConcurrentHashMap<String, ServerCommand> commands;
 
 	public CommandManager() {
 		this.commands = new ConcurrentHashMap<>();
@@ -90,13 +90,9 @@ public class CommandManager {
 		this.commands.put("zitate", new ZitateCommand());
 	}
 
-	public boolean perform(String command, Member m, MessageChannel channel, Message message) {
-
+	public void perform(String command, Member m, MessageChannel channel, Message message) {
 		ServerCommand cmd;
-		if ((cmd = this.commands.get(command.toLowerCase())) != null) {
+		if ((cmd = this.commands.get(command.toLowerCase())) != null)
 			cmd.performCommand(m, channel, message);
-			return true;
-		}
-		return false;
 	}
 }

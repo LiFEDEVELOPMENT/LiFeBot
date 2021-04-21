@@ -84,7 +84,7 @@ public class PrivateChannelCommand implements ServerCommand {
 
 			return;
 		}
-		
+
 		VoiceListener.INSTANCE.onJoin(hub, m);
 	}
 
@@ -106,8 +106,9 @@ public class PrivateChannelCommand implements ServerCommand {
 			return;
 		}
 
-		for (PermissionOverride or : m.getVoiceState().getChannel().getMemberPermissionOverrides()) {
-			m.getVoiceState().getChannel().getManager().removePermissionOverride(or.getPermissionHolder());
+		for (PermissionOverride permissionOverride : m.getVoiceState().getChannel().getMemberPermissionOverrides()) {
+			m.getVoiceState().getChannel().getManager()
+					.removePermissionOverride(permissionOverride.getPermissionHolder());
 		}
 
 		m.getVoiceState().getChannel().getManager()
@@ -198,8 +199,9 @@ public class PrivateChannelCommand implements ServerCommand {
 			return;
 		}
 
-		for (PermissionOverride or : m.getVoiceState().getChannel().getMemberPermissionOverrides()) {
-			m.getVoiceState().getChannel().getManager().removePermissionOverride(or.getPermissionHolder());
+		for (PermissionOverride permissionOverride : m.getVoiceState().getChannel().getMemberPermissionOverrides()) {
+			m.getVoiceState().getChannel().getManager()
+					.removePermissionOverride(permissionOverride.getPermissionHolder());
 		}
 
 		m.getVoiceState().getChannel().getManager()

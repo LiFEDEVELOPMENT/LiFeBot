@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class EmbedMessageBuilder {
-
 	public static void sendMessage(String description, MessageChannel channel) {
 		EmbedBuilder messageBuilder = new EmbedBuilder().setDescription(description);
 		channel.sendMessage(messageBuilder.build()).queue();

@@ -24,6 +24,7 @@ public class LogMessanger {
 			}
 		} catch (SQLException ex) {
 		}
+		
 		if (loglist.size() == 0)
 			return;
 
@@ -42,6 +43,7 @@ public class LogMessanger {
 			}
 		} catch (SQLException ex) {
 		}
+		
 		if (loglist.size() == 0)
 			return;
 
@@ -60,6 +62,7 @@ public class LogMessanger {
 			}
 		} catch (SQLException ex) {
 		}
+		
 		if (loglist.size() == 0)
 			return;
 
@@ -78,6 +81,7 @@ public class LogMessanger {
 			}
 		} catch (SQLException ex) {
 		}
+		
 		if (loglist.size() == 0)
 			return;
 
@@ -86,5 +90,4 @@ public class LogMessanger {
 					(MessageChannel) jda.getGuildChannelById(channelid));
 		}
 	}
-
 }

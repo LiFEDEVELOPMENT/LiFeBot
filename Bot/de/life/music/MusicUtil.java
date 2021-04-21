@@ -28,7 +28,6 @@ public class MusicUtil {
 	}
 
 	public static void updateChannel(Member m, MessageChannel channel) {
-
 		ResultSet set = SQLite
 				.onQuery("SELECT * FROM channel WHERE guildid = '" + m.getGuild().getIdLong() + "' AND type = 'music'");
 
@@ -41,8 +40,6 @@ public class MusicUtil {
 						+ "','" + channel.getIdLong() + "','music')");
 			}
 		} catch (SQLException ex) {
-
 		}
-
 	}
 }

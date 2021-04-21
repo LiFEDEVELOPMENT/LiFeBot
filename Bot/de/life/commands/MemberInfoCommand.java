@@ -2,8 +2,8 @@ package de.life.commands;
 
 import java.awt.Color;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
 
+import de.life.classes.EmbedMessageBuilder;
 import de.life.interfaces.ServerCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -21,14 +21,19 @@ public class MemberInfoCommand implements ServerCommand {
 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm:ss");
 		GuildChannel gchannel = channel.getJDA().getGuildChannelById(channel.getId());
-		Member mentioned = m.getGuild().getMember(m.getUser());
-		if (message.getMentionedMembers().size() > 0)
+		Member mentioned = null;
+
+		if (message.getMentionedMembers().size() > 0) {
 			mentioned = message.getMentionedMembers().get(0);
+		} else {
+			EmbedMessageBuilder.sendMessage("Memberinfo", "Bitte gebe einen @Member an, dessen Info du sehen willst",
+					channel, 10);
+			return;
+		}
 
 		if (!m.getGuild().getSelfMember().hasPermission(gchannel, Permission.MESSAGE_EMBED_LINKS)) {
-			channel.sendMessage("Dazu hat der Bot leider keine Berechtigung").complete().delete().queueAfter(5,
-					TimeUnit.SECONDS);
-
+			EmbedMessageBuilder.sendMessage("Memberinfo", "Dazu hat der Bot leider nicht die Berechtigung",
+					"Ihm fehlt: Permission.MESSAGE_EMBED_LINKS", channel, 10);
 			return;
 		}
 

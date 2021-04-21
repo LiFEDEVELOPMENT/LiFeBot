@@ -46,7 +46,5 @@ public class AutotriggerListener extends ListenerAdapter {
 			}
 		} catch (SQLException ex) {
 		}
-
 	}
-
 }

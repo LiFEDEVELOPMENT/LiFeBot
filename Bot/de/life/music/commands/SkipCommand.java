@@ -10,6 +10,7 @@ public class SkipCommand implements ServerCommand {
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
+		message.delete().queue();
 		if (!m.getGuild().getSelfMember().getVoiceState().inVoiceChannel()) {
 			return;
 		}

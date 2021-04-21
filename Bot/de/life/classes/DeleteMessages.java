@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class DeleteMessages {
 
-	public void delete(MessageChannel channel, int amount) {
+	public static void delete(MessageChannel channel, int amount) {
 		List<Message> messages = new ArrayList<>();
 		int i = amount;
 
@@ -22,11 +22,10 @@ public class DeleteMessages {
 			if (--i <= 0)
 				break;
 		}
-
 		channel.purgeMessages(messages);
 	}
 	
-	public void delete(MessageChannel channel, int amount, Member member) {
+	public static void delete(MessageChannel channel, int amount, Member member) {
 		List<Message> messages = new ArrayList<>();
 		int i = amount;
 		
@@ -47,5 +46,7 @@ public class DeleteMessages {
 				break;
 			}
 		}
+
+		channel.purgeMessages(messages);
 	}
 }

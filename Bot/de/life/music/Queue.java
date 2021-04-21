@@ -6,7 +6,6 @@ import java.util.Collections;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 public class Queue {
-
 	private ArrayList<AudioTrack> queue;
 	private boolean looped = false;
 
@@ -54,5 +53,4 @@ public class Queue {
 			this.queue.remove(0);
 		}
 	}
-
 }

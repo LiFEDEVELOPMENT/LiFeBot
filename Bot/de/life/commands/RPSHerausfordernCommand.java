@@ -1,7 +1,9 @@
 package de.life.commands;
 
+import java.awt.Color;
 import java.util.concurrent.TimeUnit;
 
+import de.life.classes.EmbedMessageBuilder;
 import de.life.classes.RPSManager;
 import de.life.interfaces.ServerCommand;
 import net.dv8tion.jda.api.entities.Member;
@@ -26,16 +28,18 @@ public class RPSHerausfordernCommand implements ServerCommand {
 		User secondPlayer = message.getMentionedUsers().get(0);
 
 		if (secondPlayer.equals(m.getUser()) || secondPlayer.isBot()) {
-			channel.sendMessage("Du kannst gegen diesen Spieler kein Schere, Stein, Papier -Spiel starten.").queue();
+			EmbedMessageBuilder.sendMessage("RPS",
+					"Du kannst gegen diesen Spieler kein Schere, Stein, Papier -Spiel starten", Color.RED, channel, 10);
 			return;
 		}
 
 		if (RPSManager.getInstance().hasGame(m.getUser(), secondPlayer)) {
-			channel.sendMessage(
-					"Einer dieser Spieler hat bereits ein Schere, Stein, Papier -Spiel. Bitte warte, bis dieses beendet ist.")
-					.queue();
+			EmbedMessageBuilder.sendMessage("RPS",
+					"Einer dieser Spieler hat bereits ein RPS-Spiel. Bitte warte, bis dieses beendet ist", Color.RED,
+					channel, 10);
 			return;
 		}
+		
 		Long messageID = channel.sendMessage("RPS-Herausforderung: " + secondPlayer.getAsMention() + ", du wurdest von "
 				+ m.getAsMention()
 				+ " zu einem Spiel Schere, Stein, Papier herausgefordet. Reagiere mit :white_check_mark: für ein Spiel oder mit :x: zum Ablehnen der Herausforderung.")
