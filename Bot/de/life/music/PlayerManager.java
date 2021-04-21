@@ -43,8 +43,11 @@ public class PlayerManager {
 
 	public void loadAndPlay(MessageChannel channel, String trackUrl, Member m) {
 		final GuildMusicManager musicManager = this.getMusicManager(m.getGuild());
+		String trackUrlcut = trackUrl;
+		if (trackUrlcut.startsWith("sytsearch:"))
+			trackUrlcut = trackUrlcut.substring(1);
 
-		this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
+		this.audioPlayerManager.loadItemOrdered(musicManager, trackUrlcut, new AudioLoadResultHandler() {
 			@Override
 			public void trackLoaded(AudioTrack track) {
 				if (!musicManager.scheduler.queue(track)) {
@@ -66,6 +69,11 @@ public class PlayerManager {
 								+ playlist.getTracks().get(0).getInfo().uri + ")\n" + "[" + m.getAsMention() + "]",
 								Color.decode("#8c14fc"), MusicUtil.getMusicChannel(m.getGuild()));
 					}
+					return;
+				}
+
+				if (trackUrl.startsWith("sytsearch:")) {
+					musicManager.scheduler.queue(playlist.getTracks().get(0));
 					return;
 				}
 

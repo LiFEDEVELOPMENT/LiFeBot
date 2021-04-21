@@ -147,13 +147,13 @@ public class PlayCommand implements ServerCommand {
 					artistNames.concat(artist.getName() + " ");
 				} 
 				
-				PlayerManager.getInstance().loadAndPlay(channel, "ytsearch: " + songName + " " + artistNames, m);
+				PlayerManager.getInstance().loadAndPlay(channel, "sytsearch: " + songName + " " + artistNames, m);
 				MusicUtil.updateChannel(m, channel);
 			}
+			EmbedMessageBuilder.sendMessage("Musik", "Es wurden " + tracks.length + " Songs aus " PLIST + " zur Queue hinzugefügt!", Color.ORANGE, channel);
 		} catch (IOException | SpotifyWebApiException | ParseException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
