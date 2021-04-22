@@ -42,14 +42,6 @@ public class BanCommand implements ServerCommand {
 			return;
 		}
 
-		if (!m.getGuild().getSelfMember().hasPermission(gchannel, Permission.BAN_MEMBERS)
-				|| m.getGuild().getSelfMember().canInteract(target)) {
-			EmbedMessageBuilder.sendMessage("Ban", "Der Bot hat nicht die Berechtigung, dieses Mitglied zu bannen!",
-					"Ihm fehlt: Permission.BAN_MEMBERS (oder er kannst nicht mit dieser Person interargieren)",
-					Color.RED, channel, 10);
-			return;
-		}
-
 		try {
 			m.getGuild().ban(target, 0, reason).queue();
 		} catch (HierarchyException e) {

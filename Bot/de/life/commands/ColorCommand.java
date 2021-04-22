@@ -26,12 +26,6 @@ public class ColorCommand implements ServerCommand {
 			return;
 		}
 
-		if (!m.getGuild().getSelfMember().hasPermission(gchannel, Permission.MESSAGE_EMBED_LINKS)) {
-			EmbedMessageBuilder.sendMessage("Color", "Dazu hat der Bot leider nicht die Berechtigung",
-					"Ihm fehlt: Permission.MESSAGE_EMBED_LINKS", Color.RED, channel, 10);
-			return;
-		}
-
 		if (args.length < 2) {
 			EmbedMessageBuilder.sendMessage("Color", "Bitte gib eine Farbe im Format #RRGGBB an", Color.RED, channel,
 					10);

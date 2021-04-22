@@ -41,21 +41,6 @@ public class ClearCommand implements ServerCommand {
 				return;
 			}
 
-			if (!m.getGuild().getSelfMember().hasPermission(gchannel, Permission.MESSAGE_MANAGE)) {
-				EmbedMessageBuilder.sendMessage("Clear",
-						"Der Bot hat du nicht die Berechtigung, Nachrichten zu löschen",
-						"Ihm fehlt: Permission.MESSAGE_MANAGE", Color.RED, channel, 10);
-
-				if (amount == 1)
-					LogMessanger.sendLog(m.getGuild().getIdLong(), "#" + channel.getName(),
-							m.getAsMention() + " wollte eine Nachrichte löschen!", Color.CYAN);
-				if (amount > 1)
-					LogMessanger.sendLog(m.getGuild().getIdLong(), "#" + channel.getName(),
-							m.getAsMention() + " wollte " + amount + "Nachrichten löschen!", Color.CYAN);
-
-				return;
-			}
-
 			if (message.getMentionedMembers().size() == 0) {
 				DeleteMessages.delete(channel, amount + 1);
 			} else {

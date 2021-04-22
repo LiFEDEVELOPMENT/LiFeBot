@@ -13,7 +13,6 @@ public class StopCommand implements ServerCommand {
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
-		message.delete().queue();
 		if (m.getGuild().getSelfMember().getVoiceState().getChannel() == null) {
 			EmbedMessageBuilder.sendMessage("Musik", "Der Bot ist in keinem Channel", Color.RED, channel, 10);
 			return;

@@ -43,13 +43,6 @@ public class KickCommand implements ServerCommand {
 			return;
 		}
 
-		if (!m.getGuild().getSelfMember().hasPermission(gchannel, Permission.KICK_MEMBERS)) {
-			EmbedMessageBuilder.sendMessage("Kick", "Der Bot hat nicht die Berechtigung, dieses Mitglied zu kicken!",
-					"Ihm fehlt: Permission.KICK_MEMBERS (oder er kannst nicht mit dieser Person interargieren)",
-					Color.RED, channel, 10);
-			return;
-		}
-
 		try {
 			m.getGuild().kick(target, reason).queue();
 		} catch (HierarchyException e) {

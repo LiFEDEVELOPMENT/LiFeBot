@@ -6,8 +6,6 @@ import java.time.format.DateTimeFormatter;
 import de.life.classes.EmbedMessageBuilder;
 import de.life.interfaces.ServerCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -20,7 +18,6 @@ public class MemberInfoCommand implements ServerCommand {
 		message.delete().queue();
 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm:ss");
-		GuildChannel gchannel = channel.getJDA().getGuildChannelById(channel.getId());
 		Member mentioned = null;
 
 		if (message.getMentionedMembers().size() > 0) {
@@ -28,12 +25,6 @@ public class MemberInfoCommand implements ServerCommand {
 		} else {
 			EmbedMessageBuilder.sendMessage("Memberinfo", "Bitte gebe einen @Member an, dessen Info du sehen willst",
 					channel, 10);
-			return;
-		}
-
-		if (!m.getGuild().getSelfMember().hasPermission(gchannel, Permission.MESSAGE_EMBED_LINKS)) {
-			EmbedMessageBuilder.sendMessage("Memberinfo", "Dazu hat der Bot leider nicht die Berechtigung",
-					"Ihm fehlt: Permission.MESSAGE_EMBED_LINKS", channel, 10);
 			return;
 		}
 

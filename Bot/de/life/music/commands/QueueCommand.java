@@ -18,7 +18,6 @@ public class QueueCommand implements ServerCommand {
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
-		message.delete().queue();
 		String[] args = message.getContentDisplay().split(" ");
 
 		if (args.length == 1) {

@@ -34,7 +34,6 @@ public class PlayCommand implements ServerCommand {
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
-		message.delete().queue();
 		addQueue(m, channel, message.getContentDisplay());
 	}
 
@@ -63,27 +62,27 @@ public class PlayCommand implements ServerCommand {
 				String[] tTemp2 = tTemp[1].split("si");
 				String tID = tTemp2[0].substring(1, tTemp2[0].length() - 1);
 				link = trackInfo(tID);
-				
+
 				break;
 			case 'p':
 				String[] pTemp = args[0].split("playlist");
 				String[] pTemp2 = pTemp[1].split("si");
 				String pID = pTemp2[0].substring(1, pTemp2[0].length() - 1);
 				playlistInfo(pID, m, channel);
-				
+
 				break;
 			case 'a':
 				String[] aTemp = args[0].split("album");
 				String[] aTemp2 = aTemp[1].split("si");
 				String aID = aTemp2[0].substring(1, aTemp2[0].length() - 1);
 				albumInfo(aID, m, channel);
-				
+
 				break;
 			}
 		}
 
 		if (!isUrl(link)) {
-			link = "ytsearch:" + link;
+			link = "ytsearch:" + link + " lyric video";
 		}
 
 		PlayerManager.getInstance().loadAndPlay(channel, link, m);
@@ -124,7 +123,8 @@ public class PlayCommand implements ServerCommand {
 					artistNames.concat(artist.getName() + " ");
 				}
 
-				PlayerManager.getInstance().loadAndPlay(channel, "sytsearch: " + songName + " " + artistNames, m);
+				PlayerManager.getInstance().loadAndPlay(channel,
+						"sytsearch: " + songName + " " + artistNames + " lyric video", m);
 			}
 
 			MusicUtil.updateChannel(m, channel);
@@ -148,7 +148,8 @@ public class PlayCommand implements ServerCommand {
 					artistNames.concat(artist.getName() + " ");
 				}
 
-				PlayerManager.getInstance().loadAndPlay(channel, "sytsearch: " + songName + " " + artistNames, m);
+				PlayerManager.getInstance().loadAndPlay(channel,
+						"sytsearch: " + songName + " " + artistNames + " lyric video", m);
 			}
 
 			MusicUtil.updateChannel(m, channel);
@@ -157,7 +158,7 @@ public class PlayCommand implements ServerCommand {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static boolean joinChannel(Member m) {
 		if (!m.getVoiceState().inVoiceChannel()) {
 			return false;
@@ -171,7 +172,7 @@ public class PlayCommand implements ServerCommand {
 		m.getGuild().getAudioManager().openAudioConnection(m.getVoiceState().getChannel());
 		return true;
 	}
-	
+
 	private static boolean isUrl(String url) {
 		try {
 			new URI(url);
