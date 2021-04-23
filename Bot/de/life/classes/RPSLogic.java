@@ -4,27 +4,19 @@ import net.dv8tion.jda.api.entities.User;
 
 public class RPSLogic {
 
-	User firstPlayer;
-	User secondPlayer;
+	final User firstPlayer;
+	final User secondPlayer;
 	String firstChoice = "";
 	String secondChoice = "";
 	String winner = "";
 
-	public void setPlayers(User p1, User p2) {
-		firstPlayer = p1;
-		secondPlayer = p2;
-	}
-
-	public void setFirstPlayer(User pPlayer) {
-		firstPlayer = pPlayer;
+	public RPSLogic(User firstPlayer, User secondPlayer) {
+		this.firstPlayer = firstPlayer;
+		this.secondPlayer = secondPlayer;
 	}
 
 	public User getFirstPlayer() {
 		return firstPlayer;
-	}
-
-	public void setSecondPlayer(User pPlayer) {
-		secondPlayer = pPlayer;
 	}
 
 	public User getSecondPlayer() {

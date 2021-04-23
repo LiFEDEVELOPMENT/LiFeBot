@@ -63,9 +63,10 @@ public class FillCommandsTable {
 				+ "!skip - Springt zum nächsten Lied in der Queue\r\n" + "!stop - Stoppt den Bot\r\n" + "Alias: !leave"
 				+ "')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Minigames:**\r\n"
-				+ "!rps <@Spieler>: Spiele ''Schere, Stein, Papier'' gegen einen anderen Spieler.\r\n"
-				+ "!rps <Schere/Stein/Papier>: Spiele ''Schere, Stein, Papier'' gegen den Computer.\r\n"
-				+ "Alias: !rockpaperscissors')");
+				+ "!rps <@Spieler>: Spiele ''Schere, Stein, Papier'' gegen einen anderen Spieler\r\n"
+				+ "!rps <Schere/Stein/Papier>: Spiele ''Schere, Stein, Papier'' gegen den Computer\r\n"
+				+ "Alias: !rockpaperscissors\r\n\n"
+				+ "!ttt <@Spieler>: Spiele ''TicTacToe'' gegen einen anderen Spieler')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**React:**\r\n"
 				+ "!react <Nachrichten-ID> <Emote> - Reagiert auf die angegebenene Nachricht mit dem angegebenen Emote\r\n"
 				+ "!react <Nachrichten-ID> Abstimmung - Reagiert auf die angegebene Nachricht mit 👍 und 👎')");
@@ -82,9 +83,9 @@ public class FillCommandsTable {
 				+ "!pv userlimit <Limit> - Setzt dein Userlimit auf einen Wert zwischen 1 und 99. 0 entfernt das Userlimit\r\n"
 				+ "Alias: !pvc / !privatevoice / !privatechannel / !privatevoicechannel')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Roles:**\r\n"
-				+ "!role add @User @Role - Fügt dem angegebenen User die Rolle hinzu\r\n"
-				+ "!role remove @User @Role - Entfernt dem angegebenen User die Rolle\r\n"
-				+ "Alias: !roles add/remove @User @Role')");
+				+ "!role add <@User> <@Role> - Fügt dem angegebenen User die Rolle hinzu\r\n"
+				+ "!role remove <@User> <@Role> - Entfernt dem angegebenen User die Rolle\r\n"
+				+ "Alias: !roles add/remove <@User> <@Role>')");
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Zitate:**\r\n"
 				+ "!zitat - Zeigt ein zufälliges Zitat\r\n" + "!zitat add <Zitat> - Fügt ein Zitat hinzu\r\n"
 				+ "!zitat delete <ID> - Löscht das Zitat mit der ID\r\n"

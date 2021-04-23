@@ -8,7 +8,9 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import de.life.GlobalVariables;
+import de.life.classes.LogMessanger;
 import de.life.classes.RPSManager;
+import de.life.classes.TTTManager;
 import de.life.commands.CommandsCommand;
 import de.life.commands.MemesCommand;
 import de.life.commands.ZitateCommand;
@@ -37,7 +39,7 @@ public class ReactionListener extends ListenerAdapter {
 			if (footer.startsWith("Commands") || footer.startsWith("Memes") || footer.startsWith("Zitate")) {
 				event.getChannel().retrieveMessageById(messageID).complete().clearReactions().queue();
 				Integer pageID = Integer.parseInt(footer.split(" Page ")[1]);
-				
+
 				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
 				case "U+23EE":
 					pageID = 1;
@@ -139,10 +141,10 @@ public class ReactionListener extends ListenerAdapter {
 					answerCount = set.next() ? set.getInt("answercount") : -1;
 				} catch (SQLException e) {
 				}
-				
+
 				event.getReaction().removeReaction(event.getUser()).queue();
 
-				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {				
+				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
 				case "U+31U+FE0FU+20E3":
 					answer = 1;
 					break;
@@ -219,6 +221,10 @@ public class ReactionListener extends ListenerAdapter {
 				builder.setDescription(result);
 				builder.setFooter(footer);
 				event.getChannel().editMessageById(event.getMessageIdLong(), builder.build()).queue();
+
+				LogMessanger.sendLog(event.getGuild().getIdLong(), "Poll", event.getUser().getAsMention()
+						+ " hat in der Poll mit der ID " + pollID + " für Option " + answer + " gestimmt");
+
 				return;
 			}
 
@@ -260,24 +266,48 @@ public class ReactionListener extends ListenerAdapter {
 
 		if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 				.size() > 0) {
-			switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
-			case "U+274C":
-				if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
-						.get(0).equals(event.getUser())
-						|| event.getChannel().retrieveMessageById(event.getMessageId()).complete().getMentionedUsers()
-								.get(1).equals(event.getUser())) {
+			if (event.getChannel().retrieveMessageById(event.getMessageId()).complete().getContentDisplay()
+					.startsWith("RPS-Herausforderung")) {
+				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
+				case "U+274C":
+					if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
+							.get(0).equals(event.getUser())
+							|| event.getChannel().retrieveMessageById(event.getMessageId()).complete()
+									.getMentionedUsers().get(1).equals(event.getUser())) {
+						event.getChannel().deleteMessageById(event.getMessageIdLong()).queue();
+					}
+					break;
+				case "U+2705":
+					if (!event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
+							.get(0).equals(event.getUser()))
+						return;
+					List<User> playerList = event.getChannel().retrieveMessageById(event.getMessageId()).complete()
+							.getMentionedUsers();
+
+					RPSManager.getInstance().startGame(playerList.get(1), playerList.get(0), event.getChannel());
 					event.getChannel().deleteMessageById(event.getMessageIdLong()).queue();
 				}
-				break;
-			case "U+2705":
-				if (!event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
-						.get(0).equals(event.getUser()))
-					return;
-				List<User> playerList = event.getChannel().retrieveMessageById(event.getMessageId()).complete()
-						.getMentionedUsers();
+			} else if (event.getChannel().retrieveMessageById(event.getMessageId()).complete().getContentDisplay()
+					.startsWith("TTT-Herausforderung")) {
+				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
+				case "U+274C":
+					if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
+							.get(0).equals(event.getUser())
+							|| event.getChannel().retrieveMessageById(event.getMessageId()).complete()
+									.getMentionedUsers().get(1).equals(event.getUser())) {
+						event.getChannel().deleteMessageById(event.getMessageIdLong()).queue();
+					}
+					break;
+				case "U+2705":
+					if (!event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
+							.get(0).equals(event.getUser()))
+						return;
+					List<User> playerList = event.getChannel().retrieveMessageById(event.getMessageId()).complete()
+							.getMentionedUsers();
 
-				RPSManager.getInstance().startGame(playerList.get(1), playerList.get(0), event.getChannel());
-				event.getChannel().deleteMessageById(event.getMessageIdLong()).queue();
+					TTTManager.getInstance().startGame(playerList.get(1), playerList.get(0), event.getChannel());
+					event.getChannel().deleteMessageById(event.getMessageIdLong()).queue();
+				}
 			}
 		}
 	}

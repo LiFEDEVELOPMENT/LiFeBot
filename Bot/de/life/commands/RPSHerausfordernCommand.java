@@ -22,9 +22,6 @@ public class RPSHerausfordernCommand implements ServerCommand {
 			return;
 		}
 
-		if (RPSManager.getInstance() == null)
-			new RPSManager();
-
 		User secondPlayer = message.getMentionedUsers().get(0);
 
 		if (secondPlayer.equals(m.getUser()) || secondPlayer.isBot()) {

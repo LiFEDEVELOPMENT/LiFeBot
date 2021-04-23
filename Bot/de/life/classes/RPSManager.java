@@ -46,9 +46,7 @@ public class RPSManager {
 
 		playerMap.put(firstPlayer, gamesMap.size());
 		playerMap.put(secondPlayer, gamesMap.size());
-		gamesMap.put(gamesMap.size(), new RPSLogic());
-		gamesMap.get(playerMap.get(firstPlayer)).setFirstPlayer(firstPlayer);
-		gamesMap.get(playerMap.get(secondPlayer)).setSecondPlayer(secondPlayer);
+		gamesMap.put(gamesMap.size(), new RPSLogic(firstPlayer, secondPlayer));
 
 		Long firstPlayerID = firstPlayer.openPrivateChannel().complete().sendMessage(
 				"RPS: Bitte wähle deine Option im Schere, Stein, Papier -Spiel gegen " + secondPlayer.getName() + ".")

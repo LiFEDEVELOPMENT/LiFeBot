@@ -12,11 +12,7 @@ public class AutotriggerListener extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
-
-		if (event.getJDA().getSelfUser().equals(event.getAuthor()))
-			return;
-
-		if (event.getMessage().getContentDisplay().startsWith(GlobalVariables.prefix))
+		if (event.getJDA().getSelfUser().equals(event.getAuthor()) || event.getMessage().getContentDisplay().startsWith(GlobalVariables.prefix) || !event.getChannelType().isGuild())
 			return;
 
 		ResultSet set = SQLite.onQuery(
