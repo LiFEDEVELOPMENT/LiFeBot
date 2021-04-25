@@ -25,7 +25,6 @@ import de.life.commands.SQLCommand;
 import de.life.commands.TTTHerausfordernCommand;
 import de.life.commands.ZitateCommand;
 import de.life.interfaces.ServerCommand;
-import de.life.music.commands.LoopCommand;
 import de.life.music.commands.PauseCommand;
 import de.life.music.commands.PlayCommand;
 import de.life.music.commands.QueueCommand;
@@ -66,7 +65,6 @@ public class CommandManager {
 		this.commands.put("leave", new StopCommand());
 		this.commands.put("log", new LogsCommand());
 		this.commands.put("logs", new LogsCommand());
-		this.commands.put("loop", new LoopCommand());
 		this.commands.put("memberinfo", new MemberInfoCommand());
 		this.commands.put("userinfo", new MemberInfoCommand());
 		this.commands.put("meme", new MemesCommand());

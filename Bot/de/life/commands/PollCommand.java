@@ -77,7 +77,7 @@ public class PollCommand implements ServerCommand {
 		}
 
 		if (frage.length() > 243) {
-			channel.sendMessage("Die Frage kann maximal 242 Zeichen lang sein!").complete().delete().queueAfter(5,
+			channel.sendMessage("Die Frage kann maximal 243  Zeichen lang sein!").complete().delete().queueAfter(5,
 					TimeUnit.SECONDS);
 			return;
 		}

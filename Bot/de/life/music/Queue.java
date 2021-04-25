@@ -7,7 +7,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 public class Queue {
 	private ArrayList<AudioTrack> queue;
-	private boolean looped = false;
 
 	public Queue() {
 		this.queue = new ArrayList<AudioTrack>();
@@ -24,22 +23,11 @@ public class Queue {
 	public AudioTrack next() {
 		if (this.queue.size() == 0)
 			return null;
-		AudioTrack track = this.queue.remove(0);
-		if(looped)
-			this.queue.add(track);
-		return track;		
+		return this.queue.remove(0);	
 	}
 
 	public void shuffle() {
 		Collections.shuffle(this.queue);
-	}
-
-	public boolean isLooped() {
-		return this.looped;
-	}
-
-	public void setLooped(boolean looped) {
-		this.looped = looped;
 	}
 	
 	public void clear() {

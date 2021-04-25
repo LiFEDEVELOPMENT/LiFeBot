@@ -90,8 +90,14 @@ public class PlayerManager {
 
 			@Override
 			public void noMatches() {
-				if(trackUrl.startsWith("sytsearch"))
+				if (trackUrl.endsWith("lyric video")) {
+					loadAndPlay(channel, trackUrl.substring(0, trackUrl.length() - 12), m);
 					return;
+				}
+				if (trackUrl.startsWith("sytsearch"))
+					return;
+
+				System.out.println("no matches: " + trackUrl);
 				EmbedMessageBuilder.sendMessage("Musik",
 						"Zu dieser Suche habe ich leider nichts gefunden - Gib mir bitte noch ein Wort :)", Color.RED,
 						MusicUtil.getMusicChannel(m.getGuild()), 10);
@@ -134,21 +140,5 @@ public class PlayerManager {
 
 		EmbedMessageBuilder.sendMessage("Music", "Fortgesetzt", Color.ORANGE, channel);
 		getMusicManager(m.getGuild()).player.setPaused(false);
-	}
-
-	public void loop(MessageChannel channel, Member m) {
-		if (getMusicManager(m.getGuild()).scheduler.isLooped())
-			return;
-
-		EmbedMessageBuilder.sendMessage("Music", "Dauerschleife aktiviert", Color.ORANGE, channel);
-		getMusicManager(m.getGuild()).scheduler.setLooped(true);
-	}
-
-	public void unloop(MessageChannel channel, Member m) {
-		if (!getMusicManager(m.getGuild()).scheduler.isLooped())
-			return;
-
-		EmbedMessageBuilder.sendMessage("Music", "Dauerschleife deaktiviert", Color.ORANGE, channel);
-		getMusicManager(m.getGuild()).scheduler.setLooped(false);
 	}
 }

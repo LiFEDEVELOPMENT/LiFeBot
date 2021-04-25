@@ -48,7 +48,7 @@ public class PlayCommand implements ServerCommand {
 		args = Arrays.copyOfRange(args, 1, args.length);
 		String link = String.join(" ", args);
 
-		if (!isUrl(link) && args.length <= 2) {
+		if (!isUrl(link) && args.length <= 1) {
 			EmbedMessageBuilder.sendMessage("Musik",
 					"Zu dieser Suche habe ich leider nichts gefunden - Gib mir bitte noch ein Wort :)", Color.RED,
 					MusicUtil.getMusicChannel(m.getGuild()), 10);

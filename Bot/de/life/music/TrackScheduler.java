@@ -91,15 +91,6 @@ public class TrackScheduler extends AudioEventAdapter {
 		}
 	}
 
-	public boolean isLooped() {
-		return this.queue.isLooped();
-	}
-
-	public void setLooped(boolean looped) {
-		QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
-				.setLooped(looped);
-	}
-
 	public void shuffle() {
 		QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
 				.shuffle();
