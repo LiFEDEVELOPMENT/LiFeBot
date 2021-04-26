@@ -165,11 +165,9 @@ public class PollCommand implements ServerCommand {
 		}
 
 		Integer largest = 0;
-		for (int i = 1; i < votes.length; i++) {
-			for (int ii = 0; ii < votes.length; ii++) {
-				if (votes[i] > votes[ii])
-					largest = i;
-			}
+		for (int i = 0; i < votes.length; i++) {
+			if (votes[i] > votes[largest])
+				largest = i;
 		}
 		for (int i = 0; i < votes.length; i++) {
 			if (votes[i].equals(votes[largest]) && i != largest) {

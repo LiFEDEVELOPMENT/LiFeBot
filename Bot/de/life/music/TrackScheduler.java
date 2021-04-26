@@ -20,9 +20,9 @@ import java.util.concurrent.TimeUnit;
 
 public class TrackScheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
-	private final Queue queue = new Queue();
 
 	public TrackScheduler(AudioPlayer player) {
+		new Queue();
 		this.player = player;
 	}
 

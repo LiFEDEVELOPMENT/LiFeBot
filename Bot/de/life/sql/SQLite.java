@@ -51,7 +51,6 @@ public class SQLite {
 		try {
 			stmt.execute(sql);
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 
