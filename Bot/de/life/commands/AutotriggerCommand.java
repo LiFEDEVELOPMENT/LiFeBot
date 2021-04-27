@@ -63,6 +63,8 @@ public class AutotriggerCommand implements ServerCommand {
 					10);
 			return;
 		}
+		
+		trigger = trigger.replaceAll("'", "''");
 
 		ResultSet set = SQLite.onQuery("SELECT * FROM autotriggers WHERE guildid = '" + m.getGuild().getIdLong()
 				+ "' AND trigger = '" + trigger + "'");
@@ -78,9 +80,10 @@ public class AutotriggerCommand implements ServerCommand {
 			}
 		} catch (SQLException ex) {
 		}
+		
+		trigger = trigger.replaceAll("'", "''");
+		answer = answer.replaceAll("'", "''");
 
-		System.out.println("INSERT INTO autotriggers (guildid,trigger,text) VALUES ('" + m.getGuild().getIdLong() + "','"
-				+ trigger + "','" + answer + "')");
 		SQLite.onUpdate("INSERT INTO autotriggers (guildid,trigger,text) VALUES ('" + m.getGuild().getIdLong() + "','"
 				+ trigger + "','" + answer + "')");
 		LogMessanger.sendLog(m.getGuild().getIdLong(), "Autotrigger",

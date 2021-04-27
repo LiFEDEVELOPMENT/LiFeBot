@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+import de.life.classes.LogMessanger;
 import de.life.interfaces.ServerCommand;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -100,6 +101,8 @@ public class PollCommand implements ServerCommand {
 		SQLite.onUpdate("INSERT INTO polls (guildid, channelid, messageid, userid, answercount) VALUES ('"
 				+ message.getGuild().getIdLong() + "', '" + channel.getIdLong() + "', '" + messageID + "', '"
 				+ m.getUser().getIdLong() + "', '" + antworten.length + "')");
+		LogMessanger.sendLog(m.getGuild().getIdLong(), "Poll",
+				m.getAsMention() + " hat eine Poll in " + channel.getName() + " erstellt");
 	}
 
 	private void closePoll(Member m, MessageChannel channel, Message message) {
@@ -186,6 +189,8 @@ public class PollCommand implements ServerCommand {
 		channel.sendMessage(builder.build()).queue();
 
 		SQLite.onUpdate("DELETE FROM polls WHERE id = '" + pollID + "'");
+		LogMessanger.sendLog(m.getGuild().getIdLong(), "Poll",
+				m.getAsMention() + " hat die Poll in " + channel.getName() + " mit der ID " + pollID + " gelöscht");
 	}
 
 	private Integer generatePollID() {

@@ -16,10 +16,11 @@ import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class TrackScheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
+	private Long messageID;
+	private MessageChannel messageChannel;
 
 	public TrackScheduler(AudioPlayer player) {
 		new Queue();
@@ -49,6 +50,8 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	@Override
 	public void onTrackStart(AudioPlayer player, AudioTrack track) {
+		deleteLatestMessage();
+		
 		Guild guild = PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode());
 		AudioTrackInfo trackInfo = track.getInfo();
 		String url = trackInfo.uri;
@@ -66,7 +69,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		builder.setTitle("Jetzt läuft:");
 		builder.setDescription("[" + trackInfo.title + "](" + url + ")");
 		builder.addField("Länge", trackInfo.isStream ? ":red_circle: STREAM"
-				: (stunden > 0 ? "h " : "") + minuten + "m " + sekunden + "s", true);
+				: (stunden > 0 ? stunden + "h " : "") + minuten + "m " + sekunden + "s", true);
 		builder.addField("Kanal", trackInfo.author, true);
 
 		try {
@@ -77,9 +80,8 @@ public class TrackScheduler extends AudioEventAdapter {
 			if (guild.getTextChannelById(channelid) == null)
 				return;
 
-			MessageChannel channel = guild.getTextChannelById(channelid);
-			channel.sendMessage(builder.build()).complete().delete().queueAfter(trackInfo.length / 1000,
-					TimeUnit.SECONDS);
+			messageChannel = guild.getTextChannelById(channelid);
+			messageID = messageChannel.sendMessage(builder.build()).complete().getIdLong();
 		} catch (SQLException ex) {
 		}
 	}
@@ -88,6 +90,9 @@ public class TrackScheduler extends AudioEventAdapter {
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
 		if (endReason.mayStartNext) {
 			nextTrack();
+		} else {
+			messageID = 0l;
+			messageChannel = null;
 		}
 	}
 
@@ -111,5 +116,10 @@ public class TrackScheduler extends AudioEventAdapter {
 	public void jump(int amount) {
 		QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
 				.jump(amount);
+	}
+
+	public void deleteLatestMessage() {
+		if(messageChannel != null && messageID != 0l)
+			messageChannel.deleteMessageById(messageID).queue();
 	}
 }

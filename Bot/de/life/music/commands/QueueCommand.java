@@ -64,7 +64,7 @@ public class QueueCommand implements ServerCommand {
 		for (AudioTrack track : QueueManager.getInstance().getQueue(m.getGuild()).getQueue()) {
 			String appString = i + ") " + track.getInfo().author + " - " + track.getInfo().title + "\n(**"
 					+ (track.getInfo().isStream ? ":red_circle: STREAM"
-							: (track.getDuration() / 3600000 > 0 ? "h " : "") + track.getDuration() / 60000 + "m "
+							: (track.getDuration() / 3600000 > 0 ? track.getDuration() / 3600000 +  "h " : "") + track.getDuration() / 60000 % 60 + "m "
 									+ track.getDuration() / 1000 % 60 + "s")
 					+ "**)\n\n";
 			if (builder.length() + appString.length() > 2000) {

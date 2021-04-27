@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import de.life.GlobalVariables;
 import de.life.classes.EmbedMessageBuilder;
+import de.life.classes.LogMessanger;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -34,6 +35,7 @@ public class ZitatListener extends ListenerAdapter {
 								+ "','" + zitat + "','" + event.getMessage().getTimeCreated().toString() + "','"
 								+ event.getAuthor().getIdLong() + "')");
 				EmbedMessageBuilder.sendMessage("Zitat hinzugefügt", zitat, Color.GRAY, event.getChannel(), 10);
+				LogMessanger.sendLog(event.getGuild().getIdLong(), "Auto-Zitat hinzugefügt:", zitat);
 			}
 		} catch (SQLException e) {
 		}

@@ -58,7 +58,7 @@ public class ZitateCommand implements ServerCommand {
 				deleteChannel(m, channel, message);
 				break;
 			case "import":
-				addExistingChannel(m, channel, message);
+				importChannel(m, channel, message);
 				break;
 			case "list":
 				listChannel(m, channel, message);
@@ -191,7 +191,7 @@ public class ZitateCommand implements ServerCommand {
 		}
 	}
 
-	private void addExistingChannel(Member m, MessageChannel channel, Message message) {
+	private void importChannel(Member m, MessageChannel channel, Message message) {
 		String[] args = message.getContentDisplay().split(" ");
 		Integer i = 0;
 		Long channelID = 0l;

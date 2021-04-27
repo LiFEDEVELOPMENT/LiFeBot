@@ -12,6 +12,7 @@ import de.life.commands.CommandsCommand;
 import de.life.commands.HubsCommand;
 import de.life.commands.IconUpdateCommand;
 import de.life.commands.KickCommand;
+import de.life.commands.ListGuildsCommand;
 import de.life.commands.LogsCommand;
 import de.life.commands.MemberInfoCommand;
 import de.life.commands.MemesCommand;
@@ -63,6 +64,7 @@ public class CommandManager {
 		this.commands.put("icon", new IconUpdateCommand());
 		this.commands.put("kick", new KickCommand());
 		this.commands.put("leave", new StopCommand());
+		this.commands.put("guilds", new ListGuildsCommand());
 		this.commands.put("log", new LogsCommand());
 		this.commands.put("logs", new LogsCommand());
 		this.commands.put("memberinfo", new MemberInfoCommand());

@@ -24,6 +24,7 @@ public class StopCommand implements ServerCommand {
 			return;
 		}
 		
+		PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.deleteLatestMessage();
 		PlayerManager.getInstance().getMusicManager(m.getGuild()).player.stopTrack();
 		PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.clear();
 

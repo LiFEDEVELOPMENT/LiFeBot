@@ -77,6 +77,8 @@ public class LogsCommand implements ServerCommand {
 
 		SQLite.onUpdate("INSERT INTO channel (guildid,channelid,type) VALUES ('" + m.getGuild().getIdLong() + "','"
 				+ channelID + "','log')");
+		LogMessanger.sendLog(m.getGuild().getIdLong(), "Log",
+				m.getEffectiveName() + " hat ein Log hinzugefügt: " + channelID);
 	}
 
 	private void deleteChannel(Member m, MessageChannel channel, Message message) {

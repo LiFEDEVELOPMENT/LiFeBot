@@ -65,6 +65,10 @@ public class TTTManager {
 				builder.appendDescription("\n");
 			i++;
 		}
+		
+		boolean playerOne = new Random().nextBoolean();
+		
+		builder.setFooter(playerOne ? firstPlayer.getName() : secondPlayer.getName() + " ist am Zug");
 
 		idMap.put(firstPlayer,
 				firstPlayer.openPrivateChannel().complete().sendMessage(builder.build()).complete().getIdLong());
@@ -72,7 +76,7 @@ public class TTTManager {
 		idMap.put(secondPlayer,
 				secondPlayer.openPrivateChannel().complete().sendMessage(builder.build()).complete().getIdLong());
 
-		if (new Random().nextBoolean()) {
+		if (playerOne) {
 			for (String s : unicodeNames) {
 				firstPlayer.openPrivateChannel().complete().addReactionById(idMap.get(firstPlayer), s).queue();
 			}
@@ -88,10 +92,10 @@ public class TTTManager {
 		User secondPlayer = gamesMap.get(playerMap.get(player)).getSecondPlayer();
 
 		EmbedBuilder builder = new EmbedBuilder().setTitle("TicTacToe gegen " + secondPlayer.getName());
-		
-		if(player.equals(firstPlayer)) 
+
+		if (player.equals(firstPlayer))
 			secondPlayer.openPrivateChannel().complete().deleteMessageById(idMap.get(secondPlayer)).queue();
-		if(player.equals(secondPlayer)) 
+		if (player.equals(secondPlayer))
 			firstPlayer.openPrivateChannel().complete().deleteMessageById(idMap.get(firstPlayer)).queue();
 
 		if (gamesMap.get(playerMap.get(player)).getWinner().equals("firstPlayer")) {
@@ -116,6 +120,8 @@ public class TTTManager {
 					builder.appendDescription("\n");
 			}
 		}
+
+		builder.setFooter(firstPlayer.equals(player) ? player.getName() : secondPlayer.getName() + " ist am Zug");
 
 		idMap.put(firstPlayer,
 				firstPlayer.openPrivateChannel().complete().sendMessage(builder.build()).complete().getIdLong());

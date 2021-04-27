@@ -3,6 +3,7 @@ package de.life.classes;
 import java.awt.Color;
 import java.util.HashMap;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -48,12 +49,14 @@ public class RPSManager {
 		playerMap.put(secondPlayer, gamesMap.size());
 		gamesMap.put(gamesMap.size(), new RPSLogic(firstPlayer, secondPlayer));
 
-		Long firstPlayerID = firstPlayer.openPrivateChannel().complete().sendMessage(
-				"RPS: Bitte wähle deine Option im Schere, Stein, Papier -Spiel gegen " + secondPlayer.getName() + ".")
-				.complete().getIdLong();
-		Long secondPlayerID = secondPlayer.openPrivateChannel().complete().sendMessage(
-				"RPS: Bitte wähle deine Option im Schere, Stein, Papier -Spiel gegen " + firstPlayer.getName() + ".")
-				.complete().getIdLong();
+		EmbedBuilder builder = new EmbedBuilder().setTitle("RPS gegen " + secondPlayer.getName());
+		builder.setDescription("Bitte wähle deine Option durch eine Reaktion");
+
+		Long firstPlayerID = firstPlayer.openPrivateChannel().complete().sendMessage(builder.build()).complete()
+				.getIdLong();
+		builder.setTitle("RPS gegen " + firstPlayer.getName());
+		Long secondPlayerID = secondPlayer.openPrivateChannel().complete().sendMessage(builder.build()).complete()
+				.getIdLong();
 
 		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "U+270C").queue();
 		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "U+270A").queue();
