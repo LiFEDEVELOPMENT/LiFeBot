@@ -52,8 +52,7 @@ public class QueueCommand implements ServerCommand {
 
 	private void displayQueue(Member m, MessageChannel channel) {
 		int i = 1;
-		EmbedBuilder builder = new EmbedBuilder().setTitle("Es folgt:")
-				.setColor(Color.ORANGE);
+		EmbedBuilder builder = new EmbedBuilder().setTitle("Es folgt:").setColor(Color.ORANGE);
 
 		if (QueueManager.getInstance().getQueue(m.getGuild()).getQueue() == null) {
 			builder.setDescription("Nichts - Die Queue ist leer");
@@ -64,8 +63,8 @@ public class QueueCommand implements ServerCommand {
 		for (AudioTrack track : QueueManager.getInstance().getQueue(m.getGuild()).getQueue()) {
 			String appString = i + ") " + track.getInfo().author + " - " + track.getInfo().title + "\n(**"
 					+ (track.getInfo().isStream ? ":red_circle: STREAM"
-							: (track.getDuration() / 3600000 > 0 ? track.getDuration() / 3600000 +  "h " : "") + track.getDuration() / 60000 % 60 + "m "
-									+ track.getDuration() / 1000 % 60 + "s")
+							: (track.getDuration() / 3600000 > 0 ? track.getDuration() / 3600000 + "h " : "")
+									+ track.getDuration() / 60000 % 60 + "m " + track.getDuration() / 1000 % 60 + "s")
 					+ "**)\n\n";
 			if (builder.length() + appString.length() > 2000) {
 				builder.setFooter("+ " + (QueueManager.getInstance().getQueue(m.getGuild()).getQueue().size() - 1)
@@ -100,9 +99,8 @@ public class QueueCommand implements ServerCommand {
 		try {
 			PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler
 					.jump(Integer.parseInt(message.getContentDisplay().split(" ")[2]));
-			EmbedMessageBuilder.sendMessage("Musik", "Die Queue wurde um "
-					+ Integer.parseInt(message.getContentDisplay().split(" ")[2]) + " Songs nach vorne verschoben",
-					Color.ORANGE, channel, 10);
+			EmbedMessageBuilder.sendMessage("Musik", Integer.parseInt(message.getContentDisplay().split(" ")[2])
+					+ " Songs wurden in der Queue übersprungen", Color.ORANGE, channel);
 		} catch (NumberFormatException e) {
 			EmbedMessageBuilder.sendMessage("Musik", "Bitte gib eine Zahl an", Color.RED, channel, 10);
 			return;

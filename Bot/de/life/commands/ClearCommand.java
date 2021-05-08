@@ -64,7 +64,6 @@ public class ClearCommand implements ServerCommand {
 
 		} catch (NumberFormatException e) {
 			EmbedMessageBuilder.sendMessage("Clear", "Das war keine Zahl ^^", Color.RED, channel, 10);
-			e.printStackTrace();
 		}
 	}
 }

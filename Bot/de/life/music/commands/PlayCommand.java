@@ -130,7 +130,6 @@ public class PlayCommand implements ServerCommand {
 			MusicUtil.updateChannel(m, channel);
 			EmbedMessageBuilder.sendMessage("Musik", "Playlist hinzugefügt", Color.ORANGE, channel);
 		} catch (IOException | SpotifyWebApiException | ParseException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -155,7 +154,6 @@ public class PlayCommand implements ServerCommand {
 			MusicUtil.updateChannel(m, channel);
 			EmbedMessageBuilder.sendMessage("Musik", "Album hinzugefügt", Color.ORANGE, channel);
 		} catch (IOException | SpotifyWebApiException | ParseException e) {
-			e.printStackTrace();
 		}
 	}
 

@@ -43,6 +43,7 @@ public class ColorCommand implements ServerCommand {
 		EmbedBuilder colorBuilder = new EmbedBuilder();
 		colorBuilder.setColor(color);
 		colorBuilder.setThumbnail("https://singlecolorimage.com/get/" + args[1].substring(1) + "/400x400");
+		colorBuilder.setTitle(args[1].substring(1));
 		channel.sendMessage(colorBuilder.build()).queue();
 	}
 }

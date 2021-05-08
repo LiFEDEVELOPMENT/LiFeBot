@@ -117,7 +117,6 @@ public class PollCommand implements ServerCommand {
 		try {
 			pollID = Integer.parseInt(args[2]);
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
 			channel.sendMessage(
 					"Ohoh, da scheint etwas mit deiner Nachricht nicht zu stimmen. Schau doch mal unter !commands nach, wie man eine Poll richtig schließt!")
 					.complete().delete().queueAfter(5, TimeUnit.SECONDS);

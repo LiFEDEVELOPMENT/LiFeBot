@@ -32,7 +32,6 @@ public class ReactCommand implements ServerCommand {
 		} catch (Exception e) {
 			EmbedMessageBuilder.sendMessage("React", "Bitte gib eine Message-ID und mindestens einen Emoji an",
 					Color.RED, channel, 10);
-			e.printStackTrace();
 		}
 	}
 }

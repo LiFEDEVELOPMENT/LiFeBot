@@ -63,7 +63,6 @@ public class CommandManager {
 		this.commands.put("hubs", new HubsCommand());
 		this.commands.put("icon", new IconUpdateCommand());
 		this.commands.put("kick", new KickCommand());
-		this.commands.put("leave", new StopCommand());
 		this.commands.put("guilds", new ListGuildsCommand());
 		this.commands.put("log", new LogsCommand());
 		this.commands.put("logs", new LogsCommand());
@@ -89,8 +88,10 @@ public class CommandManager {
 		this.commands.put("roles", new RolesCommand());
 		this.commands.put("rps", new RPSHerausfordernCommand());
 		this.commands.put("shuffle", new ShuffleCommand());
+		this.commands.put("next", new SkipCommand());
 		this.commands.put("skip", new SkipCommand());
 		this.commands.put("sql", new SQLCommand());
+		this.commands.put("leave", new StopCommand());
 		this.commands.put("stop", new StopCommand());
 		this.commands.put("ttt", new TTTHerausfordernCommand());
 		this.commands.put("zitat", new ZitateCommand());

@@ -43,7 +43,6 @@ public class SQLite {
 			System.out.println("Verbing zur LiFe-DB unterbrochen.");
 
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -59,7 +58,6 @@ public class SQLite {
 		try {
 			return stmt.executeQuery(sql);
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
