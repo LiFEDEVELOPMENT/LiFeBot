@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.life.classes.EmbedMessageBuilder;
 import de.life.classes.RPSManager;
+import de.life.classes.UnicodeEmotes;
 import de.life.interfaces.ServerCommand;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -16,9 +17,9 @@ public class RPSHerausfordernCommand implements ServerCommand {
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
 		if (message.getMentionedUsers().size() == 0) {
-			message.addReaction("U+270C").queue();
-			message.addReaction("U+270A").queue();
-			message.addReaction("U+1F590").queue();
+			message.addReaction(UnicodeEmotes.ROCK.getUnicode()).queue();
+			message.addReaction(UnicodeEmotes.PAPER.getUnicode()).queue();
+			message.addReaction(UnicodeEmotes.SCISSORS.getUnicode()).queue();
 			return;
 		}
 
@@ -43,7 +44,7 @@ public class RPSHerausfordernCommand implements ServerCommand {
 				.complete().getIdLong();
 
 		channel.deleteMessageById(messageID).queueAfter(1, TimeUnit.MINUTES);
-		channel.addReactionById(messageID, "U+2705").queue();
-		channel.addReactionById(messageID, "U+274C").queue();
+		channel.addReactionById(messageID, UnicodeEmotes.WHITE_CHECK.getUnicode()).queue();
+		channel.addReactionById(messageID, UnicodeEmotes.X.getUnicode()).queue();
 	}
 }

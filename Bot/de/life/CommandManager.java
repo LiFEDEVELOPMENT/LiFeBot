@@ -21,9 +21,12 @@ import de.life.commands.PollCommand;
 import de.life.commands.PrivateChannelCommand;
 import de.life.commands.RPSHerausfordernCommand;
 import de.life.commands.ReactCommand;
+import de.life.commands.ReportCommand;
 import de.life.commands.RolesCommand;
 import de.life.commands.SQLCommand;
+import de.life.commands.SettingsCommand;
 import de.life.commands.TTTHerausfordernCommand;
+import de.life.commands.WarnCommand;
 import de.life.commands.ZitateCommand;
 import de.life.interfaces.ServerCommand;
 import de.life.music.commands.PauseCommand;
@@ -82,11 +85,13 @@ public class CommandManager {
 		this.commands.put("q", new QueueCommand());
 		this.commands.put("queue", new QueueCommand());
 		this.commands.put("react", new ReactCommand());
+//		this.commands.put("report", new ReportCommand());
 		this.commands.put("resume", new ResumeCommand());
 		this.commands.put("rockpaperscissors", new RPSHerausfordernCommand());
 		this.commands.put("role", new RolesCommand());
 		this.commands.put("roles", new RolesCommand());
 		this.commands.put("rps", new RPSHerausfordernCommand());
+//		this.commands.put("settings", new SettingsCommand());
 		this.commands.put("shuffle", new ShuffleCommand());
 		this.commands.put("next", new SkipCommand());
 		this.commands.put("skip", new SkipCommand());
@@ -94,6 +99,10 @@ public class CommandManager {
 		this.commands.put("leave", new StopCommand());
 		this.commands.put("stop", new StopCommand());
 		this.commands.put("ttt", new TTTHerausfordernCommand());
+//		this.commands.put("warn", new WarnCommand());
+//		this.commands.put("warns", new WarnCommand());
+//		this.commands.put("warning", new WarnCommand());
+//		this.commands.put("warnings", new WarnCommand());
 		this.commands.put("zitat", new ZitateCommand());
 		this.commands.put("zitate", new ZitateCommand());
 	}

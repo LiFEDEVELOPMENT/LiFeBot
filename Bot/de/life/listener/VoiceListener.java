@@ -49,7 +49,7 @@ public class VoiceListener extends ListenerAdapter {
 			if (set.next()) {
 				createPrivateChannel(joined, m);
 
-				LogMessanger.sendLog(m.getGuild().getIdLong(), "U+231BU+1F50A| " + m.getEffectiveName() + ":",
+				LogMessanger.sendLog(m.getGuild().getIdLong(), "Temp | " + m.getEffectiveName() + ":",
 						m.getAsMention() + " ist dem Channel beigetreten!", Color.CYAN);
 				return;
 			}
@@ -88,7 +88,7 @@ public class VoiceListener extends ListenerAdapter {
 		LogMessanger.sendLog(m.getGuild().getIdLong(), channel.getName() + ":",
 				m.getAsMention() + " hat den Kanal verlassen!", Color.CYAN);
 
-		if(channel.getMembers().size() == 1 && channel.getMembers().get(0).equals(m.getGuild().getSelfMember())) {
+		if (channel.getMembers().size() == 1 && channel.getMembers().get(0).equals(m.getGuild().getSelfMember())) {
 			PlayerManager.getInstance().getMusicManager(m.getGuild()).player.stopTrack();
 			PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.clear();
 
@@ -124,7 +124,7 @@ public class VoiceListener extends ListenerAdapter {
 
 				createPrivateChannel(joined, m);
 
-				LogMessanger.sendLog(m.getGuild().getIdLong(), left.getName() + " ➡ ⌛�?| " + m.getEffectiveName() + ":",
+				LogMessanger.sendLog(m.getGuild().getIdLong(), left.getName() + "Temp | " + m.getEffectiveName() + ":",
 						m.getAsMention() + " hat den Channel gewechselt!", Color.CYAN);
 
 			}
@@ -132,8 +132,8 @@ public class VoiceListener extends ListenerAdapter {
 		}
 		LogMessanger.sendLog(m.getGuild().getIdLong(), joined.getName() + ":",
 				m.getAsMention() + " ist dem Channel beigetreten!", Color.CYAN);
-		
-		if(left.getMembers().size() == 1 && left.getMembers().get(0).equals(m.getGuild().getSelfMember())) {
+
+		if (left.getMembers().size() == 1 && left.getMembers().get(0).equals(m.getGuild().getSelfMember())) {
 			PlayerManager.getInstance().getMusicManager(m.getGuild()).player.stopTrack();
 			PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.clear();
 
@@ -146,15 +146,17 @@ public class VoiceListener extends ListenerAdapter {
 		Role everyone = m.getGuild().getRoles().get((m.getGuild().getRoles().size()) - 1);
 
 		Category cat = channel.getParent();
-		VoiceChannel vc = cat.createVoiceChannel("⌛�?| " + m.getEffectiveName()).complete();
+		VoiceChannel vc = cat.createVoiceChannel("Temp | " + m.getEffectiveName()).complete();
 		vc.getManager().setUserLimit(5).queue();
 		vc.getGuild().moveVoiceMember(m, vc).queue();
 
-		vc.getManager().putPermissionOverride(everyone, EnumSet.of(Permission.VIEW_CHANNEL),
-				EnumSet.of(Permission.CREATE_INSTANT_INVITE, Permission.MANAGE_CHANNEL, Permission.MANAGE_PERMISSIONS,
-						Permission.MANAGE_WEBHOOKS, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK,
-						Permission.VOICE_STREAM, Permission.VOICE_MOVE_OTHERS, Permission.VOICE_USE_VAD,
-						Permission.VOICE_MUTE_OTHERS, Permission.VOICE_DEAF_OTHERS, Permission.PRIORITY_SPEAKER))
+		vc.getManager()
+				.putPermissionOverride(everyone, null,
+						EnumSet.of(Permission.CREATE_INSTANT_INVITE, Permission.MANAGE_CHANNEL,
+								Permission.MANAGE_PERMISSIONS, Permission.VIEW_CHANNEL, Permission.MANAGE_WEBHOOKS,
+								Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_STREAM,
+								Permission.VOICE_MOVE_OTHERS, Permission.VOICE_USE_VAD, Permission.VOICE_MUTE_OTHERS,
+								Permission.VOICE_DEAF_OTHERS, Permission.PRIORITY_SPEAKER))
 				.putPermissionOverride(m,
 						EnumSet.of(Permission.VIEW_CHANNEL, Permission.VOICE_CONNECT, Permission.PRIORITY_SPEAKER,
 								Permission.VOICE_SPEAK, Permission.VOICE_STREAM, Permission.VOICE_MOVE_OTHERS,

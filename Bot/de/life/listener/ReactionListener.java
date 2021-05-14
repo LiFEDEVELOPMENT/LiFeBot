@@ -11,6 +11,7 @@ import de.life.GlobalVariables;
 import de.life.classes.LogMessanger;
 import de.life.classes.RPSManager;
 import de.life.classes.TTTManager;
+import de.life.classes.UnicodeEmotes;
 import de.life.commands.CommandsCommand;
 import de.life.commands.MemesCommand;
 import de.life.commands.ZitateCommand;
@@ -25,6 +26,15 @@ public class ReactionListener extends ListenerAdapter {
 
 	@Override
 	public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent event) {
+
+		final String[] pollUnicode = { UnicodeEmotes.ONE.getUnicode(), UnicodeEmotes.TWO.getUnicode(),
+				UnicodeEmotes.THREE.getUnicode(), UnicodeEmotes.FOUR.getUnicode(), UnicodeEmotes.FIVE.getUnicode(),
+				UnicodeEmotes.SIX.getUnicode(), UnicodeEmotes.SEVEN.getUnicode(), UnicodeEmotes.EIGHT.getUnicode(),
+				UnicodeEmotes.NINE.getUnicode(), UnicodeEmotes.TEN.getUnicode() };
+
+		final String reactionEmote = event.getReactionEmote().toString().toUpperCase().substring(3);
+
+//		System.out.println(reactionEmote);
 		if (event.getUser().equals(event.getJDA().getSelfUser()))
 			return;
 
@@ -40,8 +50,7 @@ public class ReactionListener extends ListenerAdapter {
 				event.getChannel().retrieveMessageById(messageID).complete().clearReactions().queue();
 				Integer pageID = Integer.parseInt(footer.split(" Page ")[1]);
 
-				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
-				case "U+23EE":
+				if (reactionEmote.equals(UnicodeEmotes.DOUBLE_ARROW_LEFT.getUnicode())) {
 					pageID = 1;
 					if (footer.startsWith("Commands"))
 						newEmbed = CommandsCommand.getCommandEmbed(pageID);
@@ -49,8 +58,9 @@ public class ReactionListener extends ListenerAdapter {
 						newEmbed = MemesCommand.getMemeEmbed(pageID, guildID);
 					if (footer.startsWith("Zitate"))
 						newEmbed = ZitateCommand.getZitatEmbed(pageID, guildID);
-					break;
-				case "U+25C0":
+				}
+
+				if (reactionEmote.equals(UnicodeEmotes.ARROW_LEFT.getUnicode())) {
 					pageID--;
 					if (pageID < 1)
 						pageID = 1;
@@ -69,8 +79,9 @@ public class ReactionListener extends ListenerAdapter {
 							pageID = ZitateCommand.getZitatePages(guildID);
 						newEmbed = ZitateCommand.getZitatEmbed(pageID, guildID);
 					}
-					break;
-				case "U+25B6":
+				}
+
+				if (reactionEmote.equals(UnicodeEmotes.ARROW_RIGHT.getUnicode())) {
 					pageID++;
 					if (pageID < 1)
 						pageID = 1;
@@ -89,8 +100,9 @@ public class ReactionListener extends ListenerAdapter {
 							pageID = ZitateCommand.getZitatePages(guildID);
 						newEmbed = ZitateCommand.getZitatEmbed(pageID, guildID);
 					}
-					break;
-				case "U+23ED":
+				}
+
+				if (reactionEmote.equals(UnicodeEmotes.DOUBLE_ARROW_RIGHT.getUnicode())) {
 					if (footer.startsWith("Commands")) {
 						pageID = CommandsCommand.getCommandPages();
 						newEmbed = CommandsCommand.getCommandEmbed(pageID);
@@ -103,29 +115,32 @@ public class ReactionListener extends ListenerAdapter {
 						pageID = ZitateCommand.getZitatePages(guildID);
 						newEmbed = ZitateCommand.getZitatEmbed(pageID, guildID);
 					}
-					break;
 				}
+
 				event.getChannel().editMessageById(messageID, newEmbed).queue();
 				if (pageID > 1) {
-					event.getChannel().addReactionById(messageID, "U+23EE").queue();
-					event.getChannel().addReactionById(messageID, "U+25C0").queue();
+					event.getChannel().addReactionById(messageID, UnicodeEmotes.DOUBLE_ARROW_LEFT.getUnicode()).queue();
+					event.getChannel().addReactionById(messageID, UnicodeEmotes.ARROW_LEFT.getUnicode()).queue();
 				}
 				if (footer.startsWith("Commands")) {
 					if (pageID < CommandsCommand.getCommandPages()) {
-						event.getChannel().addReactionById(messageID, "U+25B6").queue();
-						event.getChannel().addReactionById(messageID, "U+23ED").queue();
+						event.getChannel().addReactionById(messageID, UnicodeEmotes.ARROW_RIGHT.getUnicode()).queue();
+						event.getChannel().addReactionById(messageID, UnicodeEmotes.DOUBLE_ARROW_RIGHT.getUnicode())
+								.queue();
 					}
 				}
 				if (footer.startsWith("Memes")) {
 					if (pageID < MemesCommand.getMemePages(guildID)) {
-						event.getChannel().addReactionById(messageID, "U+25B6").queue();
-						event.getChannel().addReactionById(messageID, "U+23ED").queue();
+						event.getChannel().addReactionById(messageID, UnicodeEmotes.ARROW_RIGHT.getUnicode()).queue();
+						event.getChannel().addReactionById(messageID, UnicodeEmotes.DOUBLE_ARROW_RIGHT.getUnicode())
+								.queue();
 					}
 				}
 				if (footer.startsWith("Zitate")) {
 					if (pageID < ZitateCommand.getZitatePages(guildID)) {
-						event.getChannel().addReactionById(messageID, "U+25B6").queue();
-						event.getChannel().addReactionById(messageID, "U+23ED").queue();
+						event.getChannel().addReactionById(messageID, UnicodeEmotes.ARROW_RIGHT.getUnicode()).queue();
+						event.getChannel().addReactionById(messageID, UnicodeEmotes.DOUBLE_ARROW_RIGHT.getUnicode())
+								.queue();
 					}
 				}
 			}
@@ -133,7 +148,7 @@ public class ReactionListener extends ListenerAdapter {
 			if (footer.startsWith("PollID")) {
 				Integer pollID = Integer.parseInt(footer.split(" ")[1]);
 				Integer answerCount = 0;
-				Integer answer = 0;
+				Integer answer = -1;
 
 				ResultSet set = SQLite.onQuery("SELECT * FROM polls WHERE id = '" + pollID + "'");
 
@@ -144,40 +159,9 @@ public class ReactionListener extends ListenerAdapter {
 
 				event.getReaction().removeReaction(event.getUser()).queue();
 
-				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
-				case "U+31U+FE0FU+20E3":
-					answer = 1;
-					break;
-				case "U+32U+FE0FU+20E3":
-					answer = 2;
-					break;
-				case "U+33U+FE0FU+20E3":
-					answer = 3;
-					break;
-				case "U+34U+FE0FU+20E3":
-					answer = 4;
-					break;
-				case "U+35U+FE0FU+20E3":
-					answer = 5;
-					break;
-				case "U+36U+FE0FU+20E3":
-					answer = 6;
-					break;
-				case "U+37U+FE0FU+20E3":
-					answer = 7;
-					break;
-				case "U+38U+FE0FU+20E3":
-					answer = 8;
-					break;
-				case "U+39U+FE0FU+20E3":
-					answer = 9;
-					break;
-				case "U+1F51F":
-					answer = 10;
-					break;
-				default:
-					answer = -1;
-					break;
+				for (int i = 1; i < 11; i++) {
+					if (reactionEmote.equals(pollUnicode[i - 1]))
+						answer = i;
 				}
 
 				if (answer > answerCount)
@@ -236,21 +220,14 @@ public class ReactionListener extends ListenerAdapter {
 		{
 			event.getReaction().removeReaction(event.getUser()).queue();
 			boolean win = false;
-			switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
-			case "U+270C":
-				if (new Random().nextInt(3) == 0)
-					win = true;
 
-				break;
-			case "U+270A":
+			if (reactionEmote.equals(UnicodeEmotes.ROCK.getUnicode())
+					|| reactionEmote.equals(UnicodeEmotes.PAPER.getUnicode())
+					|| reactionEmote.equals(UnicodeEmotes.SCISSORS.getUnicode())) {
 				if (new Random().nextInt(3) == 0)
 					win = true;
-				break;
-			case "U+1F590":
-				if (new Random().nextInt(3) == 0)
-					win = true;
-				break;
 			}
+
 			if (win)
 				event.getChannel()
 						.sendMessage(event.getUser().getAsMention()
@@ -268,16 +245,17 @@ public class ReactionListener extends ListenerAdapter {
 				.size() > 0) {
 			if (event.getChannel().retrieveMessageById(event.getMessageId()).complete().getContentDisplay()
 					.startsWith("RPS-Herausforderung")) {
-				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
-				case "U+274C":
+
+				if (reactionEmote.equals(UnicodeEmotes.X.getUnicode())) {
 					if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 							.get(0).equals(event.getUser())
 							|| event.getChannel().retrieveMessageById(event.getMessageId()).complete()
 									.getMentionedUsers().get(1).equals(event.getUser())) {
 						event.getChannel().deleteMessageById(event.getMessageIdLong()).queue();
 					}
-					break;
-				case "U+2705":
+				}
+
+				if (reactionEmote.equals(UnicodeEmotes.WHITE_CHECK.getUnicode())) {
 					if (!event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 							.get(0).equals(event.getUser()))
 						return;
@@ -287,18 +265,20 @@ public class ReactionListener extends ListenerAdapter {
 					RPSManager.getInstance().startGame(playerList.get(1), playerList.get(0), event.getChannel());
 					event.getChannel().deleteMessageById(event.getMessageIdLong()).queue();
 				}
+
 			} else if (event.getChannel().retrieveMessageById(event.getMessageId()).complete().getContentDisplay()
 					.startsWith("TTT-Herausforderung")) {
-				switch (event.getReactionEmote().toString().toUpperCase().substring(3)) {
-				case "U+274C":
+
+				if (reactionEmote.equals(UnicodeEmotes.X.getUnicode())) {
 					if (event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 							.get(0).equals(event.getUser())
 							|| event.getChannel().retrieveMessageById(event.getMessageId()).complete()
 									.getMentionedUsers().get(1).equals(event.getUser())) {
 						event.getChannel().deleteMessageById(event.getMessageIdLong()).queue();
 					}
-					break;
-				case "U+2705":
+				}
+
+				if (reactionEmote.equals(UnicodeEmotes.WHITE_CHECK.getUnicode())) {
 					if (!event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete().getMentionedUsers()
 							.get(0).equals(event.getUser()))
 						return;

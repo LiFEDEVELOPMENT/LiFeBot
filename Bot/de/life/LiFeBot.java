@@ -56,7 +56,7 @@ public class LiFeBot {
 		builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS, CacheFlag.EMOTE, CacheFlag.ONLINE_STATUS);
 		builder.enableCache(CacheFlag.VOICE_STATE);
 
-		builder.setToken(GlobalVariables.botToken);
+		builder.setToken(System.getenv("BotToken"));
 		builder.setStatus(OnlineStatus.ONLINE);
 
 		builder.addEventListeners(new CommandListener());

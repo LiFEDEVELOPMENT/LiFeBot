@@ -3,6 +3,7 @@ package de.life.commands;
 import java.awt.Color;
 
 import de.life.classes.EmbedMessageBuilder;
+import de.life.classes.UnicodeEmotes;
 import de.life.interfaces.ServerCommand;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -22,8 +23,8 @@ public class ReactCommand implements ServerCommand {
 		}
 
 		if (args[2].equalsIgnoreCase("abstimmung")) {
-			channel.retrieveMessageById(args[1]).complete().addReaction("U+2705").queue();
-			channel.retrieveMessageById(args[1]).complete().addReaction("U+274C").queue();
+			channel.retrieveMessageById(args[1]).complete().addReaction(UnicodeEmotes.THUMBS_UP.getUnicode()).queue();
+			channel.retrieveMessageById(args[1]).complete().addReaction(UnicodeEmotes.THUMBS_DOWN.getUnicode()).queue();
 			return;
 		}
 

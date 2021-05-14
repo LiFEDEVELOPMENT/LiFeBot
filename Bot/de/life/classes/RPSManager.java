@@ -58,13 +58,13 @@ public class RPSManager {
 		Long secondPlayerID = secondPlayer.openPrivateChannel().complete().sendMessage(builder.build()).complete()
 				.getIdLong();
 
-		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "U+270C").queue();
-		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "U+270A").queue();
-		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, "U+1F590").queue();
+		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, UnicodeEmotes.ROCK.getUnicode()).queue();
+		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, UnicodeEmotes.PAPER.getUnicode()).queue();
+		firstPlayer.openPrivateChannel().complete().addReactionById(firstPlayerID, UnicodeEmotes.SCISSORS.getUnicode()).queue();
 
-		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "U+270C").queue();
-		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "U+270A").queue();
-		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, "U+1F590").queue();
+		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, UnicodeEmotes.ROCK.getUnicode()).queue();
+		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, UnicodeEmotes.PAPER.getUnicode()).queue();
+		secondPlayer.openPrivateChannel().complete().addReactionById(secondPlayerID, UnicodeEmotes.SCISSORS.getUnicode()).queue();
 	}
 
 	private void updateResult(User pPlayer) {

@@ -78,7 +78,7 @@ public class PrivateChannelCommand implements ServerCommand {
 			return;
 		}
 
-		if (m.getVoiceState().getChannel().getName().substring(3).equalsIgnoreCase(m.getEffectiveName())) {
+		if (m.getVoiceState().getChannel().getName().substring(7).equalsIgnoreCase(m.getEffectiveName())) {
 			channel.sendMessage("Du befindest dich bereits in einem temporären Voicechannel.").complete().delete()
 					.queueAfter(5, TimeUnit.SECONDS);
 
@@ -99,7 +99,7 @@ public class PrivateChannelCommand implements ServerCommand {
 			return;
 		}
 
-		if (!m.getVoiceState().getChannel().getName().substring(3).equalsIgnoreCase(m.getEffectiveName())) {
+		if (!m.getVoiceState().getChannel().getName().substring(7).equalsIgnoreCase(m.getEffectiveName())) {
 			channel.sendMessage("Du musst dich in einem dir gehörenden temporären Voicechannel befinden.").complete()
 					.delete().queueAfter(5, TimeUnit.SECONDS);
 
@@ -149,7 +149,7 @@ public class PrivateChannelCommand implements ServerCommand {
 			return;
 		}
 
-		if (!m.getVoiceState().getChannel().getName().substring(3).equalsIgnoreCase(m.getEffectiveName())) {
+		if (!m.getVoiceState().getChannel().getName().substring(7).equalsIgnoreCase(m.getEffectiveName())) {
 			EmbedMessageBuilder.sendMessage("Fehler",
 					m.getAsMention() + ", du musst dich in einem dir gehörendem Voicechannel befinden!", Color.RED,
 					channel, 5);
@@ -192,7 +192,7 @@ public class PrivateChannelCommand implements ServerCommand {
 			return;
 		}
 
-		if (!m.getVoiceState().getChannel().getName().substring(3).equalsIgnoreCase(m.getEffectiveName())) {
+		if (!m.getVoiceState().getChannel().getName().substring(7).equalsIgnoreCase(m.getEffectiveName())) {
 			channel.sendMessage("Du musst dich in einem dir gehörenden temporären Voicechannel befinden.").complete()
 					.delete().queueAfter(5, TimeUnit.SECONDS);
 
@@ -229,7 +229,7 @@ public class PrivateChannelCommand implements ServerCommand {
 			return;
 		}
 
-		if (!m.getVoiceState().getChannel().getName().substring(3).equalsIgnoreCase(m.getEffectiveName())) {
+		if (!m.getVoiceState().getChannel().getName().substring(7).equalsIgnoreCase(m.getEffectiveName())) {
 			EmbedMessageBuilder.sendMessage("Fehler",
 					m.getAsMention() + ", du musst dich in einem dir gehörendem Voicechannel befinden!", Color.RED,
 					channel, 5);
@@ -271,7 +271,7 @@ public class PrivateChannelCommand implements ServerCommand {
 			return;
 		}
 
-		if (!m.getVoiceState().getChannel().getName().substring(3).equalsIgnoreCase(m.getEffectiveName())) {
+		if (!m.getVoiceState().getChannel().getName().substring(7).equalsIgnoreCase(m.getEffectiveName())) {
 			EmbedMessageBuilder.sendMessage("Fehler",
 					m.getAsMention() + ", du musst dich in einem dir gehörendem Voicechannel befinden!", Color.RED,
 					channel, 5);

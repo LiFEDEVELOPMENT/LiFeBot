@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.life.classes.EmbedMessageBuilder;
 import de.life.classes.LogMessanger;
+import de.life.classes.UnicodeEmotes;
 import de.life.interfaces.ServerCommand;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -135,8 +136,8 @@ public class ZitateCommand implements ServerCommand {
 		Long messageID = channel.sendMessage(getZitatEmbed(1, m.getGuild().getIdLong())).complete().getIdLong();
 
 		if (getZitatePages(m.getGuild().getIdLong()) > 1) {
-			channel.addReactionById(messageID, "U+25B6").queue();
-			channel.addReactionById(messageID, "U+23ED").queue();
+			channel.addReactionById(messageID, UnicodeEmotes.ARROW_RIGHT.getUnicode()).queue();
+			channel.addReactionById(messageID, UnicodeEmotes.DOUBLE_ARROW_RIGHT.getUnicode()).queue();
 		}
 	}
 

@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.life.classes.EmbedMessageBuilder;
 import de.life.classes.LogMessanger;
+import de.life.classes.UnicodeEmotes;
 import de.life.interfaces.ServerCommand;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -109,8 +110,8 @@ public class MemesCommand implements ServerCommand {
 		Long messageID = channel.sendMessage(getMemeEmbed(1, m.getGuild().getIdLong())).complete().getIdLong();
 
 		if (getMemePages(m.getGuild().getIdLong()) > 1) {
-			channel.addReactionById(messageID, "U+25B6").queue();
-			channel.addReactionById(messageID, "U+23ED").queue();
+			channel.addReactionById(messageID, UnicodeEmotes.ARROW_RIGHT.getUnicode()).queue();
+			channel.addReactionById(messageID, UnicodeEmotes.DOUBLE_ARROW_RIGHT.getUnicode()).queue();
 		}
 	}
 

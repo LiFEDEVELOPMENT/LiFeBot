@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.life.classes.EmbedMessageBuilder;
 import de.life.classes.TTTManager;
+import de.life.classes.UnicodeEmotes;
 import de.life.interfaces.ServerCommand;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -39,7 +40,7 @@ public class TTTHerausfordernCommand implements ServerCommand{
 				.complete().getIdLong();
 
 		channel.deleteMessageById(messageID).queueAfter(1, TimeUnit.MINUTES);
-		channel.addReactionById(messageID, "U+2705").queue();
-		channel.addReactionById(messageID, "U+274C").queue();
+		channel.addReactionById(messageID, UnicodeEmotes.WHITE_CHECK.getUnicode()).queue();
+		channel.addReactionById(messageID, UnicodeEmotes.X.getUnicode()).queue();
 	}
 }

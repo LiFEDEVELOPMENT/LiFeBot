@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import de.life.classes.LogMessanger;
+import de.life.classes.UnicodeEmotes;
 import de.life.interfaces.ServerCommand;
 import de.life.sql.SQLite;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -19,9 +20,10 @@ public class PollCommand implements ServerCommand {
 
 	private final String[] emoteNames = { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:",
 			":eight:", ":nine:", ":keycap_ten:" };
-	private final String[] unicodeNames = { "U+31U+FE0FU+20E3", "U+32U+FE0FU+20E3", "U+33U+FE0FU+20E3",
-			"U+34U+FE0FU+20E3", "U+35U+FE0FU+20E3", "U+36U+FE0FU+20E3", "U+37U+FE0FU+20E3", "U+38U+FE0FU+20E3",
-			"U+39U+FE0FU+20E3", "U+1F51F" };
+	private final String[] unicodeNames = { UnicodeEmotes.ONE.getUnicode(), UnicodeEmotes.TWO.getUnicode(),
+			UnicodeEmotes.THREE.getUnicode(), UnicodeEmotes.FOUR.getUnicode(), UnicodeEmotes.FIVE.getUnicode(),
+			UnicodeEmotes.SIX.getUnicode(), UnicodeEmotes.SEVEN.getUnicode(), UnicodeEmotes.EIGHT.getUnicode(),
+			UnicodeEmotes.NINE.getUnicode(), UnicodeEmotes.TEN.getUnicode() };
 	private final String splitter = "\\";
 
 	@Override

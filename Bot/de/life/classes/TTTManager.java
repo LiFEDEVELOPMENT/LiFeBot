@@ -16,9 +16,10 @@ public class TTTManager {
 	private HashMap<User, Long> idMap = new HashMap<User, Long>();
 	private final String[] emoteNames = { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:",
 			":eight:", ":nine:" };
-	private final String[] unicodeNames = { "U+31U+FE0FU+20E3", "U+32U+FE0FU+20E3", "U+33U+FE0FU+20E3",
-			"U+34U+FE0FU+20E3", "U+35U+FE0FU+20E3", "U+36U+FE0FU+20E3", "U+37U+FE0FU+20E3", "U+38U+FE0FU+20E3",
-			"U+39U+FE0FU+20E3" };
+	private final String[] unicodeNames = { UnicodeEmotes.ONE.getUnicode(), UnicodeEmotes.TWO.getUnicode(),
+			UnicodeEmotes.THREE.getUnicode(), UnicodeEmotes.FOUR.getUnicode(), UnicodeEmotes.FIVE.getUnicode(),
+			UnicodeEmotes.SIX.getUnicode(), UnicodeEmotes.SEVEN.getUnicode(), UnicodeEmotes.EIGHT.getUnicode(),
+			UnicodeEmotes.NINE.getUnicode() };
 
 	public void clearGame(User pPlayer) {
 		int gameID = playerMap.get(pPlayer);
@@ -65,9 +66,9 @@ public class TTTManager {
 				builder.appendDescription("\n");
 			i++;
 		}
-		
+
 		boolean playerOne = new Random().nextBoolean();
-		
+
 		builder.setFooter(playerOne ? firstPlayer.getName() : secondPlayer.getName() + " ist am Zug");
 
 		idMap.put(firstPlayer,
