@@ -8,7 +8,10 @@ public enum BotError {
 			PERMISSION_ADMIN("Du hast nicht die Berechtigung, dies zu tun. Du brauchst die Berechtigung 'Permission.ADMINISTRATOR'"),
 			PERMISSION_KICK("Du hast nicht die Berechtigung, dies zu tun. Du brauchst die Berechtigung 'Permission.KICK_MEMBERS'"),
 			PERMISSION_BAN("Du hast nicht die Berechtigung, dies zu tun. Du brauchst die Berechtigung 'Permission.BAN_MEMBERS'"),
+			PERMISSION_MANAGE_SERVER("Du hast nicht die Berechtigung, dies zu tun. Du brauchst die Berechtigung 'Permission.MANAGE_SERVER'"),
+			PERMISSION_MANAGE_CHANNEL("Du hast nicht die Berechtigung, dies zu tun. Du brauchst die Berechtigung 'Permission.MANAGE_CHANNEL'"),
 			PERMISSION_LINKS("Du hast nicht die Berechtigung, dies zu tun. Du brauchst die Berechtigung 'Permission.MESSAGE_EMBED_LINKS'");
+			
 			
 			private final String error;
 			

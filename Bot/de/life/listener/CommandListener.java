@@ -11,6 +11,16 @@ public class CommandListener extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
         if (!event.getMessage().getContentDisplay().startsWith(GlobalVariables.prefix))
             return;
+        
+        if (!event.getMessage().isFromGuild())
+        {
+              event.getAuthor().openPrivateChannel()
+                      .flatMap(privateChannel -> privateChannel.sendMessage(
+                              "Commands gehen nur auf Servern, nicht in DMs"
+                      )).queue();
+
+              return;
+        }
 
         String[] args = event.getMessage().getContentDisplay().substring(1).split(" ");
         

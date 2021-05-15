@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 import javax.security.auth.login.LoginException;
 
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+
 import de.life.classes.LogMessanger;
 import de.life.listener.AutotriggerListener;
 import de.life.listener.CommandListener;
@@ -31,6 +33,7 @@ public class LiFeBot {
 	public ShardManager shardMan;
 	private CommandManager cmdMan;
 	public DefaultShardManagerBuilder builder;
+	EventWaiter waiter;
 
 	public static void main(String[] args) {
 		try {
@@ -42,7 +45,11 @@ public class LiFeBot {
 
 	public LiFeBot() throws LoginException, IllegalArgumentException {
 		INSTANCE = this;
+		
+		waiter = new EventWaiter();
+		
 		this.cmdMan = new CommandManager();
+		
 
 		SQLite.connect();
 		SQLManager.onCreate();
@@ -66,6 +73,7 @@ public class LiFeBot {
 		builder.addEventListeners(new PrivateMessageReactionListener());
 		builder.addEventListeners(new ReadyListener());
 		builder.addEventListeners(new ZitatListener());
+		builder.addEventListeners(waiter);
 		builder.setActivity(Activity.playing("invite.lifebot.life | !commands"));
 
 		shardMan = builder.build();
@@ -108,5 +116,9 @@ public class LiFeBot {
 
 	public CommandManager getCmdMan() {
 		return cmdMan;
+	}
+	
+	public EventWaiter getWaiter() {
+		return waiter;
 	}
 }

@@ -2,9 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>MemeBot</groupId>
-	<artifactId>MemeBot</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>LiFeBot</groupId>
+	<artifactId>LiFeBot</artifactId>
+	<version>3.0.0-SNAPSHOT</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -32,6 +32,13 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+			<groupId>com.jagrosh</groupId>
+			<artifactId>jda-utilities</artifactId>
+			<version>3.0.5</version>
+			<scope>compile</scope>
+			<type>pom</type>
+		</dependency>
+		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
 			<version>4.2.1_262</version>
@@ -53,9 +60,9 @@
 			<version>6.5.4</version>
 		</dependency>
 		<dependency>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-jdk14</artifactId>
-		<version>1.7.30</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-jdk14</artifactId>
+			<version>1.7.30</version>
 		</dependency>
 	</dependencies>
 </project>

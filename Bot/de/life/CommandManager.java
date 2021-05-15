@@ -2,9 +2,12 @@ package de.life;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+
 import de.life.commands.AnnounceCommand;
 import de.life.commands.AutotriggerCommand;
 import de.life.commands.BanCommand;
+import de.life.commands.BotNewsCommand;
 import de.life.commands.ClearCommand;
 import de.life.commands.CoinflipCommand;
 import de.life.commands.ColorCommand;
@@ -25,6 +28,7 @@ import de.life.commands.ReportCommand;
 import de.life.commands.RolesCommand;
 import de.life.commands.SQLCommand;
 import de.life.commands.SettingsCommand;
+import de.life.commands.SetupCommand;
 import de.life.commands.TTTHerausfordernCommand;
 import de.life.commands.WarnCommand;
 import de.life.commands.ZitateCommand;
@@ -54,6 +58,7 @@ public class CommandManager {
 		this.commands.put("autotriggers", new AutotriggerCommand());
 		this.commands.put("ban", new BanCommand());
 		this.commands.put("bicmac", new BanCommand());
+		this.commands.put("botnews", new BotNewsCommand());
 		this.commands.put("clear", new ClearCommand());
 		this.commands.put("c", new ClearCommand());
 		this.commands.put("coinflip", new CoinflipCommand());
@@ -105,6 +110,8 @@ public class CommandManager {
 //		this.commands.put("warnings", new WarnCommand());
 		this.commands.put("zitat", new ZitateCommand());
 		this.commands.put("zitate", new ZitateCommand());
+		
+		this.commands.put("setup", new SetupCommand());
 	}
 
 	public void perform(String command, Member m, MessageChannel channel, Message message) {
