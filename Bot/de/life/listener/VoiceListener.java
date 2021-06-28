@@ -3,15 +3,12 @@ package de.life.listener;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.EnumSet;
 
 import de.life.classes.LogMessanger;
+import de.life.classes.PrivateVoiceManager;
 import de.life.music.PlayerManager;
 import de.life.sql.SQLite;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
@@ -47,7 +44,7 @@ public class VoiceListener extends ListenerAdapter {
 
 		try {
 			if (set.next()) {
-				createPrivateChannel(joined, m);
+				PrivateVoiceManager.createChannel(m.getGuild(), joined.getParent(), m);
 
 				LogMessanger.sendLog(m.getGuild().getIdLong(), "Temp | " + m.getEffectiveName() + ":",
 						m.getAsMention() + " ist dem Channel beigetreten!", Color.CYAN);
@@ -71,7 +68,6 @@ public class VoiceListener extends ListenerAdapter {
 
 					try {
 						if (innerSet.next()) {
-
 							SQLite.onUpdate("DELETE FROM channel WHERE channelid = '" + channel.getIdLong()
 									+ "' AND guildid = '" + m.getGuild().getIdLong() + "' AND type = 'temporary'");
 							channel.delete().queue();
@@ -122,7 +118,7 @@ public class VoiceListener extends ListenerAdapter {
 		try {
 			if (outerSet.next()) {
 
-				createPrivateChannel(joined, m);
+				PrivateVoiceManager.createChannel(m.getGuild(), joined.getParent(), m);
 
 				LogMessanger.sendLog(m.getGuild().getIdLong(), left.getName() + "Temp | " + m.getEffectiveName() + ":",
 						m.getAsMention() + " hat den Channel gewechselt!", Color.CYAN);
@@ -140,33 +136,5 @@ public class VoiceListener extends ListenerAdapter {
 			m.getGuild().getAudioManager().closeAudioConnection();
 		}
 
-	}
-
-	public void createPrivateChannel(VoiceChannel channel, Member m) {
-		Role everyone = m.getGuild().getRoles().get((m.getGuild().getRoles().size()) - 1);
-
-		Category cat = channel.getParent();
-		VoiceChannel vc = cat.createVoiceChannel("Temp | " + m.getEffectiveName()).complete();
-		vc.getManager().setUserLimit(5).queue();
-		vc.getGuild().moveVoiceMember(m, vc).queue();
-
-		vc.getManager()
-				.putPermissionOverride(everyone, null,
-						EnumSet.of(Permission.CREATE_INSTANT_INVITE, Permission.MANAGE_CHANNEL,
-								Permission.MANAGE_PERMISSIONS, Permission.VIEW_CHANNEL, Permission.MANAGE_WEBHOOKS,
-								Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.VOICE_STREAM,
-								Permission.VOICE_MOVE_OTHERS, Permission.VOICE_USE_VAD, Permission.VOICE_MUTE_OTHERS,
-								Permission.VOICE_DEAF_OTHERS, Permission.PRIORITY_SPEAKER))
-				.putPermissionOverride(m,
-						EnumSet.of(Permission.VIEW_CHANNEL, Permission.VOICE_CONNECT, Permission.PRIORITY_SPEAKER,
-								Permission.VOICE_SPEAK, Permission.VOICE_STREAM, Permission.VOICE_MOVE_OTHERS,
-								Permission.VOICE_USE_VAD),
-						EnumSet.of(Permission.CREATE_INSTANT_INVITE, Permission.MANAGE_CHANNEL,
-								Permission.MANAGE_PERMISSIONS, Permission.MANAGE_WEBHOOKS, Permission.VOICE_MUTE_OTHERS,
-								Permission.VOICE_DEAF_OTHERS))
-				.queue();
-
-		SQLite.onUpdate("INSERT INTO channel (guildid,channelid,type) VALUES ('" + m.getGuild().getIdLong() + "','"
-				+ vc.getIdLong() + "','temporary')");
 	}
 }

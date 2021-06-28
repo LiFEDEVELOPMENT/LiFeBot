@@ -4,3 +4,9 @@ Botnews-Channel
 !report - Mit Chatverlauf?
 meme add ' escape bug
 replace unicode
+report trigger (Nachricht triggert Regelverstoß (verbotene Links, usw.) --> löscht Nachhricht und reportet/verwarnt sender)
+reaction roles mit entfernen
+report mit buttons für mods
+Report-Slashcommand (-> Unsichtbar für reporteten)
+Zitate Edit listener
+Zitate delete listener

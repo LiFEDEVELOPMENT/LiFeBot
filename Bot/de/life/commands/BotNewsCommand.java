@@ -3,7 +3,7 @@ package de.life.commands;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.concurrent.TimeUnit;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
@@ -14,16 +14,19 @@ import de.life.classes.BotError;
 import de.life.classes.EmbedMessageBuilder;
 import de.life.interfaces.ServerCommand;
 import de.life.sql.SQLite;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class BotNewsCommand implements ServerCommand {
 
 	final EventWaiter waiter;
+	final static JDA jda = LiFeBot.INSTANCE.getJDA();
 
 	public BotNewsCommand() {
 		this.waiter = LiFeBot.INSTANCE.getWaiter();
@@ -82,21 +85,21 @@ public class BotNewsCommand implements ServerCommand {
 
 	}
 
-	private void setNewsChannel(Member m, MessageChannel channel, Message message) {
+	public static boolean setNewsChannel(Member m, MessageChannel channel, Message message) {
 		String[] args = message.getContentDisplay().split(" ");
 		Long channelid = null;
 
 		if (!m.hasPermission(Permission.MANAGE_CHANNEL)) {
 			EmbedMessageBuilder.sendMessage("Error", BotError.PERMISSION_MANAGE_CHANNEL.getError(), Color.RED, channel,
 					10);
-			return;
+			return false;
 		}
 
 		try {
 			channelid = Long.parseLong(args[0]);
 		} catch (NumberFormatException e) {
 			EmbedMessageBuilder.sendMessage("Error", BotError.SYNTAX.getError(), Color.RED, channel, 10);
-			return;
+			return false;
 		}
 
 		ResultSet set = SQLite
@@ -113,8 +116,9 @@ public class BotNewsCommand implements ServerCommand {
 		} catch (SQLException ex) {
 		}
 		EmbedMessageBuilder.sendMessage("News",
-				"Der Newschannel wurde auf #" + m.getGuild().getTextChannelById(channelid).getName() + " gesetzt",
+				"Der News-Channel wurde auf #" + m.getGuild().getTextChannelById(channelid).getName() + " gesetzt",
 				channel, 10);
+		return true;
 	}
 
 	private void removeNewsChannel(Member m, MessageChannel channel, Message message) {
@@ -136,7 +140,7 @@ public class BotNewsCommand implements ServerCommand {
 
 		SQLite.onUpdate("DELETE FROM channel WHERE guildid = '" + m.getGuild().getIdLong() + "' AND channelid = '"
 				+ channelid + "' AND type='news'");
-		EmbedMessageBuilder.sendMessage("News", "Der Newschannel dieses Servers wurde entfernt", channel, 10);
+		EmbedMessageBuilder.sendMessage("News", "Der News-Channel dieses Servers wurde entfernt", channel, 10);
 	}
 
 	private void displayMessageChannel(Member m, MessageChannel channel, Message message) {
@@ -148,12 +152,12 @@ public class BotNewsCommand implements ServerCommand {
 
 		if (retrieveNewsChannel(m.getGuild()) != null) {
 			EmbedMessageBuilder.sendMessage("Newschannel",
-					"Der Newschannel dieses Server ist der Channel #" + retrieveNewsChannel(m.getGuild()).getName()
+					"Der News-Channel dieses Server ist der Channel #" + retrieveNewsChannel(m.getGuild()).getName()
 							+ " mit der ID " + retrieveNewsChannel(m.getGuild()).getId(),
 					channel);
 			return;
 		}
-		EmbedMessageBuilder.sendMessage("Newschannel", "Dieser Server hat noch keinen Newschannel", channel);
+		EmbedMessageBuilder.sendMessage("News-Channel", "Dieser Server hat noch keinen Newschannel", channel);
 	}
 
 	private void sendBotNews(Member m, MessageChannel channel, Message message) {
@@ -171,7 +175,7 @@ public class BotNewsCommand implements ServerCommand {
 		}
 	}
 
-	public MessageChannel retrieveNewsChannel(Guild guild) {
+	private static MessageChannel retrieveNewsChannel(Guild guild) {
 		ResultSet set = SQLite
 				.onQuery("SELECT * FROM channel WHERE guildid = '" + guild.getIdLong() + "' AND type = 'news'");
 
@@ -184,5 +188,27 @@ public class BotNewsCommand implements ServerCommand {
 		} catch (SQLException ex) {
 		}
 		return null;
+	}
+
+	public static void autoGenerate(Member m, MessageChannel channel, Message message) {
+		Role everyone = jda.getGuildById(m.getGuild().getId()).getRoles()
+				.get((jda.getGuildById(m.getGuild().getId()).getRoles().size()) - 1);
+
+		if (retrieveNewsChannel(m.getGuild()) != null)
+			return;
+
+		if (!m.hasPermission(Permission.MANAGE_CHANNEL)) {
+			EmbedMessageBuilder.sendMessage("Error", BotError.PERMISSION_MANAGE_CHANNEL.getError(), Color.RED, channel,
+					10);
+			return;
+		}
+
+		Long autochannel = m.getGuild().createTextChannel("lifebot-news").complete().getIdLong();
+
+		m.getGuild().getTextChannelById(autochannel).getManager().putPermissionOverride(everyone, null,
+				EnumSet.of(Permission.MESSAGE_WRITE));
+
+		SQLite.onUpdate("INSERT INTO channel(guildid, channelid, type) VALUES('" + m.getGuild().getIdLong() + "','"
+				+ autochannel + "','news')");
 	}
 }

@@ -70,7 +70,7 @@ public class ReportCommand implements ServerCommand {
 				+ " zu verwarnen, oder mit :free:, um den Report ohne eine Aktion zu schließen.\nWenn du den Reporter verwarnen möchtest, reagiere mit der Uno Reverse Card.\nIn der folgenden Nachricht findest du die letzten Nachrichten von "
 				+ reported.getName() + ". Bitte beachte, dass dies keine gelöschten Nachrichten beinhaltet.").complete()
 				.getIdLong();
-		reportChannel.sendMessage(builder.build()).queue();
+		reportChannel.sendMessageEmbeds(builder.build()).queue();
 
 		reportChannel.addReactionById(reportMessageID, UnicodeEmotes.X.getUnicode()).queue();
 		reportChannel.addReactionById(reportMessageID, UnicodeEmotes.FREE.getUnicode()).queue();

@@ -3,143 +3,185 @@ package de.life.commands;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.concurrent.TimeUnit;
 
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+
+import de.life.LiFeBot;
+import de.life.classes.BotError;
 import de.life.classes.EmbedMessageBuilder;
-import de.life.classes.LogMessanger;
 import de.life.interfaces.ServerCommand;
 import de.life.sql.SQLite;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class LogsCommand implements ServerCommand {
 
-	@Override
-	public void performCommand(Member m, MessageChannel channel, Message message) {
-		message.delete().queue();
-		String[] args = message.getContentDisplay().split(" ");
+	final EventWaiter waiter;
+	final static JDA jda = LiFeBot.INSTANCE.getJDA();
 
-		switch (args[1].toLowerCase()) {
-		case "add":
-			addChannel(m, channel, message);
-			break;
-		case "delete":
-			deleteChannel(m, channel, message);
-			break;
-		case "list":
-			listChannel(m, channel, message);
-			break;
-		case "remove":
-			deleteChannel(m, channel, message);
-			break;
-		default:
-			break;
-		}
+	public LogsCommand() {
+		this.waiter = LiFeBot.INSTANCE.getWaiter();
 	}
 
-	private void addChannel(Member m, MessageChannel channel, Message message) {
+	@Override
+	public void performCommand(Member m, MessageChannel channel, Message message) {
+
+		message.reply(
+				"Um einen Log-Channel festzulegen oder den bisherigen Channel zu ändern, schreibe bitte \"set\".\n"
+						+ "Um den bestehenden Log-Channel zu entfernen, schreibe bitte \"delete\".\n"
+						+ "Um den Log-Channel dieses Servers anzuzeigen, schreibe bitte \"display\".")
+				.queue();
+
+		waiter.waitForEvent(MessageReceivedEvent.class, e -> e.getAuthor().equals(m.getUser())
+				&& e.getChannel().equals(channel) && !e.getMessage().equals(message), e -> {
+					if (e.getMessage().getContentDisplay().startsWith("set")
+							|| e.getMessage().getContentDisplay().startsWith("delete")) {
+						message.reply("Bitte gib die ChannelID des Channel an.").queue();
+
+						waiter.waitForEvent(MessageReceivedEvent.class,
+								ev -> ev.getAuthor().equals(m.getUser()) && ev.getChannel().equals(channel)
+										&& !ev.getMessage().equals(message) && !ev.getMessage().equals(e.getMessage()),
+								ev -> {
+									if (e.getMessage().getContentDisplay().startsWith("set")) {
+										setLogsChannel(m, channel, ev.getMessage());
+									}
+									if (e.getMessage().getContentDisplay().startsWith("delete")) {
+										removeLogsChannel(m, channel, ev.getMessage());
+									}
+								}, 1, TimeUnit.MINUTES, () -> {
+									message.reply("Du hast zu lang gebraucht, probier es nochmal").queue();
+									return;
+								});
+						return;
+					}
+					if (e.getMessage().getContentDisplay().startsWith("display")) {
+						displayLogChannel(m, channel, message);
+						return;
+					}
+				}, 1, TimeUnit.MINUTES, () -> {
+					message.reply("Du hast zu lang gebraucht, probier es nochmal").queue();
+					return;
+				});
+
+	}
+
+	public static boolean setLogsChannel(Member m, MessageChannel channel, Message message) {
 		String[] args = message.getContentDisplay().split(" ");
-		Long channelID = 0l;
+		Long channelid = null;
 
 		if (!m.hasPermission(Permission.MANAGE_CHANNEL)) {
-			EmbedMessageBuilder.sendMessage("Log-Channel", "Dazu hast du nicht die Berechtigung",
-					"Dir fehlt: Permission.MANAGE_CHANNEL", Color.RED, channel, 10);
-			return;
-		}
-		if (args.length <= 2) {
-			EmbedMessageBuilder.sendMessage("Log-Channel", "Bitte gib eine Channel-ID an", Color.RED, channel, 10);
-			return;
+			EmbedMessageBuilder.sendMessage("Error", BotError.PERMISSION_MANAGE_CHANNEL.getError(), Color.RED, channel,
+					10);
+			return false;
 		}
 
 		try {
-			channelID = Long.parseLong(args[2]);
+			channelid = Long.parseLong(args[0]);
 		} catch (NumberFormatException e) {
-			EmbedMessageBuilder.sendMessage("Log-Channel", "Bitte gib eine korrekte Channel-ID an", Color.RED, channel,
-					10);
-			return;
+			EmbedMessageBuilder.sendMessage("Error", BotError.SYNTAX.getError(), Color.RED, channel, 10);
+			return false;
 		}
 
-		ResultSet set = SQLite.onQuery("SELECT * FROM channel WHERE channelid = '" + channelID + "' AND type = 'log'");
+		ResultSet set = SQLite
+				.onQuery("SELECT * FROM channel WHERE guildid = '" + m.getGuild().getIdLong() + "' AND type = 'log'");
 
 		try {
 			if (set.next()) {
-				EmbedMessageBuilder.sendMessage("Logchannel hinzufügen", "Dieser Logchannel exisitiert bereits.",
-						Color.GRAY, channel, 10);
-				return;
+				SQLite.onUpdate("UPDATE channel SET channelid = '" + channelid + "' WHERE guildid = '"
+						+ m.getGuild().getIdLong() + "' AND type = 'log'");
 			} else {
-				EmbedMessageBuilder.sendMessage("Logchannel hinzugefügt", Long.toString(channelID), Color.GRAY, channel,
-						10);
+				SQLite.onUpdate("INSERT INTO channel(guildid, channelid, type) VALUES('" + m.getGuild().getIdLong()
+						+ "','" + channelid + "','log')");
 			}
 		} catch (SQLException ex) {
 		}
-
-		SQLite.onUpdate("INSERT INTO channel (guildid,channelid,type) VALUES ('" + m.getGuild().getIdLong() + "','"
-				+ channelID + "','log')");
-		LogMessanger.sendLog(m.getGuild().getIdLong(), "Log",
-				m.getEffectiveName() + " hat ein Log hinzugefügt: " + channelID);
+		EmbedMessageBuilder.sendMessage("Log",
+				"Der Log-Channel wurde auf #" + m.getGuild().getTextChannelById(channelid).getName() + " gesetzt",
+				channel, 10);
+		return true;
 	}
 
-	private void deleteChannel(Member m, MessageChannel channel, Message message) {
+	private void removeLogsChannel(Member m, MessageChannel channel, Message message) {
 		String[] args = message.getContentDisplay().split(" ");
-		Long channelID = 0l;
+		Long channelid = null;
 
-		if (args.length <= 2) {
-			EmbedMessageBuilder.sendMessage("Logchannel löschen", "Bitte gib eine Channel-ID an.", Color.GRAY, channel,
+		if (!m.hasPermission(Permission.MANAGE_CHANNEL)) {
+			EmbedMessageBuilder.sendMessage("Error", BotError.PERMISSION_MANAGE_CHANNEL.getError(), Color.RED, channel,
 					10);
 			return;
 		}
 
 		try {
-			channelID = Long.parseLong(args[2]);
+			channelid = Long.parseLong(args[0]);
 		} catch (NumberFormatException e) {
-			EmbedMessageBuilder.sendMessage("Logchannel löschen", "Bitte gib eine gültige Channel-ID an.", Color.GRAY,
-					channel, 10);
+			EmbedMessageBuilder.sendMessage("Error", BotError.SYNTAX.getError(), Color.RED, channel, 10);
+			return;
 		}
 
-		ResultSet set = SQLite.onQuery("SELECT * FROM channel WHERE channelid = '" + channelID + "' AND guildid = '"
-				+ m.getGuild().getIdLong() + "' AND type = 'log'");
-
-		try {
-			if (!set.next()) {
-				EmbedMessageBuilder.sendMessage("Logchannel löschen", "Bitte gib eine gültige Channel-ID an.",
-						Color.GRAY, channel, 10);
-				return;
-			} else {
-				EmbedMessageBuilder.sendMessage("Logchannel gelöscht", Long.toString(set.getLong("channelid")),
-						Color.GRAY, channel, 10);
-			}
-		} catch (SQLException ex) {
-		}
-
-		SQLite.onUpdate("DELETE FROM channel WHERE channelid = '" + channelID + "' AND guildid = '"
-				+ m.getGuild().getIdLong() + "' AND type = 'log'");
-		LogMessanger.sendLog(m.getGuild().getIdLong(), "Log",
-				m.getEffectiveName() + " hat den Log mit folgender ID gelöscht: " + channelID);
+		SQLite.onUpdate("DELETE FROM channel WHERE guildid = '" + m.getGuild().getIdLong() + "' AND channelid = '"
+				+ channelid + "' AND type='log'");
+		EmbedMessageBuilder.sendMessage("Log", "Der Log-Channel dieses Servers wurde entfernt", channel, 10);
 	}
 
-	private void listChannel(Member m, MessageChannel channel, Message message) {
-		String result = "";
-		Long guildid = m.getGuild().getIdLong();
+	private void displayLogChannel(Member m, MessageChannel channel, Message message) {
+		if (!m.hasPermission(Permission.MANAGE_CHANNEL)) {
+			EmbedMessageBuilder.sendMessage("Error", BotError.PERMISSION_MANAGE_CHANNEL.getError(), Color.RED, channel,
+					10);
+			return;
+		}
 
-		ResultSet set = SQLite.onQuery("SELECT * FROM channel WHERE guildid = '" + guildid + "' AND type = 'log'");
-		ArrayList<Long> logs = new ArrayList<Long>();
+		if (retrieveLogChannel(m.getGuild()) != null) {
+			EmbedMessageBuilder.sendMessage("Log-Channel",
+					"Der Log-Channel dieses Server ist der Channel #" + retrieveLogChannel(m.getGuild()).getName()
+							+ " mit der ID " + retrieveLogChannel(m.getGuild()).getId(),
+					channel);
+			return;
+		}
+		EmbedMessageBuilder.sendMessage("Log-Channel", "Dieser Server hat noch keinen Newschannel", channel);
+	}
+
+	private static MessageChannel retrieveLogChannel(Guild guild) {
+		ResultSet set = SQLite
+				.onQuery("SELECT * FROM channel WHERE guildid = '" + guild.getIdLong() + "' AND type = 'log'");
 
 		try {
-			while (set.next()) {
-				logs.add(set.getLong("channelid"));
+			if (set.next()) {
+				if (guild.getTextChannelById(set.getLong("channelid")) != null) {
+					return guild.getTextChannelById(set.getLong("channelid"));
+				}
 			}
 		} catch (SQLException ex) {
 		}
+		return null;
+	}
 
-		for (Long log : logs) {
-			result = result + Long.toString(log) + "\n\n";
+	public static void autoGenerate(Member m, MessageChannel channel, Message message) {
+		Role everyone = jda.getGuildById(m.getGuild().getId()).getRoles()
+				.get((jda.getGuildById(m.getGuild().getId()).getRoles().size()) - 1);
+
+		if (retrieveLogChannel(m.getGuild()) != null)
+			return;
+
+		if (!m.hasPermission(Permission.MANAGE_CHANNEL)) {
+			EmbedMessageBuilder.sendMessage("Error", BotError.PERMISSION_MANAGE_CHANNEL.getError(), Color.RED, channel,
+					10);
+			return;
 		}
 
-		if (result == "")
-			result = "Auf diesem Server gibt es noch keine Logs. Füge eins mit !addlogchannel <Channel-ID> hinzu!";
+		Long autochannel = m.getGuild().createTextChannel("lifebot-log").complete().getIdLong();
 
-		EmbedMessageBuilder.sendMessage(result, Color.GRAY, channel);
+		m.getGuild().getTextChannelById(autochannel).getManager().putPermissionOverride(everyone, null,
+				EnumSet.of(Permission.MESSAGE_WRITE));
+
+		SQLite.onUpdate("INSERT INTO channel(guildid, channelid, type) VALUES('" + m.getGuild().getIdLong() + "','"
+				+ autochannel + "','log')");
 	}
 }

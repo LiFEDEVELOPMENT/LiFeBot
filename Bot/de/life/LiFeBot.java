@@ -13,6 +13,7 @@ import de.life.listener.CommandListener;
 import de.life.listener.PrivateMessageReactionListener;
 import de.life.listener.ReactionListener;
 import de.life.listener.ReadyListener;
+import de.life.listener.SlashListener;
 import de.life.listener.VoiceListener;
 import de.life.listener.ZitatListener;
 import de.life.sql.SQLManager;
@@ -45,11 +46,8 @@ public class LiFeBot {
 
 	public LiFeBot() throws LoginException, IllegalArgumentException {
 		INSTANCE = this;
-		
+
 		waiter = new EventWaiter();
-		
-		this.cmdMan = new CommandManager();
-		
 
 		SQLite.connect();
 		SQLManager.onCreate();
@@ -73,10 +71,13 @@ public class LiFeBot {
 		builder.addEventListeners(new PrivateMessageReactionListener());
 		builder.addEventListeners(new ReadyListener());
 		builder.addEventListeners(new ZitatListener());
+		builder.addEventListeners(new SlashListener());
 		builder.addEventListeners(waiter);
 		builder.setActivity(Activity.playing("invite.lifebot.life | !commands"));
 
 		shardMan = builder.build();
+
+		this.cmdMan = new CommandManager();
 
 		shutdown();
 	}
@@ -117,7 +118,7 @@ public class LiFeBot {
 	public CommandManager getCmdMan() {
 		return cmdMan;
 	}
-	
+
 	public EventWaiter getWaiter() {
 		return waiter;
 	}

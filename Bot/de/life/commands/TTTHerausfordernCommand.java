@@ -11,8 +11,10 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Button;
 
-public class TTTHerausfordernCommand implements ServerCommand{
+public class TTTHerausfordernCommand implements ServerCommand {
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
@@ -22,18 +24,18 @@ public class TTTHerausfordernCommand implements ServerCommand{
 		User secondPlayer = message.getMentionedUsers().get(0);
 
 		if (secondPlayer.equals(m.getUser()) || secondPlayer.isBot()) {
-			EmbedMessageBuilder.sendMessage("TTT",
-					"Du kannst gegen diesen Spieler kein TicTacToe -Spiel starten", Color.RED, channel, 10);
+			EmbedMessageBuilder.sendMessage("TTT", "Du kannst gegen diesen Spieler kein TicTacToe -Spiel starten",
+					Color.RED, channel, 10);
 			return;
 		}
 
 		if (TTTManager.getInstance().hasGame(m.getUser(), secondPlayer)) {
 			EmbedMessageBuilder.sendMessage("TTT",
-					"Einer dieser Spieler hat bereits ein TicTacToe -Spiel. Bitte warte, bis dieses beendet ist", Color.RED,
-					channel, 10);
+					"Einer dieser Spieler hat bereits ein TicTacToe -Spiel. Bitte warte, bis dieses beendet ist",
+					Color.RED, channel, 10);
 			return;
 		}
-		
+
 		Long messageID = channel.sendMessage("TTT-Herausforderung: " + secondPlayer.getAsMention() + ", du wurdest von "
 				+ m.getAsMention()
 				+ " zu einem TicTacToe -Spiel herausgefordet. Reagiere mit :white_check_mark: für ein Spiel oder mit :x: zum Ablehnen der Herausforderung.")

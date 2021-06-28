@@ -2,8 +2,6 @@ package de.life;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-
 import de.life.commands.AnnounceCommand;
 import de.life.commands.AutotriggerCommand;
 import de.life.commands.BanCommand;
@@ -24,13 +22,10 @@ import de.life.commands.PollCommand;
 import de.life.commands.PrivateChannelCommand;
 import de.life.commands.RPSHerausfordernCommand;
 import de.life.commands.ReactCommand;
-import de.life.commands.ReportCommand;
 import de.life.commands.RolesCommand;
 import de.life.commands.SQLCommand;
-import de.life.commands.SettingsCommand;
 import de.life.commands.SetupCommand;
 import de.life.commands.TTTHerausfordernCommand;
-import de.life.commands.WarnCommand;
 import de.life.commands.ZitateCommand;
 import de.life.interfaces.ServerCommand;
 import de.life.music.commands.PauseCommand;
@@ -97,6 +92,7 @@ public class CommandManager {
 		this.commands.put("roles", new RolesCommand());
 		this.commands.put("rps", new RPSHerausfordernCommand());
 //		this.commands.put("settings", new SettingsCommand());
+		this.commands.put("setup", new SetupCommand());
 		this.commands.put("shuffle", new ShuffleCommand());
 		this.commands.put("next", new SkipCommand());
 		this.commands.put("skip", new SkipCommand());
@@ -110,8 +106,6 @@ public class CommandManager {
 //		this.commands.put("warnings", new WarnCommand());
 		this.commands.put("zitat", new ZitateCommand());
 		this.commands.put("zitate", new ZitateCommand());
-		
-		this.commands.put("setup", new SetupCommand());
 	}
 
 	public void perform(String command, Member m, MessageChannel channel, Message message) {
