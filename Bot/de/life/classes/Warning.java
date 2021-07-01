@@ -42,5 +42,5 @@ public class Warning {
 
 	public OffsetDateTime getTime() {
 		return time;
-	}	
+	}
 }

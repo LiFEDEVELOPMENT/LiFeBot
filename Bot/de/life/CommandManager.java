@@ -85,7 +85,6 @@ public class CommandManager {
 		this.commands.put("q", new QueueCommand());
 		this.commands.put("queue", new QueueCommand());
 		this.commands.put("react", new ReactCommand());
-//		this.commands.put("report", new ReportCommand());
 		this.commands.put("resume", new ResumeCommand());
 		this.commands.put("rockpaperscissors", new RPSHerausfordernCommand());
 		this.commands.put("role", new RolesCommand());

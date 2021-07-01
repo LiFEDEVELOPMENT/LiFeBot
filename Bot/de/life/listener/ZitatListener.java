@@ -8,7 +8,9 @@ import de.life.GlobalVariables;
 import de.life.classes.EmbedMessageBuilder;
 import de.life.classes.LogMessanger;
 import de.life.sql.SQLite;
+import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class ZitatListener extends ListenerAdapter {
@@ -39,5 +41,13 @@ public class ZitatListener extends ListenerAdapter {
 			}
 		} catch (SQLException e) {
 		}
+	}
+
+	public void onMessageUpdated(MessageUpdateEvent event) {
+		return;
+	}
+
+	public void onMessageDelete(MessageDeleteEvent event) {
+		return;
 	}
 }

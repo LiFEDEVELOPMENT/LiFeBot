@@ -9,6 +9,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 
 import de.life.classes.LogMessanger;
 import de.life.listener.AutotriggerListener;
+import de.life.listener.ButtonListener;
 import de.life.listener.CommandListener;
 import de.life.listener.PrivateMessageReactionListener;
 import de.life.listener.ReactionListener;
@@ -72,6 +73,7 @@ public class LiFeBot {
 		builder.addEventListeners(new ReadyListener());
 		builder.addEventListeners(new ZitatListener());
 		builder.addEventListeners(new SlashListener());
+		builder.addEventListeners(new ButtonListener());
 		builder.addEventListeners(waiter);
 		builder.setActivity(Activity.playing("invite.lifebot.life | !commands"));
 
