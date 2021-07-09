@@ -11,7 +11,8 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 public class ReadyListener extends ListenerAdapter {
 
-	Guild instance = null; //Für Beta-Commands -> Später mit JDA instance = event.getJDA() zu ersetzen, um Commands global verfügbar zu machen
+	Guild instance = null; // Fr Beta-Commands -> Spï¿½ter mit JDA instance = event.getJDA() zu ersetzen, um
+							// Commands global verfï¿½gbar zu machen
 
 	@Override
 	public void onReady(ReadyEvent event) {
@@ -25,22 +26,36 @@ public class ReadyListener extends ListenerAdapter {
 
 		instance.upsertCommand("report", "Reportet den angegebenen User")
 				.addOption(OptionType.USER, "user", "Der zu reportende User", true)
-				.addOption(OptionType.STRING, "reason", "Weswegen möchtest du den User reporten?", false).queue();
+				.addOption(OptionType.STRING, "reason", "WofÃ¼r soll der User reportet werden?", false).queue();
 		instance.upsertCommand("poll", "Managed eine Umfrage")
-				.addSubcommands(new SubcommandData("start", "Startet eine Umfrage mit bis zu zehn Antwortmöglichkeiten")
-						.addOption(OptionType.STRING, "frage", "Was möchtest du fragen?", true)
-						.addOption(OptionType.STRING, "antwort1", "Die erste Antwortmöglichkeit", true)
-						.addOption(OptionType.STRING, "antwort2", "Die zweite Antwortmöglichkeit", true)
-						.addOption(OptionType.STRING, "antwort3", "Die dritte Antwortmöglichkeit", false)
-						.addOption(OptionType.STRING, "antwort4", "Die vierte Antwortmöglichkeit", false)
-						.addOption(OptionType.STRING, "antwort5", "Die fünfte Antwortmöglichkeit", false)
-						.addOption(OptionType.STRING, "antwort6", "Die sechste Antwortmöglichkeit", false)
-						.addOption(OptionType.STRING, "antwort7", "Die siebte Antwortmöglichkeit", false)
-						.addOption(OptionType.STRING, "antwort8", "Die achte Antwortmöglichkeit", false)
-						.addOption(OptionType.STRING, "antwort9", "Die neunte Antwortmöglichkeit", false)
-						.addOption(OptionType.STRING, "antwort10", "Die zehnte Antwortmöglichkeit", false))
+				.addSubcommands(new SubcommandData("start", "Startet eine Umfrage mit bis zu zehn Optionen")
+						.addOption(OptionType.STRING, "frage", "Stelle eine Frage?", true)
+						.addOption(OptionType.STRING, "antwort1", "Die erste Option", true)
+						.addOption(OptionType.STRING, "antwort2", "Die zweite Option", true)
+						.addOption(OptionType.STRING, "antwort3", "Die dritte Option", false)
+						.addOption(OptionType.STRING, "antwort4", "Die vierte Option", false)
+						.addOption(OptionType.STRING, "antwort5", "Die fuenfte Option", false)
+						.addOption(OptionType.STRING, "antwort6", "Die sechste Option", false)
+						.addOption(OptionType.STRING, "antwort7", "Die siebte Option", false)
+						.addOption(OptionType.STRING, "antwort8", "Die achte Option", false)
+						.addOption(OptionType.STRING, "antwort9", "Die neunte Option", false)
+						.addOption(OptionType.STRING, "antwort10", "Die zehnte Option", false))
 				.addSubcommands(new SubcommandData("stop", "Beendet eine Umfrage").addOption(OptionType.INTEGER,
-						"pollid", "Welche Umfrage möchtest du stoppen?", true))
+						"pollid", "Bitte gebe die PollID der Umfrage an, welche gestoppt werden soll", true))
 				.queue();
+		instance.upsertCommand("hub", "Managed den/die Hubchannel des Servers")
+				.addSubcommands(new SubcommandData("add", "Deklariert einen Sprachkanal als Hubchannel").addOption(
+						OptionType.INTEGER, "channelid",
+						"Die ID des Channels, der als Hubchannel deklariert werden soll.", true))
+				.addSubcommands(new SubcommandData("remove", "Entfernt einen Hubchannel").addOption(OptionType.INTEGER,
+						"channelid", "Die ID des zu entfernenden Channels"))
+				.addSubcommands(new SubcommandData("list", "Zeigt eine Liste aller Hubchannels dieses Servers"));
+		instance.upsertCommand("log", "Managed den/die Logchannel des Servers")
+		.addSubcommands(new SubcommandData("add", "Deklariert einen Textkanal als Logchannel").addOption(
+				OptionType.INTEGER, "channelid",
+				"Die ID des Channels, der als Logchannel deklariert werden soll.", true))
+		.addSubcommands(new SubcommandData("remove", "Entfernt einen Logchannel").addOption(OptionType.INTEGER,
+				"channelid", "Die ID des zu entfernenden Channels"))
+		.addSubcommands(new SubcommandData("list", "Zeigt eine Liste aller Logchannels dieses Servers"));
 	}
 }
