@@ -3,9 +3,8 @@ Botnews-Channel
 !setup
 meme add ' escape bug
 replace unicode
-report trigger (Nachricht triggert Regelverstoß (verbotene Links, usw.) --> löscht Nachhricht und reportet/verwarnt sender)
+report trigger (Nachricht triggert Regelverstoï¿½ (verbotene Links, usw.) --> lï¿½scht Nachhricht und reportet/verwarnt sender)
 reaction roles mit entfernen
-Warning-Buttons für Moderatoren bei Report
+Warning-Buttons fï¿½r Moderatoren bei Report
 Zitate Edit listener
 Zitate delete listener
-Poll als Slashcommand
