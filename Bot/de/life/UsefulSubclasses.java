@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 public class UsefulSubclasses {
 	
-	public static double round(double value, int places) {
+	public double round(double value, int places) {
 		if (places < 0)
 			throw new IllegalArgumentException();
 
@@ -20,7 +20,7 @@ public class UsefulSubclasses {
 		return (double) tmp / factor;
 	}
 
-	public static String shortString(String pString) {
+	public String shortString(String pString) {
 		if (pString.length() > 6)
 			return pString.substring(0, pString.length() - 6) + "."
 					+ pString.substring(pString.length() - 6, pString.length() - 5) + "M";
@@ -29,7 +29,7 @@ public class UsefulSubclasses {
 		return pString;
 	}
 	
-	public static byte[] extractBytes(File ImageName) throws IOException {
+	public byte[] extractBytes(File ImageName) throws IOException {
 		// open image
 		BufferedImage bufferedImage = ImageIO.read(ImageName);
 

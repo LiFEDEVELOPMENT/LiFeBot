@@ -52,7 +52,7 @@ public class PlayerManager {
 			public void trackLoaded(AudioTrack track) {
 				if (!musicManager.scheduler.queue(track)) {
 					EmbedMessageBuilder.sendMessage(
-							"Ein Track wurde der Queue hinzugefügt:\n[" + track.getInfo().author + " - "
+							"Ein Track wurde der Queue hinzugefï¿½gt:\n[" + track.getInfo().author + " - "
 									+ track.getInfo().title + "](" + track.getInfo().uri + ")\n" + "["
 									+ m.getAsMention() + "]",
 							Color.decode("#8c14fc"), MusicUtil.getMusicChannel(m.getGuild()));
@@ -63,7 +63,7 @@ public class PlayerManager {
 			public void playlistLoaded(AudioPlaylist playlist) {
 				if (trackUrl.startsWith("ytsearch:")) {
 					if (!musicManager.scheduler.queue(playlist.getTracks().get(0))) {
-						EmbedMessageBuilder.sendMessage("Ein Track wurde der Queue hinzugefügt:\n["
+						EmbedMessageBuilder.sendMessage("Ein Track wurde der Queue hinzugefï¿½gt:\n["
 								+ playlist.getTracks().get(0).getInfo().author + " - "
 								+ playlist.getTracks().get(0).getInfo().title + "]("
 								+ playlist.getTracks().get(0).getInfo().uri + ")\n" + "[" + m.getAsMention() + "]",
@@ -84,7 +84,7 @@ public class PlayerManager {
 					added++;
 				}
 
-				EmbedMessageBuilder.sendMessage(added + " Tracks wurden der Queue hinzugefügt", Color.decode("#8c14fc"),
+				EmbedMessageBuilder.sendMessage(added + " Tracks wurden der Queue hinzugefï¿½gt", Color.decode("#8c14fc"),
 						MusicUtil.getMusicChannel(m.getGuild()));
 			}
 

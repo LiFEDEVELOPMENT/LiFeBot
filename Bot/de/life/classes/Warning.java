@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.User;
 
 public class Warning {
 
-	private final static JDA jda = LiFeBot.INSTANCE.getJDA();
+	private final JDA jda = LiFeBot.INSTANCE.getJDA();
 	private final Guild guild;
 	private final User moderator;
 	private final User victim;

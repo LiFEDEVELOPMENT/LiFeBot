@@ -36,8 +36,8 @@ public class ZitatListener extends ListenerAdapter {
 						"INSERT INTO zitate (guildid,zitat,time,author) VALUES ('" + event.getGuild().getIdLong()
 								+ "','" + zitat + "','" + event.getMessage().getTimeCreated().toString() + "','"
 								+ event.getAuthor().getIdLong() + "')");
-				EmbedMessageBuilder.sendMessage("Zitat hinzugefügt", zitat, Color.GRAY, event.getChannel(), 10);
-				LogMessanger.sendLog(event.getGuild().getIdLong(), "Auto-Zitat hinzugefügt:", zitat);
+				EmbedMessageBuilder.sendMessage("Zitat hinzugefï¿½gt", zitat, Color.GRAY, event.getChannel(), 10);
+				LogMessanger.sendLog(event.getGuild().getIdLong(), "Auto-Zitat hinzugefï¿½gt:", zitat);
 			}
 		} catch (SQLException e) {
 		}
@@ -47,6 +47,7 @@ public class ZitatListener extends ListenerAdapter {
 		return;
 	}
 
+	@Override
 	public void onMessageDelete(MessageDeleteEvent event) {
 		return;
 	}

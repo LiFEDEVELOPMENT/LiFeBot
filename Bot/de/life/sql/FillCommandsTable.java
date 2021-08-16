@@ -1,7 +1,7 @@
 package de.life.sql;
 
 public class FillCommandsTable {
-
+	
 	public static void fillTable() {
 		SQLite.onUpdate("INSERT INTO commands (command) VALUES ('**Announce:**\r\n"
 				+ "!announce <Nachricht> - Announced die Nachricht\r\n"

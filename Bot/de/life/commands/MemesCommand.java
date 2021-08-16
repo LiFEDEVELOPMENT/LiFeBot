@@ -142,7 +142,7 @@ public class MemesCommand implements ServerCommand {
 		ArrayList<Integer> memeIDs = new ArrayList<Integer>();
 		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
 		String result = "";
-		Integer i = 1;
+		int i = 1;
 
 		ResultSet set = SQLite.onQuery("SELECT * FROM memes WHERE guildid = '" + guildid + "'");
 
@@ -176,7 +176,7 @@ public class MemesCommand implements ServerCommand {
 		ArrayList<Integer> memeIDs = new ArrayList<Integer>();
 		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
 		String result = "";
-		Integer i = 1;
+		int i = 1;
 
 		ResultSet set = SQLite.onQuery("SELECT * FROM memes WHERE guildid = '" + guildid + "'");
 

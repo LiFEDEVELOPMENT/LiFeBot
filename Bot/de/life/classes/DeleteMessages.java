@@ -39,14 +39,10 @@ public class DeleteMessages {
 			} else {
 				i++;
 			}
-			if (--i <= 0) {
-				break;
-			}
-			if(i >= 1000) {
+			if((--i <= 0) || (i >= 1000)) {
 				break;
 			}
 		}
-
 		channel.purgeMessages(messages);
 	}
 }

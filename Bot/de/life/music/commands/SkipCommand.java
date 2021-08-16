@@ -10,10 +10,7 @@ public class SkipCommand implements ServerCommand {
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
-		if (!m.getGuild().getSelfMember().getVoiceState().inVoiceChannel()) {
-			return;
-		}
-		if (!m.getGuild().getSelfMember().getVoiceState().getChannel().equals(m.getVoiceState().getChannel())) {
+		if (!m.getGuild().getSelfMember().getVoiceState().inVoiceChannel() || !m.getGuild().getSelfMember().getVoiceState().getChannel().equals(m.getVoiceState().getChannel())) {
 			return;
 		}
 		PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler.nextTrack();

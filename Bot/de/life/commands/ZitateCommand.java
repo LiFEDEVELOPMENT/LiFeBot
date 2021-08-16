@@ -194,7 +194,7 @@ public class ZitateCommand implements ServerCommand {
 
 	private void importChannel(Member m, MessageChannel channel, Message message) {
 		String[] args = message.getContentDisplay().split(" ");
-		Integer i = 0;
+		int i = 0;
 		Long channelID = 0l;
 		ArrayList<Message> reverseList = new ArrayList<Message>();
 
@@ -380,7 +380,7 @@ public class ZitateCommand implements ServerCommand {
 		ArrayList<Integer> zitateIDs = new ArrayList<Integer>();
 		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
 		String result = "";
-		Integer i = 1;
+		int i = 1;
 
 		ResultSet set = SQLite.onQuery("SELECT * FROM zitate WHERE guildid = '" + guildid + "'");
 
@@ -414,7 +414,7 @@ public class ZitateCommand implements ServerCommand {
 		ArrayList<Integer> zitateIDs = new ArrayList<Integer>();
 		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
 		String result = "";
-		Integer i = 1;
+		int i = 1;
 
 		ResultSet set = SQLite.onQuery("SELECT * FROM zitate WHERE guildid = '" + guildid + "'");
 

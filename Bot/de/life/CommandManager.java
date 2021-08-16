@@ -24,7 +24,6 @@ import de.life.commands.RPSHerausfordernCommand;
 import de.life.commands.ReactCommand;
 import de.life.commands.RolesCommand;
 import de.life.commands.SQLCommand;
-import de.life.commands.SetupCommand;
 import de.life.commands.TTTHerausfordernCommand;
 import de.life.commands.ZitateCommand;
 import de.life.interfaces.ServerCommand;
@@ -91,7 +90,6 @@ public class CommandManager {
 		this.commands.put("roles", new RolesCommand());
 		this.commands.put("rps", new RPSHerausfordernCommand());
 //		this.commands.put("settings", new SettingsCommand());
-		this.commands.put("setup", new SetupCommand());
 		this.commands.put("shuffle", new ShuffleCommand());
 		this.commands.put("next", new SkipCommand());
 		this.commands.put("skip", new SkipCommand());

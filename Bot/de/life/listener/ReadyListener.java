@@ -51,11 +51,14 @@ public class ReadyListener extends ListenerAdapter {
 						"channelid", "Die ID des zu entfernenden Channels"))
 				.addSubcommands(new SubcommandData("list", "Zeigt eine Liste aller Hubchannels dieses Servers"));
 		instance.upsertCommand("log", "Managed den/die Logchannel des Servers")
-		.addSubcommands(new SubcommandData("add", "Deklariert einen Textkanal als Logchannel").addOption(
-				OptionType.INTEGER, "channelid",
-				"Die ID des Channels, der als Logchannel deklariert werden soll.", true))
-		.addSubcommands(new SubcommandData("remove", "Entfernt einen Logchannel").addOption(OptionType.INTEGER,
-				"channelid", "Die ID des zu entfernenden Channels"))
-		.addSubcommands(new SubcommandData("list", "Zeigt eine Liste aller Logchannels dieses Servers"));
+				.addSubcommands(new SubcommandData("add", "Deklariert einen Textkanal als Logchannel").addOption(
+						OptionType.INTEGER, "channelid",
+						"Die ID des Channels, der als Logchannel deklariert werden soll.", true))
+				.addSubcommands(new SubcommandData("remove", "Entfernt einen Logchannel").addOption(OptionType.INTEGER,
+						"channelid", "Die ID des zu entfernenden Channels"))
+				.addSubcommands(new SubcommandData("list", "Zeigt eine Liste aller Logchannels dieses Servers"));
+		instance.upsertCommand("announce", "Admin-Command, um Server-Neuigkeiten strukturiert bekannt zu geben.")
+				.addOption(OptionType.STRING, "nachricht", "Die Nachricht, welche announced werden soll.", true)
+				.addOption(OptionType.ROLE, "rolle", "Soll eine Rolle markiert werden?", false).queue();
 	}
 }

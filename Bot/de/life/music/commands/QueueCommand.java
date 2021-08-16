@@ -50,13 +50,13 @@ public class QueueCommand implements ServerCommand {
 		}
 	}
 
-	private void displayQueue(Member m, MessageChannel channel) {
+	private static void displayQueue(Member m, MessageChannel channel) {
 		int i = 1;
 		EmbedBuilder builder = new EmbedBuilder().setTitle("Es folgt:").setColor(Color.ORANGE);
 
 		if (QueueManager.getInstance().getQueue(m.getGuild()).getQueue() == null) {
 			builder.setDescription("Nichts - Die Queue ist leer");
-			channel.sendMessage(builder.build()).queue();
+			channel.sendMessageEmbeds(builder.build()).queue();
 			return;
 		}
 
@@ -77,7 +77,7 @@ public class QueueCommand implements ServerCommand {
 
 		if (builder.build().getDescription() == null)
 			builder.setDescription("Nichts - Die Queue ist leer");
-		channel.sendMessage(builder.build()).queue();
+		channel.sendMessageEmbeds(builder.build()).queue();
 	}
 
 	private void add(Member m, MessageChannel channel, String message) {
@@ -100,7 +100,7 @@ public class QueueCommand implements ServerCommand {
 			PlayerManager.getInstance().getMusicManager(m.getGuild()).scheduler
 					.jump(Integer.parseInt(message.getContentDisplay().split(" ")[2]));
 			EmbedMessageBuilder.sendMessage("Musik", Integer.parseInt(message.getContentDisplay().split(" ")[2])
-					+ " Songs wurden in der Queue übersprungen", Color.ORANGE, channel);
+					+ " Songs wurden in der Queue ï¿½bersprungen", Color.ORANGE, channel);
 		} catch (NumberFormatException e) {
 			EmbedMessageBuilder.sendMessage("Musik", "Bitte gib eine Zahl an", Color.RED, channel, 10);
 			return;

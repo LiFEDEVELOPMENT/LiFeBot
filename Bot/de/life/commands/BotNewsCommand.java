@@ -26,7 +26,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class BotNewsCommand implements ServerCommand {
 
 	final EventWaiter waiter;
-	final static JDA jda = LiFeBot.INSTANCE.getJDA();
+	final JDA jda = LiFeBot.INSTANCE.getJDA();
 
 	public BotNewsCommand() {
 		this.waiter = LiFeBot.INSTANCE.getWaiter();
@@ -36,7 +36,7 @@ public class BotNewsCommand implements ServerCommand {
 	public void performCommand(Member m, MessageChannel channel, Message message) {
 
 		message.reply(
-				"Um einen Botnews-Channel festzulegen oder den bisherigen Channel zu ändern, schreibe bitte \"set\".\nUm den bestehenden Botnews-Channel zu entfernen, schreibe bitte \"delete\".\nUm den BotNews-Channel dieses Servers anzuzeigen, schreibe bitte \"display\".")
+				"Um einen Botnews-Channel festzulegen oder den bisherigen Channel zu ï¿½ndern, schreibe bitte \"set\".\nUm den bestehenden Botnews-Channel zu entfernen, schreibe bitte \"delete\".\nUm den BotNews-Channel dieses Servers anzuzeigen, schreibe bitte \"display\".")
 				.queue();
 
 		waiter.waitForEvent(MessageReceivedEvent.class, e -> e.getAuthor().equals(m.getUser())
@@ -85,7 +85,7 @@ public class BotNewsCommand implements ServerCommand {
 
 	}
 
-	public static boolean setNewsChannel(Member m, MessageChannel channel, Message message) {
+	public boolean setNewsChannel(Member m, MessageChannel channel, Message message) {
 		String[] args = message.getContentDisplay().split(" ");
 		Long channelid = null;
 
@@ -175,7 +175,7 @@ public class BotNewsCommand implements ServerCommand {
 		}
 	}
 
-	private static MessageChannel retrieveNewsChannel(Guild guild) {
+	private MessageChannel retrieveNewsChannel(Guild guild) {
 		ResultSet set = SQLite
 				.onQuery("SELECT * FROM channel WHERE guildid = '" + guild.getIdLong() + "' AND type = 'news'");
 
@@ -190,7 +190,7 @@ public class BotNewsCommand implements ServerCommand {
 		return null;
 	}
 
-	public static void autoGenerate(Member m, MessageChannel channel, Message message) {
+	public void autoGenerate(Member m, MessageChannel channel, Message message) {
 		Role everyone = jda.getGuildById(m.getGuild().getId()).getRoles()
 				.get((jda.getGuildById(m.getGuild().getId()).getRoles().size()) - 1);
 

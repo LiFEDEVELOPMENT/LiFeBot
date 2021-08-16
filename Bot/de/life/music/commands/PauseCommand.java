@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class PauseCommand implements ServerCommand {
+	
+	private final PlayerManager playerManager = new PlayerManager();
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {

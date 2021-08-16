@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 public class PollCommand implements ServerCommand {
 
 	@Override
+	@Deprecated
 	public void performCommand(Member m, MessageChannel channel, Message message) {
 		message.delete().queue();
 

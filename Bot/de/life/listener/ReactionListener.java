@@ -117,7 +117,7 @@ public class ReactionListener extends ListenerAdapter {
 					}
 				}
 
-				event.getChannel().editMessageById(messageID, newEmbed).queue();
+				event.getChannel().editMessageEmbedsById(messageID, newEmbed).queue();
 				if (pageID > 1) {
 					event.getChannel().addReactionById(messageID, UnicodeEmotes.DOUBLE_ARROW_LEFT.getUnicode()).queue();
 					event.getChannel().addReactionById(messageID, UnicodeEmotes.ARROW_LEFT.getUnicode()).queue();
@@ -204,7 +204,7 @@ public class ReactionListener extends ListenerAdapter {
 				builder.setTitle(embed.getTitle());
 				builder.setDescription(result);
 				builder.setFooter(footer);
-				event.getChannel().editMessageById(event.getMessageIdLong(), builder.build()).queue();
+				event.getChannel().editMessageEmbedsById(event.getMessageIdLong(), builder.build()).queue();
 
 				LogMessanger.sendLog(event.getGuild().getIdLong(), "Poll", event.getUser().getAsMention()
 						+ " hat in der Poll mit der ID " + pollID + " für Option " + answer + " gestimmt");

@@ -31,6 +31,7 @@ public class PlayCommand implements ServerCommand {
 	private static final SpotifyApi spotifyApi = new SpotifyApi.Builder().setClientId(GlobalVariables.spotifyClientID)
 			.setClientSecret(GlobalVariables.spotifyClientSecret).build();
 	private static final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials().build();
+	private final PlayerManager playerManager = new PlayerManager();
 
 	@Override
 	public void performCommand(Member m, MessageChannel channel, Message message) {
@@ -128,7 +129,7 @@ public class PlayCommand implements ServerCommand {
 			}
 
 			MusicUtil.updateChannel(m, channel);
-			EmbedMessageBuilder.sendMessage("Musik", "Playlist hinzugefügt", Color.ORANGE, channel);
+			EmbedMessageBuilder.sendMessage("Musik", "Playlist hinzugefï¿½gt", Color.ORANGE, channel);
 		} catch (IOException | SpotifyWebApiException | ParseException e) {
 		}
 	}
@@ -152,18 +153,14 @@ public class PlayCommand implements ServerCommand {
 			}
 
 			MusicUtil.updateChannel(m, channel);
-			EmbedMessageBuilder.sendMessage("Musik", "Album hinzugefügt", Color.ORANGE, channel);
+			EmbedMessageBuilder.sendMessage("Musik", "Album hinzugefï¿½gt", Color.ORANGE, channel);
 		} catch (IOException | SpotifyWebApiException | ParseException e) {
 		}
 	}
 
 	private static boolean joinChannel(Member m) {
-		if (!m.getVoiceState().inVoiceChannel()) {
-			return false;
-		}
-
-		if (m.getGuild().getSelfMember().getVoiceState().inVoiceChannel()
-				&& m.getGuild().getSelfMember().getVoiceState().getChannel() != m.getVoiceState().getChannel()) {
+		if (!m.getVoiceState().inVoiceChannel() || (m.getGuild().getSelfMember().getVoiceState().inVoiceChannel()
+				&& m.getGuild().getSelfMember().getVoiceState().getChannel() != m.getVoiceState().getChannel())) {
 			return false;
 		}
 

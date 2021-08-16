@@ -1,5 +1,10 @@
 package de.life.music;
 
+import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -11,11 +16,6 @@ import de.life.sql.SQLite;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
-
-import java.awt.Color;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class TrackScheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
@@ -51,7 +51,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	@Override
 	public void onTrackStart(AudioPlayer player, AudioTrack track) {
 		deleteLatestMessage();
-		
+
 		Guild guild = PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode());
 		AudioTrackInfo trackInfo = track.getInfo();
 		String url = trackInfo.uri;
@@ -66,9 +66,9 @@ public class TrackScheduler extends AudioEventAdapter {
 
 		EmbedBuilder builder = new EmbedBuilder();
 		builder.setColor(Color.GREEN);
-		builder.setTitle("Jetzt läuft:");
+		builder.setTitle("Jetzt:");
 		builder.setDescription("[" + trackInfo.title + "](" + url + ")");
-		builder.addField("Länge", trackInfo.isStream ? ":red_circle: STREAM"
+		builder.addField("Dauer", trackInfo.isStream ? ":red_circle: STREAM"
 				: (stunden > 0 ? stunden + "h " : "") + minuten + "m " + sekunden + "s", true);
 		builder.addField("Kanal", trackInfo.author, true);
 
@@ -81,7 +81,7 @@ public class TrackScheduler extends AudioEventAdapter {
 				return;
 
 			messageChannel = guild.getTextChannelById(channelid);
-			messageID = messageChannel.sendMessage(builder.build()).complete().getIdLong();
+			messageID = messageChannel.sendMessageEmbeds(builder.build()).complete().getIdLong();
 		} catch (SQLException ex) {
 		}
 	}
@@ -119,7 +119,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 
 	public void deleteLatestMessage() {
-		if(messageChannel != null && messageID != 0l)
+		if (messageChannel != null && messageID != 0l)
 			messageChannel.deleteMessageById(messageID).queue();
 	}
 }

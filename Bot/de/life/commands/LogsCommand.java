@@ -25,7 +25,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class LogsCommand implements ServerCommand {
 
 	final EventWaiter waiter;
-	final static JDA jda = LiFeBot.INSTANCE.getJDA();
+	final JDA jda = LiFeBot.INSTANCE.getJDA();
 
 	public LogsCommand() {
 		this.waiter = LiFeBot.INSTANCE.getWaiter();
@@ -35,7 +35,7 @@ public class LogsCommand implements ServerCommand {
 	public void performCommand(Member m, MessageChannel channel, Message message) {
 
 		message.reply(
-				"Um einen Log-Channel festzulegen oder den bisherigen Channel zu ändern, schreibe bitte \"set\".\n"
+				"Um einen Log-Channel festzulegen oder den bisherigen Channel zu ï¿½ndern, schreibe bitte \"set\".\n"
 						+ "Um den bestehenden Log-Channel zu entfernen, schreibe bitte \"delete\".\n"
 						+ "Um den Log-Channel dieses Servers anzuzeigen, schreibe bitte \"display\".")
 				.queue();
@@ -73,7 +73,7 @@ public class LogsCommand implements ServerCommand {
 
 	}
 
-	public static boolean setLogsChannel(Member m, MessageChannel channel, Message message) {
+	public boolean setLogsChannel(Member m, MessageChannel channel, Message message) {
 		String[] args = message.getContentDisplay().split(" ");
 		Long channelid = null;
 
@@ -148,7 +148,7 @@ public class LogsCommand implements ServerCommand {
 		EmbedMessageBuilder.sendMessage("Log-Channel", "Dieser Server hat noch keinen Newschannel", channel);
 	}
 
-	private static MessageChannel retrieveLogChannel(Guild guild) {
+	private MessageChannel retrieveLogChannel(Guild guild) {
 		ResultSet set = SQLite
 				.onQuery("SELECT * FROM channel WHERE guildid = '" + guild.getIdLong() + "' AND type = 'log'");
 
@@ -163,7 +163,7 @@ public class LogsCommand implements ServerCommand {
 		return null;
 	}
 
-	public static void autoGenerate(Member m, MessageChannel channel, Message message) {
+	public void autoGenerate(Member m, MessageChannel channel, Message message) {
 		Role everyone = jda.getGuildById(m.getGuild().getId()).getRoles()
 				.get((jda.getGuildById(m.getGuild().getId()).getRoles().size()) - 1);
 

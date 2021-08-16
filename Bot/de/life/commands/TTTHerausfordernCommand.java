@@ -11,8 +11,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Button;
 
 public class TTTHerausfordernCommand implements ServerCommand {
 
@@ -38,7 +36,7 @@ public class TTTHerausfordernCommand implements ServerCommand {
 
 		Long messageID = channel.sendMessage("TTT-Herausforderung: " + secondPlayer.getAsMention() + ", du wurdest von "
 				+ m.getAsMention()
-				+ " zu einem TicTacToe -Spiel herausgefordet. Reagiere mit :white_check_mark: für ein Spiel oder mit :x: zum Ablehnen der Herausforderung.")
+				+ " zu einem TicTacToe -Spiel herausgefordet. Reagiere mit :white_check_mark: fï¿½r ein Spiel oder mit :x: zum Ablehnen der Herausforderung.")
 				.complete().getIdLong();
 
 		channel.deleteMessageById(messageID).queueAfter(1, TimeUnit.MINUTES);

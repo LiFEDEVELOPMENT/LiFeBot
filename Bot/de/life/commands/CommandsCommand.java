@@ -32,7 +32,7 @@ public class CommandsCommand implements ServerCommand {
 		ArrayList<String> commands = new ArrayList<String>();
 		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
 		String result = "";
-		Integer i = 1;
+		int i = 1;
 
 		ResultSet set = SQLite.onQuery("SELECT * FROM commands");
 
@@ -62,7 +62,7 @@ public class CommandsCommand implements ServerCommand {
 		ArrayList<String> commands = new ArrayList<String>();
 		ArrayList<MessageEmbed> embeds = new ArrayList<MessageEmbed>();
 		String result = "";
-		Integer i = 1;
+		int i = 1;
 
 		ResultSet set = SQLite.onQuery("SELECT * FROM commands");
 
