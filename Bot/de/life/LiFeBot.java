@@ -2,6 +2,7 @@ package de.life;
 
 import java.awt.Color;
 import java.util.Scanner;
+import java.util.UUID;
 
 import javax.security.auth.login.LoginException;
 
@@ -27,10 +28,19 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.hypixel.api.HypixelAPI;
+import net.hypixel.api.apache.ApacheHttpClient;
 
+/**
+ * 
+ * @author Linus Potocnik
+ *
+ */
 public class LiFeBot {
 
 	public static LiFeBot INSTANCE;
+	public static final HypixelAPI API = new HypixelAPI(
+			new ApacheHttpClient(UUID.fromString(System.getenv("APIToken"))));
 
 	public ShardManager shardMan;
 	private CommandManager cmdMan;

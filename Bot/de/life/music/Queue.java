@@ -11,7 +11,7 @@ public class Queue {
 	public Queue() {
 		this.queue = new ArrayList<AudioTrack>();
 	}
-	
+
 	public ArrayList<AudioTrack> getQueue() {
 		return this.queue;
 	}
@@ -23,13 +23,13 @@ public class Queue {
 	public AudioTrack next() {
 		if (this.queue.size() == 0)
 			return null;
-		return this.queue.remove(0);	
+		return this.queue.remove(0);
 	}
 
 	public void shuffle() {
 		Collections.shuffle(this.queue);
 	}
-	
+
 	public void clear() {
 		this.queue = new ArrayList<AudioTrack>();
 	}

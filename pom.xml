@@ -29,6 +29,10 @@
 			<name>m2-dv8tion</name>
 			<url>https://m2.dv8tion.net/releases</url>
 		</repository>
+		<repository>
+   			 <id>Hypixel</id>
+   			 <url>https://repo.hypixel.net/repository/Hypixel/</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -54,6 +58,11 @@
 			<artifactId>sqlite-jdbc</artifactId>
 			<version>3.36.0</version>
 		</dependency>
+		<dependency>
+            <groupId>net.hypixel</groupId>
+            <artifactId>hypixel-api-transport-apache</artifactId>
+            <version>4.0</version>
+        </dependency>
 		<dependency>
 			<groupId>se.michaelthelin.spotify</groupId>
 			<artifactId>spotify-web-api-java</artifactId>
