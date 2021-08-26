@@ -3,7 +3,6 @@ package de.life.music;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
@@ -17,21 +16,26 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
+/**
+ * TODO: Comments
+ * 
+ * @author Linus Potocnik
+ *
+ */
 public class TrackScheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
 	private Long messageID;
 	private MessageChannel messageChannel;
 
 	public TrackScheduler(AudioPlayer player) {
-		new Queue();
 		this.player = player;
 	}
 
-	public boolean queue(AudioTrack track) {
+	public boolean queue(QueueObject o) {
 		QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()));
-		if (!player.startTrack(track, true)) {
+		if (!player.startTrack(o.next(), true)) {
 			QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
-					.add(track);
+					.add(o);
 			return false;
 		}
 		return true;
@@ -101,16 +105,14 @@ public class TrackScheduler extends AudioEventAdapter {
 				.shuffle();
 	}
 
-	public ArrayList<AudioTrack> getQueue() {
-		return QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
-				.getQueue();
+	public Queue getQueue() {
+		return QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()));
 	}
 
 	public void clear() {
 		if (QueueManager.getInstance()
 				.getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode())) != null)
-			QueueManager.getInstance().getQueue(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()))
-					.clear();
+			QueueManager.getInstance().clear(PlayerManager.getInstance().getGuildByPlayerHash(player.hashCode()));
 	}
 
 	public void jump(int amount) {

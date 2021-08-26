@@ -3,13 +3,9 @@ package de.life.music.commands;
 import java.awt.Color;
 import java.util.Arrays;
 
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-
 import de.life.classes.EmbedMessageBuilder;
 import de.life.interfaces.ServerCommand;
 import de.life.music.PlayerManager;
-import de.life.music.QueueManager;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -21,7 +17,7 @@ public class QueueCommand implements ServerCommand {
 		String[] args = message.getContentDisplay().split(" ");
 
 		if (args.length == 1) {
-			displayQueue(m, channel);
+			// displayQueue(m, channel);
 			return;
 		}
 
@@ -39,7 +35,7 @@ public class QueueCommand implements ServerCommand {
 			jumpQueue(m, channel, message);
 			break;
 		case "list":
-			displayQueue(m, channel);
+			// displayQueue(m, channel);
 			break;
 		case "shuffle":
 			shuffleQueue(m, channel);
@@ -50,35 +46,35 @@ public class QueueCommand implements ServerCommand {
 		}
 	}
 
-	private static void displayQueue(Member m, MessageChannel channel) {
-		int i = 1;
-		EmbedBuilder builder = new EmbedBuilder().setTitle("Es folgt:").setColor(Color.ORANGE);
-
-		if (QueueManager.getInstance().getQueue(m.getGuild()).getQueue() == null) {
-			builder.setDescription("Nichts - Die Queue ist leer");
-			channel.sendMessageEmbeds(builder.build()).queue();
-			return;
-		}
-
-		for (AudioTrack track : QueueManager.getInstance().getQueue(m.getGuild()).getQueue()) {
-			String appString = i + ") " + track.getInfo().author + " - " + track.getInfo().title + "\n(**"
-					+ (track.getInfo().isStream ? ":red_circle: STREAM"
-							: (track.getDuration() / 3600000 > 0 ? track.getDuration() / 3600000 + "h " : "")
-									+ track.getDuration() / 60000 % 60 + "m " + track.getDuration() / 1000 % 60 + "s")
-					+ "**)\n\n";
-			if (builder.length() + appString.length() > 2000) {
-				builder.setFooter("+ " + (QueueManager.getInstance().getQueue(m.getGuild()).getQueue().size() - 1)
-						+ " weitere Titel");
-				break;
-			}
-			builder.appendDescription(appString);
-			i++;
-		}
-
-		if (builder.build().getDescription() == null)
-			builder.setDescription("Nichts - Die Queue ist leer");
-		channel.sendMessageEmbeds(builder.build()).queue();
-	}
+//	private static void displayQueue(Member m, MessageChannel channel) {
+//		int i = 1;
+//		EmbedBuilder builder = new EmbedBuilder().setTitle("Es folgt:").setColor(Color.ORANGE);
+//
+//		if (QueueManager.getInstance().getQueue(m.getGuild()).getQueue() == null) {
+//			builder.setDescription("Nichts - Die Queue ist leer");
+//			channel.sendMessageEmbeds(builder.build()).queue();
+//			return;
+//		}
+//
+//		for (AudioTrack track : QueueManager.getInstance().getQueue(m.getGuild()).getQueue()) {
+//			String appString = i + ") " + track.getInfo().author + " - " + track.getInfo().title + "\n(**"
+//					+ (track.getInfo().isStream ? ":red_circle: STREAM"
+//							: (track.getDuration() / 3600000 > 0 ? track.getDuration() / 3600000 + "h " : "")
+//									+ track.getDuration() / 60000 % 60 + "m " + track.getDuration() / 1000 % 60 + "s")
+//					+ "**)\n\n";
+//			if (builder.length() + appString.length() > 2000) {
+//				builder.setFooter("+ " + (QueueManager.getInstance().getQueue(m.getGuild()).getQueue().size() - 1)
+//						+ " weitere Titel");
+//				break;
+//			}
+//			builder.appendDescription(appString);
+//			i++;
+//		}
+//
+//		if (builder.build().getDescription() == null)
+//			builder.setDescription("Nichts - Die Queue ist leer");
+//		channel.sendMessageEmbeds(builder.build()).queue();
+//	}
 
 	private void add(Member m, MessageChannel channel, String message) {
 		PlayCommand.addQueue(m, channel,

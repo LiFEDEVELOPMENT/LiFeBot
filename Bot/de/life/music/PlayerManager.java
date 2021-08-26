@@ -1,5 +1,11 @@
 package de.life.music;
 
+import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -12,10 +18,6 @@ import de.life.classes.EmbedMessageBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
-
-import java.awt.Color;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PlayerManager {
 
@@ -31,6 +33,7 @@ public class PlayerManager {
 		AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
 	}
 
+	@Nonnull
 	public GuildMusicManager getMusicManager(final Guild guild) {
 		return this.musicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
 			final GuildMusicManager guildMusicManager = new GuildMusicManager(this.audioPlayerManager, guild);
@@ -50,7 +53,7 @@ public class PlayerManager {
 		this.audioPlayerManager.loadItemOrdered(musicManager, trackUrlcut, new AudioLoadResultHandler() {
 			@Override
 			public void trackLoaded(AudioTrack track) {
-				if (!musicManager.scheduler.queue(track)) {
+				if (!musicManager.scheduler.queue(new QueueObject(track, track.getInfo().title))) {
 					EmbedMessageBuilder.sendMessage(
 							"Ein Track wurde der Queue hinzugef�gt:\n[" + track.getInfo().author + " - "
 									+ track.getInfo().title + "](" + track.getInfo().uri + ")\n" + "["
@@ -62,7 +65,8 @@ public class PlayerManager {
 			@Override
 			public void playlistLoaded(AudioPlaylist playlist) {
 				if (trackUrl.startsWith("ytsearch:")) {
-					if (!musicManager.scheduler.queue(playlist.getTracks().get(0))) {
+					if (!musicManager.scheduler.queue(new QueueObject(playlist.getTracks().get(0),
+							playlist.getTracks().get(0).getInfo().title))) {
 						EmbedMessageBuilder.sendMessage("Ein Track wurde der Queue hinzugef�gt:\n["
 								+ playlist.getTracks().get(0).getInfo().author + " - "
 								+ playlist.getTracks().get(0).getInfo().title + "]("
@@ -73,19 +77,16 @@ public class PlayerManager {
 				}
 
 				if (trackUrl.startsWith("sytsearch:")) {
-					musicManager.scheduler.queue(playlist.getTracks().get(0));
+					musicManager.scheduler.queue(
+							new QueueObject(playlist.getTracks().get(0), playlist.getTracks().get(0).getInfo().title));
 					return;
 				}
 
-				int added = 0;
+				AudioTrack[] playlistArray = (AudioTrack[]) playlist.getTracks().toArray();
+				musicManager.scheduler.queue(new QueueObject(QueueObjectType.PLAYLIST, playlistArray));
 
-				for (AudioTrack track : playlist.getTracks()) {
-					musicManager.scheduler.queue(track);
-					added++;
-				}
-
-				EmbedMessageBuilder.sendMessage(added + " Tracks wurden der Queue hinzugef�gt", Color.decode("#8c14fc"),
-						MusicUtil.getMusicChannel(m.getGuild()));
+				EmbedMessageBuilder.sendMessage(playlistArray.length + " Tracks wurden der Queue hinzugef�gt",
+						Color.decode("#8c14fc"), MusicUtil.getMusicChannel(m.getGuild()));
 			}
 
 			@Override

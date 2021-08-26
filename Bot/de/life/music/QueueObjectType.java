@@ -22,6 +22,7 @@ public enum QueueObjectType {
 
 	private final int key;
 
+	@Nonnull
 	QueueObjectType(int key) {
 		this.key = key;
 	}
@@ -31,6 +32,7 @@ public enum QueueObjectType {
 	 *
 	 * @return The raw style key
 	 */
+	@Nonnull
 	public int getKey() {
 		return key;
 	}
